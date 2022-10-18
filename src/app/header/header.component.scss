@@ -1,0 +1,21 @@
+.header {
+  width: 100vw;
+  height: 60px;
+  background-color: green;
+  display: flex;
+  align-items: center;
+
+  &__nav {
+  }
+
+  &__list {
+    display: flex;
+  }
+
+  &__item {
+    list-style: none;
+  }
+
+  &__link {
+  }
+}
