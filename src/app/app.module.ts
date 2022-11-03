@@ -5,10 +5,12 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthComponent } from './auth/auth.component';
 import { HeaderComponent } from './header/header.component';
-import { SettingsComponent } from './settings/settings.component';
+import { MealsComponent } from './meals/meals.component';
+import { MealListComponent } from './meals/meal-list/meal-list.component';
+import { MealComponent } from './meals/meal/meal.component';
 
 @NgModule({
-  declarations: [AppComponent, AuthComponent, HeaderComponent, SettingsComponent],
+  declarations: [AppComponent, AuthComponent, HeaderComponent, MealsComponent, MealListComponent, MealComponent],
   imports: [BrowserModule, AppRoutingModule],
   providers: [],
   bootstrap: [AppComponent],
