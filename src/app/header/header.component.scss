@@ -1,11 +1,20 @@
 .header {
   width: 100vw;
   height: 60px;
-  background-color: green;
+  padding: 10px;
+  background-color: #2ecc71;
   display: flex;
   align-items: center;
 
+  &__logo {
+    a {
+      color: #fff;
+      font-size: 18px;
+    }
+  }
+
   &__nav {
+    margin-left: 30px;
   }
 
   &__list {
@@ -14,9 +23,13 @@
 
   &__item {
     list-style: none;
+    margin-left: 15px;
   }
 
   &__link {
+    text-decoration: none;
     cursor: pointer;
+    color: #fff;
+    font-size: 18px;
   }
 }

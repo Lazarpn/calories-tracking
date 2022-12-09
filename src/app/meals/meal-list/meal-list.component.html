@@ -1,1 +1,6 @@
-<p>meal-list works!</p>
+<app-meal
+  *ngFor="let mealEl of meals"
+  [meal]="mealEl"
+  (mealDeleted)="onMealDelete($event)"
+></app-meal>
+<button (click)="onMealAdd()" class="button-add">+</button>

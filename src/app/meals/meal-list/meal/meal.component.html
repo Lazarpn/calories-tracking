@@ -1,0 +1,50 @@
+<div class="meal">
+  <form class="meal__form form" (ngSubmit)="onFormSubmit()" #form="ngForm">
+    <div class="form__inputs">
+      <label for="mealName">Meal</label>
+
+      <input
+        [disabled]="isConfirmed"
+        type="text"
+        id="mealName"
+        name="mealName"
+        ngModel
+      />
+      <label for="calories">Calories</label>
+      <input
+        [disabled]="isConfirmed"
+        type="number"
+        id="calories"
+        name="calories"
+        ngModel
+      />
+      <label for="date">Date</label>
+      <input
+        [disabled]="isConfirmed"
+        type="text"
+        id="date"
+        name="date"
+        ngModel
+      />
+    </div>
+
+    <div class="form__icons">
+      <button class="btn-submit btn" type="submit" (click)="onConfirm()">
+        <svg class="icon-confirm icon">
+          <use xlink:href="/assets/sprite.svg#icon-checkmark"></use>
+        </svg>
+      </button>
+      <button class="btn-edit btn" (click)="onEdit()">
+        <svg class="icon icon-edit">
+          <use xlink:href="/assets/sprite.svg#icon-pencil"></use>
+        </svg>
+      </button>
+
+      <button class="btn-delete btn" (click)="mealDelete()">
+        <svg class="icon icon-delete">
+          <use xlink:href="/assets/sprite.svg#icon-bin"></use>
+        </svg>
+      </button>
+    </div>
+  </form>
+</div>
