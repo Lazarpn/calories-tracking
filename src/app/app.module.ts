@@ -8,6 +8,7 @@ import { HeaderComponent } from './header/header.component';
 import { MealsComponent } from './meals/meals.component';
 import { MealListComponent } from './meals/meal-list/meal-list.component';
 import { MealComponent } from './meals/meal-list/meal/meal.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,7 @@ import { MealComponent } from './meals/meal-list/meal/meal.component';
     MealListComponent,
     MealComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule],
+  imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],
 })

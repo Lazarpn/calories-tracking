@@ -4,8 +4,9 @@ import { AuthComponent } from './auth/auth.component';
 import { MealsComponent } from './meals/meals.component';
 
 const routes: Routes = [
-  { path: '', component: MealsComponent },
+  { path: '', redirectTo: 'auth', pathMatch: 'full' },
   { path: 'auth', component: AuthComponent },
+  { path: 'meal-list', component: MealsComponent },
 ];
 
 @NgModule({

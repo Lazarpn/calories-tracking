@@ -9,6 +9,7 @@ import {
 import { NgForm } from '@angular/forms';
 import { Meal } from '../../meal.model';
 import { EventEmitter } from '@angular/core';
+import { MealsService } from '../../meals.service';
 
 @Component({
   selector: 'app-meal',
@@ -17,34 +18,39 @@ import { EventEmitter } from '@angular/core';
 })
 export class MealComponent implements OnInit, AfterViewChecked {
   @ViewChild('form', { static: true }) mealForm: NgForm;
-  @Output() mealDeleted = new EventEmitter<Meal>();
+
   @Input() meal: Meal;
-  isConfirmed: boolean = false;
-  constructor() {}
+  isDisabled: boolean = false;
+  constructor(private mealsService: MealsService) {}
 
   ngOnInit(): void {}
 
   ngAfterViewChecked(): void {
     // HAS TO BE FIXED - TOO MANY UNWANTED NUMBER OF SETTINGS
-    this.mealForm.form.patchValue({ date: this.meal.date });
+    // this.mealForm.form.patchValue({ date: this.meal.date });
     // console.log(this.mealForm.value.date);
   }
 
   onFormSubmit() {}
 
-  onConfirm() {
+  onMealConfirm() {
     const value = this.mealForm.value;
-    this.isConfirmed = true;
+    const mealId = this.mealsService.getMeal(this.meal);
+    console.log(this.meal, mealId);
+    this.isDisabled = true;
     this.meal.mealName = value.mealName;
     this.meal.calories = value.calories;
     this.meal.date = value.date;
+    this.meal.time = value.time;
+    this.mealsService.mealUpdate(mealId, this.meal);
   }
 
-  onEdit() {
-    this.isConfirmed = false;
+  onMealEdit() {
+    this.isDisabled = false;
   }
 
-  mealDelete() {
-    this.mealDeleted.emit(this.meal);
+  onMealDelete() {
+    const id = this.mealsService.getMeal(this.meal);
+    this.mealsService.mealDelete(id);
   }
 }

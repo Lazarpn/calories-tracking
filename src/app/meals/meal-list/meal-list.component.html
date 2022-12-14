@@ -1,6 +1,2 @@
-<app-meal
-  *ngFor="let mealEl of meals"
-  [meal]="mealEl"
-  (mealDeleted)="onMealDelete($event)"
-></app-meal>
+<app-meal *ngFor="let mealEl of meals" [meal]="mealEl"></app-meal>
 <button (click)="onMealAdd()" class="button-add">+</button>

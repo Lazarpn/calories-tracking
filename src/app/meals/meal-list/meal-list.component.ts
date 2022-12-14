@@ -1,28 +1,40 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Meal } from '../meal.model';
+import { MealsService } from '../meals.service';
 
 @Component({
   selector: 'app-meal-list',
   templateUrl: './meal-list.component.html',
   styleUrls: ['./meal-list.component.scss'],
 })
-export class MealListComponent implements OnInit {
+export class MealListComponent implements OnInit, OnDestroy {
   meals: Meal[] = [];
-  constructor() {}
+  subscription: Subscription;
+  subscription2: Subscription;
 
-  ngOnInit(): void {}
+  constructor(private mealsService: MealsService) {}
+
+  ngOnInit(): void {
+    this.subscription = this.mealsService.mealsChanged.subscribe(
+      (meals: Meal[]) => {
+        this.meals = meals;
+      }
+    );
+
+    this.meals = this.mealsService.getMeals();
+  }
 
   onMealAdd() {
-    this.meals.push({
+    this.mealsService.mealAdd({
       mealName: '',
       calories: 0,
       date: new Date(),
+      time: 0,
     });
   }
 
-  onMealDelete(event: Meal) {
-    const meal = event;
-    const id = this.meals.indexOf(meal);
-    this.meals.splice(id, 1);
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
