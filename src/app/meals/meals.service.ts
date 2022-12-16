@@ -10,16 +10,9 @@ export class MealsService {
 
   constructor(private dataStorageService: DataStorageService) {}
 
-  fetchMeals() {
-    // this.dataStorageService.getMeals().subscribe((meals) => {
-    //   this.meals = meals;
-    // });
-    return this.dataStorageService.getMeals();
-  }
-
   getMeals() {
     if (this.meals.length === 0) {
-      this.fetchMeals().subscribe((meals) => {
+      this.dataStorageService.getMeals().subscribe((meals) => {
         if (meals) {
           this.meals = meals;
           this.mealsChanged.next(this.meals);

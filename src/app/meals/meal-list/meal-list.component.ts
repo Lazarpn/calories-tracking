@@ -11,7 +11,6 @@ import { MealsService } from '../meals.service';
 export class MealListComponent implements OnInit, OnDestroy {
   meals: Meal[] = [];
   subscription: Subscription;
-  subscription2: Subscription;
 
   constructor(private mealsService: MealsService) {}
 
@@ -26,11 +25,25 @@ export class MealListComponent implements OnInit, OnDestroy {
   }
 
   onMealAdd() {
+    const date = new Date();
+    const formatedDate = new Intl.DateTimeFormat(navigator.language, {
+      day: '2-digit',
+      month: 'short',
+      year: undefined,
+    }).format(date);
+
+    const formatedTime = new Intl.DateTimeFormat(navigator.language, {
+      hour: 'numeric',
+      minute: 'numeric',
+    }).format(date);
+
+    console.log(formatedTime);
+
     this.mealsService.mealAdd({
       mealName: '',
       calories: 0,
-      date: new Date(),
-      time: 0,
+      date: formatedDate,
+      time: formatedTime,
     });
   }
 

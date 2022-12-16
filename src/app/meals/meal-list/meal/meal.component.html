@@ -1,7 +1,7 @@
 <div class="meal">
   <form class="meal__form form" (ngSubmit)="onFormSubmit()" #form="ngForm">
     <div class="form__inputs">
-      <label for="mealName">Meal</label>
+      <label for="mealName">Meal:</label>
 
       <input
         [disabled]="isDisabled"
@@ -10,7 +10,7 @@
         name="mealName"
         [ngModel]="meal.mealName"
       />
-      <label for="calories">Calories</label>
+      <label for="calories">Calories:</label>
       <input
         [disabled]="isDisabled"
         type="number"
@@ -18,7 +18,7 @@
         name="calories"
         [ngModel]="meal.calories"
       />
-      <label for="date">Date</label>
+      <label for="date">Date:</label>
       <input
         [disabled]="isDisabled"
         type="text"
@@ -27,10 +27,9 @@
         [ngModel]="meal.date"
       />
 
-      <label for="date">Time</label>
+      <label for="date">Time:</label>
       <input
         [disabled]="isDisabled"
-        type="number"
         id="time"
         name="time"
         [ngModel]="meal.time"
