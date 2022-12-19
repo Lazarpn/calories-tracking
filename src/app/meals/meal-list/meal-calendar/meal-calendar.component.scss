@@ -1,0 +1,48 @@
+.calendar {
+  margin-top: 50px;
+  margin-left: 70px;
+
+  &__output {
+    border-top: 1px solid #2ecc71;
+    border-bottom: 1px solid #2ecc71;
+
+    margin-top: 40px;
+    text-align: center;
+    p {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+  }
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  &__dates {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__time {
+    width: 100%;
+    margin-top: 50px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__btn {
+    all: unset;
+    cursor: pointer;
+    margin-top: 50px;
+    border-radius: 20px;
+    width: 150px;
+    height: 50px;
+    background-color: #2ecc71;
+    color: #fff;
+    text-align: center;
+    font-size: 18px;
+  }
+}

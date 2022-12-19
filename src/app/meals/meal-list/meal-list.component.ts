@@ -1,18 +1,35 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Meal } from '../meal.model';
 import { MealsService } from '../meals.service';
+import { CanComponentDeactivate } from './meal/can-deactivate-guard.service';
+import { Filter } from './filter.model';
 
 @Component({
   selector: 'app-meal-list',
   templateUrl: './meal-list.component.html',
   styleUrls: ['./meal-list.component.scss'],
 })
-export class MealListComponent implements OnInit, OnDestroy {
+export class MealListComponent
+  implements OnInit, OnDestroy, CanComponentDeactivate
+{
   meals: Meal[] = [];
   subscription: Subscription;
+  changesSaved: boolean = true;
 
   constructor(private mealsService: MealsService) {}
+
+  onChangesSaved(event: boolean) {
+    this.changesSaved = event;
+  }
+
+  canDeactivate(): boolean | Observable<boolean> | Promise<boolean> {
+    if (!this.changesSaved) {
+      return confirm('Are you sure you want to leave?');
+    } else {
+      return true;
+    }
+  }
 
   ngOnInit(): void {
     this.subscription = this.mealsService.mealsChanged.subscribe(
@@ -35,7 +52,10 @@ export class MealListComponent implements OnInit, OnDestroy {
     const formatedTime = new Intl.DateTimeFormat(navigator.language, {
       hour: 'numeric',
       minute: 'numeric',
+      hour12: false,
     }).format(date);
+
+    console.log(formatedTime);
 
     console.log(formatedTime);
 
@@ -45,6 +65,10 @@ export class MealListComponent implements OnInit, OnDestroy {
       date: formatedDate,
       time: formatedTime,
     });
+  }
+
+  onFilterApplied(event) {
+    this.mealsService.filterMeals(event);
   }
 
   ngOnDestroy(): void {

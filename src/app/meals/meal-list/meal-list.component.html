@@ -1,2 +1,14 @@
-<app-meal *ngFor="let mealEl of meals" [meal]="mealEl"></app-meal>
+<div class="meal-list">
+  <div class="meals">
+    <app-meal
+      *ngFor="let mealEl of meals"
+      [meal]="mealEl"
+      (changesSavedInfo)="onChangesSaved($event)"
+    ></app-meal>
+  </div>
+  <app-meal-calendar
+    (filterApplied)="onFilterApplied($event)"
+  ></app-meal-calendar>
+</div>
+
 <button (click)="onMealAdd()" class="button-add">+</button>

@@ -9,6 +9,8 @@ import { MealsComponent } from './meals/meals.component';
 import { MealListComponent } from './meals/meal-list/meal-list.component';
 import { MealComponent } from './meals/meal-list/meal/meal.component';
 import { HttpClientModule } from '@angular/common/http';
+import { MealCalendarComponent } from './meals/meal-list/meal-calendar/meal-calendar.component';
+import { CanDeactivateGuard } from './meals/meal-list/meal/can-deactivate-guard.service';
 
 @NgModule({
   declarations: [
@@ -18,9 +20,10 @@ import { HttpClientModule } from '@angular/common/http';
     MealsComponent,
     MealListComponent,
     MealComponent,
+    MealCalendarComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
-  providers: [],
+  providers: [CanDeactivateGuard],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

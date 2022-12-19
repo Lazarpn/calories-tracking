@@ -10,6 +10,7 @@ import { NgForm } from '@angular/forms';
 import { Meal } from '../../meal.model';
 import { EventEmitter } from '@angular/core';
 import { MealsService } from '../../meals.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-meal',
@@ -21,6 +22,9 @@ export class MealComponent implements OnInit, AfterViewChecked {
 
   @Input() meal: Meal;
   isDisabled: boolean = false;
+  changesSaved: boolean = true;
+
+  @Output() changesSavedInfo = new Subject<boolean>();
   constructor(private mealsService: MealsService) {}
 
   ngOnInit(): void {}
@@ -34,19 +38,23 @@ export class MealComponent implements OnInit, AfterViewChecked {
   onFormSubmit() {}
 
   onMealConfirm() {
+    this.changesSaved = true;
+    this.changesSavedInfo.next(this.changesSaved);
     const value = this.mealForm.value;
     const mealId = this.mealsService.getMeal(this.meal);
-    console.log(this.meal, mealId);
     this.isDisabled = true;
     this.meal.mealName = value.mealName;
     this.meal.calories = value.calories;
     this.meal.date = value.date;
     this.meal.time = value.time;
+    console.log(value);
     this.mealsService.mealUpdate(mealId, this.meal);
   }
 
   onMealEdit() {
     this.isDisabled = false;
+    this.changesSaved = false;
+    this.changesSavedInfo.next(this.changesSaved);
   }
 
   onMealDelete() {

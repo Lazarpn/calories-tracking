@@ -12,9 +12,7 @@ export class DataStorageService {
         'https://calories-tracker-e16f1-default-rtdb.firebaseio.com/meals.json',
         meals
       )
-      .subscribe((meals) => {
-        console.log(meals);
-      });
+      .subscribe((meals) => {});
   }
 
   getMeals() {

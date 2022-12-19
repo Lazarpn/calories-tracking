@@ -1,0 +1,24 @@
+<div class="calendar">
+  <form class="form" (ngSubmit)="onSubmit(form)" #form="ngForm">
+    <!-- DATE -->
+    <div class="form__dates">
+      <label for="dateStart">Date Start</label>
+      <input type="date" id="dateStart" name="dateStart" ngModel />
+      <label for="dateEnd">Date End</label>
+      <input type="date" id="dateEnd" name="dateEnd" ngModel />
+    </div>
+
+    <div class="form__time">
+      <label for="timeStart">Time start</label>
+      <input type="time" id="timeStart" name="timeStart" ngModel />
+      <label for="timeEnd">Time end</label>
+      <input type="time" id="timeEnd" name="timeEnd" ngModel />
+    </div>
+
+    <button class="form__btn" type="submit">Search</button>
+    <!-- TIME -->
+  </form>
+  <div class="calendar__output">
+    <p>You had xx meals with total of yy calories</p>
+  </div>
+</div>

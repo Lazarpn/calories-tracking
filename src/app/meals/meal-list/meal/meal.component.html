@@ -1,5 +1,10 @@
-<div class="meal">
-  <form class="meal__form form" (ngSubmit)="onFormSubmit()" #form="ngForm">
+<div [ngClass]="{ 'meal-edit': !changesSaved, meal: changesSaved }">
+  <form
+    class="form"
+    [ngClass]="{ meal__form: changesSaved, 'meal-edit__form': !changesSaved }"
+    (ngSubmit)="onFormSubmit()"
+    #form="ngForm"
+  >
     <div class="form__inputs">
       <label for="mealName">Meal:</label>
 
@@ -38,18 +43,35 @@
 
     <div class="form__icons">
       <button class="btn-submit btn" type="submit" (click)="onMealConfirm()">
-        <svg class="icon-confirm icon">
+        <svg
+          class="icon-confirm"
+          [ngClass]="{
+            'display-none': changesSaved,
+            icon: changesSaved,
+            'icon-edit-mode': !changesSaved
+          }"
+        >
           <use xlink:href="/assets/sprite.svg#icon-checkmark"></use>
         </svg>
       </button>
       <button class="btn-edit btn" (click)="onMealEdit()">
-        <svg class="icon icon-edit">
+        <svg
+          class="icon-edit"
+          [ngClass]="{
+            'display-none': !changesSaved,
+            icon: changesSaved,
+            'icon-edit-mode': !changesSaved
+          }"
+        >
           <use xlink:href="/assets/sprite.svg#icon-pencil"></use>
         </svg>
       </button>
 
       <button class="btn-delete btn" (click)="onMealDelete()">
-        <svg class="icon icon-delete">
+        <svg
+          class="icon-delete"
+          [ngClass]="{ icon: changesSaved, 'icon-edit-mode': !changesSaved }"
+        >
           <use xlink:href="/assets/sprite.svg#icon-bin"></use>
         </svg>
       </button>
