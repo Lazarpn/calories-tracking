@@ -1,4 +1,4 @@
-.form {
+.auth {
   background-color: #2ecc71;
   position: absolute;
   padding: 20px;
@@ -11,19 +11,23 @@
   flex-direction: column;
   align-items: center;
   border-radius: 10px;
-  &__group {
+  &__form {
     display: flex;
     flex-direction: column;
     align-items: center;
     color: #fff;
     margin-top: 50px;
+    label {
+      font-size: 18px;
+    }
     input {
       all: unset;
       background-color: #fff;
       border-radius: 10px;
       height: 30px;
-      color: grey;
+      color: rgb(0, 0, 0);
       padding: 0 10px;
+      margin: 10px 0;
     }
   }
 
@@ -35,7 +39,9 @@
 
     font-size: 25px;
   }
+}
 
+.form {
   &__button {
     all: unset;
     cursor: pointer;
@@ -49,4 +55,17 @@
     transition: all 0.2s;
     margin-top: 50px;
   }
+
+  &__text {
+    color: rgb(2, 2, 2);
+    margin-top: 15px;
+  }
+}
+
+.btn-switch {
+  all: unset;
+  cursor: pointer;
+  color: #fff;
+  font-size: 18px;
+  border-bottom: 1px solid #fff;
 }

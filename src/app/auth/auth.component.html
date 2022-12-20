@@ -1,11 +1,23 @@
-<form class="form">
-  <h2 class="form__heading">Sign in to your account</h2>
-  <div class="form__group">
+<div class="auth">
+  <h2 class="auth__heading">Sign in to your account</h2>
+  <form class="auth__form form">
     <label for="email">Email</label>
     <input type="email" name="email" placeholder="Enter your email" />
     <label for="password">Password</label>
     <input type="password" name="password" placeholder="Enter your password" />
-  </div>
 
-  <button type="button" class="form__button">Sign in</button>
-</form>
+    <button type="submit" class="form__button">
+      {{ isSignInMode ? "Sign in" : "Sign up" }}
+    </button>
+    <p class="form__text">
+      {{
+        isSignInMode
+          ? "Don't have an account? Switch to "
+          : "Already have an account? Switch to "
+      }}
+      <button class="btn-switch" type="button" (click)="onSwitchMode()">
+        {{ isSignInMode ? "Sign in" : "Sign up" }}
+      </button>
+    </p>
+  </form>
+</div>

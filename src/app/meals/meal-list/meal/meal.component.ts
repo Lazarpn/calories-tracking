@@ -21,7 +21,7 @@ export class MealComponent implements OnInit, AfterViewChecked {
   @ViewChild('form', { static: true }) mealForm: NgForm;
 
   @Input() meal: Meal;
-  isDisabled: boolean = false;
+  isDisabled: boolean = true;
   changesSaved: boolean = true;
 
   @Output() changesSavedInfo = new Subject<boolean>();

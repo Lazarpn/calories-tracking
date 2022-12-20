@@ -7,7 +7,13 @@ import { Filter } from './meal-list/filter.model';
 @Injectable({ providedIn: 'root' })
 export class MealsService {
   mealsChanged = new Subject<Meal[]>();
+  numberOfCaloriesMealsChanged = new Subject<{
+    numberOfCalories: number;
+    numberOfMeals: number;
+  }>();
   private meals: Meal[] = [];
+  numberOfCalories: number;
+  numberOfMeals: number;
 
   constructor(private dataStorageService: DataStorageService) {}
 
@@ -65,8 +71,9 @@ export class MealsService {
         // BOTH TIMES SET
         if (filter.timeStart != '' && filter.timeEnd != '') {
           const answer =
-            mealDate >= formatedDateStart && mealTime >= formatedTimeStart;
-          mealTime <= formatedTimeEnd;
+            mealDate >= formatedDateStart &&
+            mealTime >= formatedTimeStart &&
+            mealTime <= formatedTimeEnd;
           return answer;
         }
 
@@ -96,8 +103,9 @@ export class MealsService {
         // BOTH TIMES SET
         if (filter.timeStart != '' && filter.timeEnd != '') {
           const answer =
-            mealDate <= formatedDateEnd && mealTime >= formatedTimeStart;
-          mealTime <= formatedTimeEnd;
+            mealDate <= formatedDateEnd &&
+            mealTime >= formatedTimeStart &&
+            mealTime <= formatedTimeEnd;
           return answer;
         }
 
@@ -126,8 +134,8 @@ export class MealsService {
       if (filter.dateStart === '' && filter.dateEnd === '') {
         // BOTH TIMES SET
         if (filter.timeStart != '' && filter.timeEnd != '') {
-          const answer = mealTime >= formatedTimeStart;
-          mealTime <= formatedTimeEnd;
+          const answer =
+            mealTime >= formatedTimeStart && mealTime <= formatedTimeEnd;
           return answer;
         }
 
@@ -151,8 +159,30 @@ export class MealsService {
       return true;
     });
 
-    // this.meals = filteredMeals;
+    if (filteredMeals) {
+      this.numberOfMeals = filteredMeals.length;
+      this.numberOfCalories = filteredMeals.reduce((accumulator, meal) => {
+        return accumulator + meal.calories;
+      }, 0);
+
+      this.numberOfCaloriesMealsChanged.next({
+        numberOfCalories: this.numberOfCalories,
+        numberOfMeals: this.numberOfMeals,
+      });
+    }
+
     this.mealsChanged.next(filteredMeals);
+  }
+
+  mealCaloriesNumberUpdate() {
+    this.numberOfCalories = this.meals.reduce((accumulator, meal) => {
+      return accumulator + meal.calories;
+    }, 0);
+    this.numberOfMeals = this.meals.length;
+    this.numberOfCaloriesMealsChanged.next({
+      numberOfCalories: this.numberOfCalories,
+      numberOfMeals: this.numberOfMeals,
+    });
   }
 
   getMeals() {
@@ -160,12 +190,14 @@ export class MealsService {
       this.dataStorageService.getMeals().subscribe((meals) => {
         if (meals) {
           this.meals = meals;
+          this.mealCaloriesNumberUpdate();
           this.mealsChanged.next(this.meals);
         } else {
           this.meals = [];
         }
       });
     }
+
     return this.meals.slice();
   }
 
@@ -175,6 +207,8 @@ export class MealsService {
 
   mealAdd(meal: Meal) {
     this.meals.push(meal);
+    this.mealCaloriesNumberUpdate();
+
     this.mealsChanged.next(this.meals.slice());
     this.dataStorageService.storeMeals(this.meals);
   }
@@ -182,14 +216,16 @@ export class MealsService {
   mealUpdate(index: number, newMeal: Meal) {
     this.meals[index] = newMeal;
     this.mealsChanged.next(this.meals.slice());
+    this.mealCaloriesNumberUpdate();
+
     this.dataStorageService.storeMeals(this.meals);
   }
 
   mealDelete(id: number) {
     this.meals.splice(id, 1);
+    this.mealCaloriesNumberUpdate();
+
     this.mealsChanged.next(this.meals.slice());
     this.dataStorageService.storeMeals(this.meals);
   }
-
-  // mealsUpdate() {}
 }

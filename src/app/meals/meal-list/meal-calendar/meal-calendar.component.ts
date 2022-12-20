@@ -1,19 +1,31 @@
-import { Component, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, OnInit, Output, ViewChild, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { Filter } from '../filter.model';
+import { MealsService } from '../../meals.service';
 
 @Component({
   selector: 'app-meal-calendar',
   templateUrl: './meal-calendar.component.html',
   styleUrls: ['./meal-calendar.component.scss'],
 })
-export class MealCalendarComponent implements OnInit {
+export class MealCalendarComponent implements OnInit, OnDestroy {
   @ViewChild('form', { static: true }) calendarForm: NgForm;
   @Output() filterApplied = new Subject<Filter>();
-  constructor() {}
+  constructor(private mealsService: MealsService) {}
+  numberOfCalories: number;
+  numberOfMeals: number;
+  subscription: Subscription;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.mealsService.numberOfCaloriesMealsChanged.subscribe((changes) => {
+      this.numberOfCalories = changes.numberOfCalories;
+      this.numberOfMeals = changes.numberOfMeals;
+    });
+
+    this.numberOfCalories = this.mealsService.numberOfCalories;
+    this.numberOfMeals = this.mealsService.numberOfMeals;
+  }
 
   onSubmit(form) {
     // Converting data
@@ -64,9 +76,10 @@ export class MealCalendarComponent implements OnInit {
       timeStart: timeStart,
       timeEnd: timeEnd,
     };
-
     // Converting data
-    console.log(formatedData);
+
     this.filterApplied.next(formatedData);
   }
+
+  ngOnDestroy(): void {}
 }
