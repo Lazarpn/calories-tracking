@@ -1,12 +1,37 @@
-<div class="auth">
-  <h2 class="auth__heading">Sign in to your account</h2>
-  <form class="auth__form form">
+<div class="auth" *ngIf="!isLoading">
+  <h2 class="auth__heading">
+    {{ isSignInMode ? "Sign in" : "Sign up" }} to your account
+  </h2>
+  <form class="auth__form form" [formGroup]="authForm" (ngSubmit)="onSubmit()">
     <label for="email">Email</label>
-    <input type="email" name="email" placeholder="Enter your email" />
-    <label for="password">Password</label>
-    <input type="password" name="password" placeholder="Enter your password" />
+    <input
+      type="email"
+      name="email"
+      placeholder="Enter your email"
+      formControlName="email"
+    />
+    <span
+      class="form__message"
+      *ngIf="!authForm.get('email').valid && authForm.get('email').touched"
+      >Please enter a valid email!</span
+    >
 
-    <button type="submit" class="form__button">
+    <label for="password">Password</label>
+    <input
+      type="password"
+      name="password"
+      placeholder="Enter your password"
+      formControlName="password"
+    />
+    <span
+      class="form__message"
+      *ngIf="
+        !authForm.get('password').valid && authForm.get('password').touched
+      "
+      >Please enter a valid password!</span
+    >
+
+    <button type="submit" class="form__button" [disabled]="!authForm.valid">
       {{ isSignInMode ? "Sign in" : "Sign up" }}
     </button>
     <p class="form__text">
@@ -16,8 +41,14 @@
           : "Already have an account? Switch to "
       }}
       <button class="btn-switch" type="button" (click)="onSwitchMode()">
-        {{ isSignInMode ? "Sign in" : "Sign up" }}
+        {{ isSignInMode ? "Sign up" : "Sign in" }}
       </button>
     </p>
   </form>
+
+  <div class="auth__error" *ngIf="error">
+    <p>{{ error }}</p>
+  </div>
 </div>
+
+<app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
