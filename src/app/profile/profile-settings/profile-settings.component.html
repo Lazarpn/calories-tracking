@@ -1,0 +1,16 @@
+<form class="form" #form="ngForm">
+  <div class="form__settings">
+    <label for="preference">Expected number of calories</label>
+    <input
+      type="checkbox"
+      (click)="onPreferenceChange()"
+      ngModel
+      name="preference"
+      id="preference"
+    />
+  </div>
+  <div class="form__calories" *ngIf="preferenceApplied">
+    <label for="calories">Your calories</label>
+    <input type="number" name="calories" id="calories" ngModel />
+  </div>
+</form>

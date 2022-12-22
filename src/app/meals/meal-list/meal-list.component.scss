@@ -6,6 +6,13 @@
 .meals {
 }
 
+.meals-advanced {
+  margin-left: 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .button-add {
   all: unset;
   width: 50px;

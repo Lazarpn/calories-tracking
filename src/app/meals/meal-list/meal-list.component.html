@@ -6,9 +6,12 @@
       (changesSavedInfo)="onChangesSaved($event)"
     ></app-meal>
   </div>
-  <app-meal-calendar
-    (filterApplied)="onFilterApplied($event)"
-  ></app-meal-calendar>
+  <div class="meals-advanced">
+    <app-meal-calendar
+      (filterApplied)="onFilterApplied($event)"
+    ></app-meal-calendar>
+    <app-meal-expected-calories></app-meal-expected-calories>
+  </div>
 </div>
 
 <button (click)="onMealAdd()" class="button-add">+</button>

@@ -14,6 +14,8 @@ import { CanDeactivateGuard } from './meals/meal-list/meal/can-deactivate-guard.
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner/loading-spinner.component';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
 import { ProfileComponent } from './profile/profile.component';
+import { ProfileSettingsComponent } from './profile/profile-settings/profile-settings.component';
+import { MealExpectedCaloriesComponent } from './meals/meal-list/meal-expected-calories/meal-expected-calories.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { ProfileComponent } from './profile/profile.component';
     MealCalendarComponent,
     LoadingSpinnerComponent,
     ProfileComponent,
+    ProfileSettingsComponent,
+    MealExpectedCaloriesComponent,
   ],
   imports: [
     BrowserModule,

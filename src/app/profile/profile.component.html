@@ -1,1 +1,24 @@
+<div class="profile">
+  <div class="info">
+    <form class="info__form form">
+      <label for="photo">Profile photo</label>
+      <input type="file" name="photo" id="photo" />
+      <label for="name">Name</label>
+      <input type="text" name="name" id="name" />
+      <label for="surname">Surname</label>
+      <input type="text" name="surname" id="surname" />
+    </form>
+  </div>
+  <div class="settings">
+    <nav class="settings__nav">
+      <ul class="settings__list">
+        <li class="settings__item">
+          <a class="settings__link" routerLink="settings">Settings</a>
+        </li>
+      </ul>
+    </nav>
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
 <button (click)="onSignOut()">Sign Out</button>

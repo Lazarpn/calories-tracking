@@ -6,11 +6,16 @@ import { CanDeactivateGuard } from './meals/meal-list/meal/can-deactivate-guard.
 import { MealListComponent } from './meals/meal-list/meal-list.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AuthGuard } from './auth/auth.guard';
+import { ProfileSettingsComponent } from './profile/profile-settings/profile-settings.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'auth', pathMatch: 'full' },
   { path: 'auth', component: AuthComponent },
-  { path: 'profile', component: ProfileComponent },
+  {
+    path: 'profile',
+    component: ProfileComponent,
+    children: [{ path: 'settings', component: ProfileSettingsComponent }],
+  },
 
   {
     path: 'meals',
