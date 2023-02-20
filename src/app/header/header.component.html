@@ -16,4 +16,8 @@
       </li>
     </ul>
   </nav>
+
+  <button class="button" *ngIf="isAuthenticated" (click)="onSignOut()">
+    Sign Out
+  </button>
 </header>

@@ -5,6 +5,7 @@
   background-color: #2ecc71;
   display: flex;
   align-items: center;
+  position: relative;
 
   &__logo {
     a {
@@ -32,4 +33,15 @@
     color: #fff;
     font-size: 18px;
   }
+}
+
+.button {
+  all: unset;
+  color: #fff;
+  cursor: pointer;
+  font-size: 18px;
+  position: absolute;
+  top: 50%;
+  right: 5%;
+  transform: translate(-50%, -50%);
 }

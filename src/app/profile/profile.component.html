@@ -1,12 +1,34 @@
 <div class="profile">
   <div class="info">
-    <form class="info__form form">
-      <label for="photo">Profile photo</label>
-      <input type="file" name="photo" id="photo" />
-      <label for="name">Name</label>
-      <input type="text" name="name" id="name" />
-      <label for="surname">Surname</label>
-      <input type="text" name="surname" id="surname" />
+    <form class="info__form form" (submit)="onSubmit(form)" #form="ngForm">
+      <div class="form__photo">
+        <label for="photo">
+          <svg class="icon">
+            <use xlink:href="/assets/sprite.svg#icon-camera"></use>
+          </svg>
+          <img
+            *ngIf="isPhotoUploaded"
+            [src]="imageSrc"
+            alt="User Image"
+            class="image"
+            id="image"
+          />
+        </label>
+        <input
+          ngModel
+          (change)="onUpload($event)"
+          type="file"
+          name="photo"
+          id="photo"
+        />
+      </div>
+
+      <div class="form__user-info">
+        <label for="name">Name</label>
+        <input ngModel type="text" name="name" id="name" />
+        <label for="surname">Surname</label>
+        <input ngModel type="text" name="surname" id="surname" />
+      </div>
     </form>
   </div>
   <div class="settings">
@@ -20,5 +42,3 @@
     <router-outlet></router-outlet>
   </div>
 </div>
-
-<button (click)="onSignOut()">Sign Out</button>
