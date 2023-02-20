@@ -1,5 +1,6 @@
 .calories {
-  background-color: rgb(209, 209, 209);
+  margin-top: 20px;
+  padding: 10px;
   border: 1px solid green;
   height: 100px;
   display: flex;
@@ -7,6 +8,7 @@
   align-items: center;
 
   &__info {
+    margin-bottom: 10px;
     span {
       color: green;
       border-bottom: 1px solid green;
@@ -15,6 +17,7 @@
 
   &__form {
     label {
+      margin-right: 15px;
     }
 
     progress {

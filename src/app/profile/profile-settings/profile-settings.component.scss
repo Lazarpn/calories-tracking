@@ -1,4 +1,44 @@
 .form {
   margin-top: 10px;
   margin-left: 10px;
+
+  &__settings {
+  }
+
+  &__calories {
+    margin-top: 20px;
+
+    label {
+      margin-right: 10px;
+    }
+
+    input {
+      all: unset;
+      width: 150px;
+      border-bottom: 2px solid var(--color-green-primary);
+      text-align: center;
+      color: var(--color-green-primary);
+      margin-right: 15px;
+    }
+  }
+}
+
+.btn {
+  all: unset;
+}
+
+.icon {
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  margin-right: 20px;
+  fill: var(--color-green-primary);
+  outline: 1px solid var(--color-green-primary);
+  outline-offset: 5px;
+}
+.icon-confirm {
+}
+
+.icon-edit {
 }

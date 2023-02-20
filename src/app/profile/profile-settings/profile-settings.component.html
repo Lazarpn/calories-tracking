@@ -11,6 +11,29 @@
   </div>
   <div class="form__calories" *ngIf="preferenceApplied">
     <label for="calories">Your calories</label>
-    <input type="number" name="calories" id="calories" ngModel />
+    <input
+      [disabled]="!isEditMode"
+      ngModel
+      type="number"
+      name="calories"
+      id="calories"
+      ngModel
+    />
+
+    <button
+      *ngIf="isEditMode"
+      class="btn-submit btn"
+      type="submit"
+      (click)="onCaloriesConfirm()"
+    >
+      <svg class="icon icon-confirm">
+        <use xlink:href="/assets/sprite.svg#icon-checkmark"></use>
+      </svg>
+    </button>
+    <button *ngIf="!isEditMode" class="btn-edit btn" (click)="onCaloriesEdit()">
+      <svg class="icon icon-edit">
+        <use xlink:href="/assets/sprite.svg#icon-pencil"></use>
+      </svg>
+    </button>
   </div>
 </form>

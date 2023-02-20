@@ -3,6 +3,7 @@
   height: 500px;
   width: 1100px;
   grid-template-columns: 20% 80%;
+
   position: absolute;
   top: 50%;
   left: 50%;
@@ -21,7 +22,7 @@
 }
 
 .settings {
-  background-color: #fff;
+  background-color: #f1f1f1;
 
   &__nav {
     background-color: #2ecc71;

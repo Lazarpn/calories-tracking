@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { UserSettingsService } from '../../shared/user-settings.service';
 
 @Component({
   selector: 'app-profile-settings',
@@ -8,13 +9,25 @@ import { NgForm } from '@angular/forms';
 })
 export class ProfileSettingsComponent implements OnInit {
   @ViewChild('form', { static: true }) form: NgForm;
-  preferenceApplied: boolean = false;
+  preferenceApplied: boolean = true;
+  preferenceCalories: number;
+  isEditMode: boolean = false;
 
-  constructor() {}
+  constructor(private userSettings: UserSettingsService) {}
 
   ngOnInit(): void {}
 
   onPreferenceChange() {
     this.preferenceApplied = !this.form.value.preference;
+    this.userSettings.onChangeCaloriesPreference(this.preferenceApplied);
+  }
+
+  onCaloriesEdit() {
+    this.isEditMode = true;
+  }
+
+  onCaloriesConfirm() {
+    this.isEditMode = false;
+    this.preferenceCalories = this.form.value.calories;
   }
 }
