@@ -4,7 +4,7 @@
     <input
       type="checkbox"
       (click)="onPreferenceChange()"
-      ngModel
+      [ngModel]="preferenceApplied"
       name="preference"
       id="preference"
     />
@@ -13,7 +13,7 @@
     <label for="calories">Your calories</label>
     <input
       [disabled]="!isEditMode"
-      ngModel
+      [ngModel]="preferenceCalories"
       type="number"
       name="calories"
       id="calories"

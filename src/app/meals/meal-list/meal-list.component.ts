@@ -4,6 +4,7 @@ import { Meal } from '../meal.model';
 import { MealsService } from '../meals.service';
 import { CanComponentDeactivate } from './meal/can-deactivate-guard.service';
 import { Filter } from './filter.model';
+import { UserSettingsService } from '../../profile/user-settings.service';
 
 @Component({
   selector: 'app-meal-list',
@@ -17,7 +18,10 @@ export class MealListComponent
   subscription: Subscription;
   changesSaved: boolean = true;
 
-  constructor(private mealsService: MealsService) {}
+  constructor(
+    private mealsService: MealsService,
+    private userSettingsService: UserSettingsService
+  ) {}
 
   onChangesSaved(event: boolean) {
     this.changesSaved = event;
@@ -39,6 +43,7 @@ export class MealListComponent
     );
 
     this.meals = this.mealsService.getMeals();
+    this.userSettingsService.onGetUserSettings();
   }
 
   onMealAdd() {

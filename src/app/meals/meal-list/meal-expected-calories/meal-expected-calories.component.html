@@ -1,10 +1,11 @@
 <div class="calories" *ngIf="caloriesPreferenceApplied">
   <p class="calories__info">
-    Today you had <span>x</span> calories out of <span>y</span>. You have
-    <span>z</span> more to go
+    Today you had <span>{{ caloriesHad }}</span> calories out of
+    <span>{{ preferenceCalories }}</span
+    >. You have <span>{{ caloriesLeft }}</span> more to go
   </p>
   <form class="calories__form form" #form="ngForm">
     <label for="progress">Your progress</label>
-    <progress id="progress" max="100" value="70">70%</progress>
+    <progress id="progress" max="100" value="{{ progressBar }}"></progress>
   </form>
 </div>

@@ -3,7 +3,7 @@
     <form class="info__form form" (submit)="onSubmit(form)" #form="ngForm">
       <div class="form__photo">
         <label for="photo">
-          <svg class="icon">
+          <svg class="icon-camera">
             <use xlink:href="/assets/sprite.svg#icon-camera"></use>
           </svg>
           <img
@@ -25,10 +25,38 @@
 
       <div class="form__user-info">
         <label for="name">Name</label>
-        <input ngModel type="text" name="name" id="name" />
+        <input
+          [disabled]="!isEditMode"
+          [ngModel]="name"
+          type="text"
+          name="name"
+          id="name"
+        />
         <label for="surname">Surname</label>
-        <input ngModel type="text" name="surname" id="surname" />
+        <input
+          [disabled]="!isEditMode"
+          [ngModel]="surname"
+          type="text"
+          name="surname"
+          id="surname"
+        />
       </div>
+
+      <button
+        *ngIf="isEditMode"
+        class="btn-submit btn"
+        type="submit"
+        (click)="onInfoConfirm()"
+      >
+        <svg class="icon icon-confirm">
+          <use xlink:href="/assets/sprite.svg#icon-checkmark"></use>
+        </svg>
+      </button>
+      <button *ngIf="!isEditMode" class="btn-edit btn" (click)="onInfoEdit()">
+        <svg class="icon icon-edit">
+          <use xlink:href="/assets/sprite.svg#icon-pencil"></use>
+        </svg>
+      </button>
     </form>
   </div>
   <div class="settings">

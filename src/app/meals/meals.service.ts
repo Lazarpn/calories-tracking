@@ -11,9 +11,11 @@ export class MealsService {
     numberOfCalories: number;
     numberOfMeals: number;
   }>();
+  todaysCaloriesChanged = new Subject<number>();
   private meals: Meal[] = [];
   numberOfCalories: number;
   numberOfMeals: number;
+  todaysCalories: number;
 
   constructor(private dataStorageService: DataStorageService) {}
 
@@ -191,6 +193,7 @@ export class MealsService {
         if (meals) {
           this.meals = meals;
           this.mealCaloriesNumberUpdate();
+          this.getTodaysCalories();
           this.mealsChanged.next(this.meals);
         } else {
           this.meals = [];
@@ -227,5 +230,21 @@ export class MealsService {
 
     this.mealsChanged.next(this.meals.slice());
     this.dataStorageService.storeMeals(this.meals);
+  }
+
+  getTodaysCalories() {
+    const date = new Date();
+    const formatedDate = new Intl.DateTimeFormat(navigator.language, {
+      day: '2-digit',
+      month: 'short',
+      year: undefined,
+    }).format(date);
+
+    this.todaysCalories = this.meals
+      .filter((meal) => meal.date === formatedDate)
+      .reduce((acc, meal) => {
+        return acc + meal.calories;
+      }, 0);
+    this.todaysCaloriesChanged.next(this.todaysCalories);
   }
 }
