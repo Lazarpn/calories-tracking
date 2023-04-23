@@ -11,6 +11,8 @@ export class UserSettingsService {
     caloriesNumber?: number;
   }>();
   userInfoChanged = new Subject<{}>();
+  userPhotoChanged = new Subject<any>();
+  userPhoto: any;
   caloriesPreference: boolean;
   preferenceCalories: number;
   name: string;
@@ -71,5 +73,16 @@ export class UserSettingsService {
           });
         }
       );
+  }
+
+  onStoreUserPhoto(photo) {
+    this.dataStorageService.storeUserPhoto(photo);
+  }
+
+  onGetUserPhoto() {
+    this.dataStorageService.getUserPhoto().subscribe((photo) => {
+      this.userPhoto = photo;
+      this.userPhotoChanged.next(photo);
+    });
   }
 }

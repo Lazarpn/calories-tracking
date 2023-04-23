@@ -7,10 +7,22 @@ import { MealListComponent } from './meals/meal-list/meal-list.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AuthGuard } from './auth/auth.guard';
 import { ProfileSettingsComponent } from './profile/profile-settings/profile-settings.component';
+import { ManagerComponent } from './manager/manager/manager.component';
+import { Role } from './shared/role';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'auth', pathMatch: 'full' },
+  // { path: '', redirectTo: 'auth', pathMatch: 'full' },
+  { path: '', redirectTo: 'meals', pathMatch: 'full' },
+
   { path: 'auth', component: AuthComponent },
+  {
+    path: 'manager-auth',
+    component: AuthComponent,
+    data: {
+      role: Role.MANAGER,
+    },
+  },
+  { path: 'manager', component: ManagerComponent },
   {
     path: 'profile',
     component: ProfileComponent,
@@ -20,7 +32,7 @@ const routes: Routes = [
   {
     path: 'meals',
     component: MealsComponent,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
     children: [
       {
         path: 'meal-list',

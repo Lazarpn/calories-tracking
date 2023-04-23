@@ -81,4 +81,29 @@ export class DataStorageService {
       })
     );
   }
+
+  storeUserPhoto(photo) {
+    this.authService.user.subscribe((user) => {
+      if (user)
+        this.http
+          .put(
+            `https://calories-tracker-e16f1-default-rtdb.firebaseio.com/${user.id}/user-photo.json`,
+            photo
+          )
+          .subscribe((photo) => {
+            console.log(photo);
+          });
+    });
+  }
+
+  getUserPhoto() {
+    return this.authService.user.pipe(
+      take(1),
+      exhaustMap((user) => {
+        return this.http.get<{}>(
+          `https://calories-tracker-e16f1-default-rtdb.firebaseio.com/${user.id}/user-photo.json`
+        );
+      })
+    );
+  }
 }

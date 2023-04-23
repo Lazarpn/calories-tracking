@@ -1,0 +1,34 @@
+<form class="user" [formGroup]="userForm" (ngSubmit)="onSubmit()">
+  <img [src]="user.photo" alt="User-image" />
+  <input formControlName="photo" id="photo" type="text" />
+  <input formControlName="name" type="text" id="name" />
+  <input formControlName="surname" type="text" id="surname" />
+  <!-- SAME THING WITH formControlName -->
+  <input
+    [formControlName]="'mealsPreference'"
+    type="text"
+    id="mealsPreference"
+  />
+
+  <button class="btn-edit btn" (click)="onUserEdit()">
+    <svg
+      class="icon-edit"
+      [ngClass]="{
+        'display-none': !changesSaved,
+        icon: changesSaved,
+        'icon-edit-mode': !changesSaved
+      }"
+    >
+      <use xlink:href="/assets/sprite.svg#icon-pencil"></use>
+    </svg>
+  </button>
+
+  <button class="btn-delete btn" (click)="onUserDelete()">
+    <svg
+      class="icon-delete"
+      [ngClass]="{ icon: changesSaved, 'icon-edit-mode': !changesSaved }"
+    >
+      <use xlink:href="/assets/sprite.svg#icon-bin"></use>
+    </svg>
+  </button>
+</form>

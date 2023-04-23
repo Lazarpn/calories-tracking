@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthResponseData, AuthService } from './auth.service';
 import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth',
@@ -15,7 +15,11 @@ export class AuthComponent implements OnInit {
   error: string = null;
   authForm: FormGroup;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.authForm = new FormGroup({
@@ -36,6 +40,8 @@ export class AuthComponent implements OnInit {
       return;
     }
 
+    console.log(this.route);
+
     const email = this.authForm.value.email;
     const password = this.authForm.value.password;
 
@@ -50,6 +56,7 @@ export class AuthComponent implements OnInit {
 
     authObs.subscribe(
       (responseData) => {
+        console.log(responseData);
         this.isLoading = false;
         this.router.navigate(['/meals/meal-list']);
       },

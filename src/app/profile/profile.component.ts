@@ -30,18 +30,20 @@ export class ProfileComponent implements OnInit, OnDestroy {
       }
     );
 
+    this.userSettingsService.userPhotoChanged.subscribe((photo) => {
+      this.imageSrc = photo;
+    });
+    this.userSettingsService.onGetUserPhoto();
     this.userSettingsService.onGetUserInfo();
     this.name = this.userSettingsService.name;
     this.surname = this.userSettingsService.surname;
   }
 
-  onSubmit(form) {
-    console.log(form);
-  }
-
   onUpload(event) {
-    let uploadedImage = URL.createObjectURL(event.target.files[0]);
-    let sanitizedUrl = this.sanitizer.bypassSecurityTrustUrl(uploadedImage);
+    const uploadedImage = URL.createObjectURL(event.target.files[0]);
+    const sanitizedUrl = this.sanitizer.bypassSecurityTrustUrl(uploadedImage);
+    this.userSettingsService.onStoreUserPhoto(sanitizedUrl);
+    console.log(sanitizedUrl);
     this.imageSrc = sanitizedUrl;
     this.isPhotoUploaded = true;
   }
