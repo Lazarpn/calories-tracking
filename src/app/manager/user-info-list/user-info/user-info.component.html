@@ -1,4 +1,9 @@
-<form class="user" [formGroup]="userForm" (ngSubmit)="onSubmit()">
+<form
+  class="user"
+  [ngClass]="{ 'user-edit': !changesSaved }"
+  [formGroup]="userForm"
+  (ngSubmit)="onSubmit()"
+>
   <img [src]="user.photo" alt="User-image" />
   <input formControlName="photo" id="photo" type="text" />
   <input formControlName="name" type="text" id="name" />
@@ -9,6 +14,19 @@
     type="text"
     id="mealsPreference"
   />
+
+  <button class="btn-submit btn" type="submit" (click)="onUserConfirm()">
+    <svg
+      class="icon-confirm"
+      [ngClass]="{
+        'display-none': changesSaved,
+        icon: changesSaved,
+        'icon-edit-mode': !changesSaved
+      }"
+    >
+      <use xlink:href="/assets/sprite.svg#icon-checkmark"></use>
+    </svg>
+  </button>
 
   <button class="btn-edit btn" (click)="onUserEdit()">
     <svg
@@ -26,7 +44,11 @@
   <button class="btn-delete btn" (click)="onUserDelete()">
     <svg
       class="icon-delete"
-      [ngClass]="{ icon: changesSaved, 'icon-edit-mode': !changesSaved }"
+      [ngClass]="{
+        icon: changesSaved,
+        'icon-edit-mode': !changesSaved,
+        'display-none': !changesSaved
+      }"
     >
       <use xlink:href="/assets/sprite.svg#icon-bin"></use>
     </svg>

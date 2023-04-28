@@ -25,7 +25,13 @@ export class UserInfoComponent implements OnInit {
 
   onSubmit() {}
 
-  onUserEdit() {}
+  onUserEdit() {
+    this.changesSaved = false;
+  }
 
   onUserDelete() {}
+
+  onUserConfirm() {
+    this.changesSaved = true;
+  }
 }
