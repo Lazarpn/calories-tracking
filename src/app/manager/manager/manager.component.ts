@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserInfo } from 'src/app/shared/userInfo.model';
 
 @Component({
   selector: 'app-manager',
@@ -8,10 +7,7 @@ import { UserInfo } from 'src/app/shared/userInfo.model';
   styleUrls: ['./manager.component.scss'],
 })
 export class ManagerComponent implements OnInit {
-  usersList: UserInfo[] = [
-    new UserInfo('f', 'f', 'f', 3),
-    new UserInfo('f', 'f', 'f', 3),
-  ];
+  usersList: any[] = [];
 
   constructor(private router: Router) {}
 

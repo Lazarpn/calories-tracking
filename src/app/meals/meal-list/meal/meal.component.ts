@@ -27,7 +27,9 @@ export class MealComponent implements OnInit, AfterViewChecked {
   @Output() changesSavedInfo = new Subject<boolean>();
   constructor(private mealsService: MealsService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.meal);
+  }
 
   ngAfterViewChecked(): void {
     // HAS TO BE FIXED - TOO MANY UNWANTED NUMBER OF SETTINGS
@@ -43,11 +45,10 @@ export class MealComponent implements OnInit, AfterViewChecked {
     const value = this.mealForm.value;
     const mealId = this.mealsService.getMeal(this.meal);
     this.isDisabled = true;
-    this.meal.mealName = value.mealName;
+    this.meal.name = value.mealName;
     this.meal.calories = value.calories;
     this.meal.date = value.date;
     this.meal.time = value.time;
-    console.log(value);
     this.mealsService.mealUpdate(mealId, this.meal);
   }
 
@@ -58,7 +59,6 @@ export class MealComponent implements OnInit, AfterViewChecked {
   }
 
   onMealDelete() {
-    const id = this.mealsService.getMeal(this.meal);
-    this.mealsService.mealDelete(id);
+    this.mealsService.mealDelete(this.meal);
   }
 }

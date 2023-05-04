@@ -31,6 +31,23 @@
       >Please enter a valid password!</span
     >
 
+    <ng-container *ngIf="!isSignInMode">
+      <input
+        formControlName="firstName"
+        name="firstName"
+        type="text"
+        placeholder="FirstName"
+      />
+      <label for="firstName">FirstName</label>
+      <input
+        formControlName="lastName"
+        type="text"
+        name="lastName"
+        placeholder="LastName"
+      />
+      <label for="lastName">LastName</label>
+    </ng-container>
+
     <button type="submit" class="form__button" [disabled]="!authForm.valid">
       {{ isSignInMode ? "Sign in" : "Sign up" }}
     </button>

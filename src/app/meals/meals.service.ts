@@ -190,6 +190,8 @@ export class MealsService {
   getMeals() {
     if (this.meals.length === 0) {
       this.dataStorageService.getMeals().subscribe((meals) => {
+        console.log(meals);
+        console.log('eo zovem');
         if (meals) {
           this.meals = meals;
           this.mealCaloriesNumberUpdate();
@@ -209,11 +211,12 @@ export class MealsService {
   }
 
   mealAdd(meal: Meal) {
-    this.meals.push(meal);
-    this.mealCaloriesNumberUpdate();
-
-    this.mealsChanged.next(this.meals.slice());
-    this.dataStorageService.storeMeals(this.meals);
+    this.dataStorageService.addMeal(meal).subscribe((meal: Meal) => {
+      console.log(meal);
+      this.meals.push(meal);
+      this.mealsChanged.next(this.meals.slice());
+      this.mealCaloriesNumberUpdate();
+    });
   }
 
   mealUpdate(index: number, newMeal: Meal) {
@@ -221,15 +224,23 @@ export class MealsService {
     this.mealsChanged.next(this.meals.slice());
     this.mealCaloriesNumberUpdate();
 
-    this.dataStorageService.storeMeals(this.meals);
+    this.dataStorageService
+      .changeMeal(newMeal)
+      .subscribe((meals: Meal[]) => {});
   }
 
-  mealDelete(id: number) {
-    this.meals.splice(id, 1);
+  mealDelete(meal: Meal) {
+    console.log(meal);
+    const mealPosition = this.meals.indexOf(meal);
+    this.meals.splice(mealPosition, 1);
+
     this.mealCaloriesNumberUpdate();
 
     this.mealsChanged.next(this.meals.slice());
-    this.dataStorageService.storeMeals(this.meals);
+    console.log(meal);
+    this.dataStorageService
+      .deleteMeal(meal.id)
+      .subscribe((meals: Meal[]) => {});
   }
 
   getTodaysCalories() {

@@ -3,8 +3,8 @@ import { Observable, Subscription } from 'rxjs';
 import { Meal } from '../meal.model';
 import { MealsService } from '../meals.service';
 import { CanComponentDeactivate } from './meal/can-deactivate-guard.service';
-import { Filter } from './filter.model';
 import { UserSettingsService } from '../../profile/user-settings.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-meal-list',
@@ -16,11 +16,13 @@ export class MealListComponent
 {
   meals: Meal[] = [];
   subscription: Subscription;
+  userSub: Subscription;
   changesSaved: boolean = true;
 
   constructor(
     private mealsService: MealsService,
-    private userSettingsService: UserSettingsService
+    private userSettingsService: UserSettingsService,
+    private authService: AuthService
   ) {}
 
   onChangesSaved(event: boolean) {
@@ -41,6 +43,12 @@ export class MealListComponent
         this.meals = meals;
       }
     );
+
+    this.userSub = this.authService.user.subscribe((user) => {
+      if (user === null) {
+        this.meals.length = 0;
+      }
+    });
 
     this.meals = this.mealsService.getMeals();
     this.userSettingsService.onGetUserSettings();
@@ -64,8 +72,10 @@ export class MealListComponent
 
     console.log(formatedTime);
 
+    // POPRAVITI
     this.mealsService.mealAdd({
-      mealName: '',
+      name: '',
+      id: null,
       calories: 0,
       date: formatedDate,
       time: formatedTime,
@@ -77,6 +87,7 @@ export class MealListComponent
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    // this.subscription.unsubscribe();
+    this.userSub.unsubscribe();
   }
 }

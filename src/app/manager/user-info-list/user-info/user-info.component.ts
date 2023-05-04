@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { UserInfo } from 'src/app/shared/userInfo.model';
 
 @Component({
   selector: 'app-user-info',
@@ -8,7 +7,7 @@ import { UserInfo } from 'src/app/shared/userInfo.model';
   styleUrls: ['./user-info.component.scss'],
 })
 export class UserInfoComponent implements OnInit {
-  @Input() user: UserInfo;
+  @Input() user: any;
   userForm: FormGroup;
   isDisabled: boolean = true;
   changesSaved: boolean = true;

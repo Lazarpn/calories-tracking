@@ -33,17 +33,27 @@ export class AuthComponent implements OnInit {
 
   onSwitchMode() {
     this.isSignInMode = !this.isSignInMode;
+
+    if (!this.isSignInMode) {
+      this.authForm.addControl('firstName', new FormControl(null));
+      this.authForm.addControl('lastName', new FormControl(null));
+    } else {
+      this.authForm.removeControl('firstName');
+      this.authForm.removeControl('lastName');
+    }
   }
 
   onSubmit() {
     if (!this.authForm.valid) {
       return;
     }
-
-    console.log(this.route);
-
     const email = this.authForm.value.email;
     const password = this.authForm.value.password;
+    let firstName, lastName;
+    if (!this.isSignInMode) {
+      firstName = this.authForm.value.firstName;
+      lastName = this.authForm.value.lastName;
+    }
 
     let authObs: Observable<AuthResponseData>;
     this.isLoading = true;
@@ -51,7 +61,7 @@ export class AuthComponent implements OnInit {
     if (this.isSignInMode) {
       authObs = this.authService.signIn(email, password);
     } else {
-      authObs = this.authService.signUp(email, password);
+      authObs = this.authService.signUp(email, password, firstName, lastName);
     }
 
     authObs.subscribe(

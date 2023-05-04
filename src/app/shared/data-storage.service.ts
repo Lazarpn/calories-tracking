@@ -2,108 +2,43 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Meal } from '../meals/meal.model';
 import { AuthService } from '../auth/auth.service';
-import { exhaustMap, take } from 'rxjs';
+import { exhaustMap, last, take, takeLast } from 'rxjs';
 import { User } from '../auth/user.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class DataStorageService {
+  url: string = environment.url;
   constructor(private http: HttpClient, private authService: AuthService) {}
 
-  storeMeals(meals: Meal[]) {
-    this.authService.user.subscribe((user) => {
-      if (user)
-        this.http
-          .put(
-            `https://calories-tracker-e16f1-default-rtdb.firebaseio.com/${user.id}/meals.json`,
-            meals
-          )
-          .subscribe((meals) => {});
+  changeMeal(meal: Meal) {
+    return this.http.put<Meal[]>(this.url + `/Meals/meal/${meal.id}`, {
+      name: meal.name,
+      id: meal.id,
+      calories: meal.calories,
+      date: meal.date,
+      time: meal.time,
     });
+  }
+
+  addMeal(meal: Meal) {
+    const userId = this.authService.userId;
+    return this.http.post<Meal>(this.url + `/Meals`, {
+      name: 'Obrok',
+      calories: meal.calories,
+      mealsUserId: userId,
+      date: meal.date,
+      time: meal.time,
+    });
+  }
+
+  deleteMeal(id: number) {
+    return this.http.delete<Meal[]>(this.url + `/Meals/${id}`);
   }
 
   getMeals() {
-    return this.authService.user.pipe(
-      take(1),
-      exhaustMap((user) => {
-        return this.http.get<Meal[]>(
-          `https://calories-tracker-e16f1-default-rtdb.firebaseio.com/${user.id}/meals.json`
-        );
-      })
-    );
-  }
-
-  storeUserInfo(info) {
-    this.authService.user.subscribe((user) => {
-      if (user)
-        this.http
-          .put(
-            `https://calories-tracker-e16f1-default-rtdb.firebaseio.com/${user.id}/user-info.json`,
-            info
-          )
-          .subscribe((info) => {
-            console.log(info);
-          });
-    });
-  }
-
-  getUserInfo() {
-    return this.authService.user.pipe(
-      take(1),
-      exhaustMap((user) => {
-        return this.http.get<{}>(
-          `https://calories-tracker-e16f1-default-rtdb.firebaseio.com/${user.id}/user-info.json`
-        );
-      })
-    );
-  }
-
-  storeUserSettings(settings) {
-    this.authService.user.subscribe((user) => {
-      if (user)
-        this.http
-          .put(
-            `https://calories-tracker-e16f1-default-rtdb.firebaseio.com/${user.id}/user-settings.json`,
-            settings
-          )
-          .subscribe((settings) => {
-            console.log(settings);
-          });
-    });
-  }
-
-  getUserSettings() {
-    return this.authService.user.pipe(
-      take(1),
-      exhaustMap((user) => {
-        return this.http.get<{}>(
-          `https://calories-tracker-e16f1-default-rtdb.firebaseio.com/${user.id}/user-settings.json`
-        );
-      })
-    );
-  }
-
-  storeUserPhoto(photo) {
-    this.authService.user.subscribe((user) => {
-      if (user)
-        this.http
-          .put(
-            `https://calories-tracker-e16f1-default-rtdb.firebaseio.com/${user.id}/user-photo.json`,
-            photo
-          )
-          .subscribe((photo) => {
-            console.log(photo);
-          });
-    });
-  }
-
-  getUserPhoto() {
-    return this.authService.user.pipe(
-      take(1),
-      exhaustMap((user) => {
-        return this.http.get<{}>(
-          `https://calories-tracker-e16f1-default-rtdb.firebaseio.com/${user.id}/user-photo.json`
-        );
-      })
-    );
+    const userId = this.authService.userId;
+    console.log('pozvano sasa', userId);
+    return this.http.get<Meal[]>(this.url + `/Meals/meals/${userId}`);
   }
 }

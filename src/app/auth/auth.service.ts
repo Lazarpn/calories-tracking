@@ -3,42 +3,50 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, catchError, tap, throwError } from 'rxjs';
 import { User } from './user.model';
 import { Router } from '@angular/router';
-import { UserSettingsService } from '../profile/user-settings.service';
+import { environment } from 'src/environments/environment';
 
 export interface AuthResponseData {
-  idToken: string;
-  email: string;
-  refreshToken: string;
-  expiresIn: string;
-  localId: string;
-  registered?: boolean;
+  token: string;
+  userId: string;
 }
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  url: string = environment.url + '/api';
   user = new BehaviorSubject<User>(null);
+  userId: string;
   private tokenExpirationTimer: any;
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  signUp(email: string, password: string) {
+  // private async getUserInfo(email: string) {
+  //   return await this.http
+  //     .post<AuthResponseData>(this.url + '/Account/register', {
+  //       email: email,
+  //     })
+  //     .subscribe((data) => {
+  //       console.log(data);
+  //       return data;
+  //     });
+  // }
+
+  signUp(email: string, password: string, firstName: string, lastName: string) {
     return this.http
-      .post<AuthResponseData>(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBLcjT4s7RZQ1-gMNcPVMOAYqkQR9ES-gk',
-        {
-          email: email,
-          password: password,
-          returnSecureToken: true,
-        }
-      )
+      .post<AuthResponseData>(this.url + '/Account/register', {
+        email: email,
+        password: password,
+        firstName: firstName,
+        lastName: lastName,
+      })
       .pipe(
         catchError(this.handleError),
         tap((resData) => {
-          this.handleAuthentication(
-            resData.email,
-            resData.localId,
-            resData.idToken,
-            +resData.expiresIn
+          this.handleRegistration(
+            email,
+            firstName,
+            lastName,
+            resData.userId,
+            resData.token
           );
         })
       );
@@ -46,23 +54,14 @@ export class AuthService {
 
   signIn(email: string, password: string) {
     return this.http
-      .post<AuthResponseData>(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBLcjT4s7RZQ1-gMNcPVMOAYqkQR9ES-gk',
-        {
-          email: email,
-          password: password,
-          returnSecureToken: true,
-        }
-      )
+      .post<AuthResponseData>(this.url + '/Account/login', {
+        email: email,
+        password: password,
+      })
       .pipe(
         catchError(this.handleError),
         tap((resData) => {
-          this.handleAuthentication(
-            resData.email,
-            resData.localId,
-            resData.idToken,
-            +resData.expiresIn
-          );
+          this.handleLogin(email, resData.userId, resData.token);
         })
       );
   }
@@ -71,15 +70,18 @@ export class AuthService {
     const userData: {
       email: string;
       id: string;
+      name: string;
+      surname: string;
       _token: string;
       _tokenExpirationDate: string;
     } = JSON.parse(localStorage.getItem('userData'));
     if (!userData) {
       return;
     }
-
     const loadedUser = new User(
       userData.email,
+      userData.name,
+      userData.surname,
       userData.id,
       userData._token,
       new Date(userData._tokenExpirationDate)
@@ -87,6 +89,8 @@ export class AuthService {
 
     if (loadedUser.token) {
       this.user.next(loadedUser);
+      this.userId = userData.id;
+
       const expirationDuration =
         new Date(userData._tokenExpirationDate).getTime() -
         new Date().getTime();
@@ -110,20 +114,52 @@ export class AuthService {
     this.tokenExpirationTimer = null;
   }
 
-  private handleAuthentication(
+  private handleRegistration(
     email: string,
+    firstName: string,
+    lastName: string,
     userId: string,
-    token: string,
-    expiresIn: number
+    token: string
   ) {
-    const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
-    const user = new User(email, userId, token, expirationDate);
+    // CALCULATE TIMEOUT
+    const parsedToken = this.parseJwt(token);
+    const expirationTime = new Date(Date.now() + parsedToken.exp).getTime();
+    const user = new User(
+      email,
+      firstName,
+      lastName,
+      userId,
+      token,
+      new Date(expirationTime)
+    );
     this.user.next(user);
-    this.autoSignOut(expiresIn * 1000);
+    this.userId = userId;
+
     localStorage.setItem('userData', JSON.stringify(user));
   }
 
+  private handleLogin(email: string, userId: string, token: string) {
+    // Retrieve first and last name
+    const parsedToken = this.parseJwt(token);
+    const expirationTime = new Date(Date.now() + parsedToken.exp).getTime();
+    const user = new User(
+      email,
+      null,
+      null,
+      userId,
+      token,
+      new Date(expirationTime)
+    );
+
+    this.user.next(user);
+    this.userId = userId;
+    localStorage.setItem('userData', JSON.stringify(user));
+  }
+
+  private handleAuthentication(email: string, userId: string, token: string) {}
+
   private handleError(errorRes: HttpErrorResponse) {
+    console.log(errorRes);
     let errorMessage = 'An unknown error occured';
     if (!errorRes.error && !errorRes.error.error) {
       return throwError(errorMessage);
@@ -154,5 +190,20 @@ export class AuthService {
     }
 
     return throwError(errorMessage);
+  }
+
+  private parseJwt(token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split('')
+        .map(function (c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        })
+        .join('')
+    );
+
+    return JSON.parse(jsonPayload);
   }
 }

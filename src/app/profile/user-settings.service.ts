@@ -31,58 +31,58 @@ export class UserSettingsService {
   onSetUserInfo(name: string, surname: string) {
     this.name = name;
     this.surname = surname;
-    this.dataStorageService.storeUserInfo({
-      name: this.name,
-      surname: this.surname,
-    });
+    // this.dataStorageService.storeUserInfo({
+    //   name: this.name,
+    //   surname: this.surname,
+    // });
   }
 
   onGetUserInfo() {
-    this.dataStorageService
-      .getUserInfo()
-      .subscribe((userInfo: { name: string; surname: string }) => {
-        this.name = userInfo.name;
-        this.surname = userInfo.surname;
-        this.userInfoChanged.next({
-          name: this.name,
-          surname: this.surname,
-        });
-      });
+    // this.dataStorageService
+    //   .getUserInfo()
+    //   .subscribe((userInfo: { name: string; surname: string }) => {
+    //     this.name = userInfo.name;
+    //     this.surname = userInfo.surname;
+    //     this.userInfoChanged.next({
+    //       name: this.name,
+    //       surname: this.surname,
+    //     });
+    //   });
   }
 
   onSetUserSettings() {
-    this.dataStorageService.storeUserSettings({
-      caloriesPreferenceApplied: this.caloriesPreference,
-      caloriesNumber: this.preferenceCalories,
-    });
+    // this.dataStorageService.storeUserSettings({
+    //   caloriesPreferenceApplied: this.caloriesPreference,
+    //   caloriesNumber: this.preferenceCalories,
+    // });
   }
 
   onGetUserSettings() {
-    this.dataStorageService
-      .getUserSettings()
-      .subscribe(
-        (settings: {
-          caloriesPreferenceApplied: boolean;
-          caloriesNumber: number;
-        }) => {
-          this.caloriesPreference = settings.caloriesPreferenceApplied;
-          this.preferenceCalories = settings.caloriesNumber;
-          this.caloriesPreferenceChanged.next({
-            preferenceApplied: this.caloriesPreference,
-            caloriesNumber: this.preferenceCalories,
-          });
-        }
-      );
+    // this.dataStorageService
+    //   .getUserSettings()
+    //   .subscribe(
+    //     (settings: {
+    //       caloriesPreferenceApplied: boolean;
+    //       caloriesNumber: number;
+    //     }) => {
+    //       this.caloriesPreference = settings.caloriesPreferenceApplied;
+    //       this.preferenceCalories = settings.caloriesNumber;
+    //       this.caloriesPreferenceChanged.next({
+    //         preferenceApplied: this.caloriesPreference,
+    //         caloriesNumber: this.preferenceCalories,
+    //       });
+    //     }
+    //   );
   }
 
   onStoreUserPhoto(photo) {
-    this.dataStorageService.storeUserPhoto(photo);
+    // this.dataStorageService.storeUserPhoto(photo);
   }
 
   onGetUserPhoto() {
-    this.dataStorageService.getUserPhoto().subscribe((photo) => {
-      this.userPhoto = photo;
-      this.userPhotoChanged.next(photo);
-    });
+    // this.dataStorageService.getUserPhoto().subscribe((photo) => {
+    //   this.userPhoto = photo;
+    //   this.userPhotoChanged.next(photo);
+    // });
   }
 }
