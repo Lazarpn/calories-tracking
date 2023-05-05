@@ -15,10 +15,10 @@ export class UserInfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.userForm = new FormGroup({
-      photo: new FormControl(null),
-      name: new FormControl(null),
-      surname: new FormControl(null),
-      mealsPreference: new FormControl(null),
+      email: new FormControl(this.user.email),
+      firstName: new FormControl(this.user.firstName),
+      lastName: new FormControl(this.user.lastName),
+      caloriesPreference: new FormControl(this.user.caloriesPreference),
     });
   }
 

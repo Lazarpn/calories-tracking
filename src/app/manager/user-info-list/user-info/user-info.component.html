@@ -4,15 +4,15 @@
   [formGroup]="userForm"
   (ngSubmit)="onSubmit()"
 >
-  <img [src]="user.photo" alt="User-image" />
-  <input formControlName="photo" id="photo" type="text" />
-  <input formControlName="name" type="text" id="name" />
-  <input formControlName="surname" type="text" id="surname" />
+  <img [src]="user.userPhoto" class="user__image" alt="User-image" />
+  <input formControlName="email" id="email" type="text" />
+  <input formControlName="firstName" type="text" id="firstName" />
+  <input formControlName="lastName" type="text" id="lastName" />
   <!-- SAME THING WITH formControlName -->
   <input
-    [formControlName]="'mealsPreference'"
+    [formControlName]="'caloriesPreference'"
     type="text"
-    id="mealsPreference"
+    id="caloriesPreference"
   />
 
   <button class="btn-submit btn" type="submit" (click)="onUserConfirm()">
