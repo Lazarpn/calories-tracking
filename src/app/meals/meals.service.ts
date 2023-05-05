@@ -193,6 +193,7 @@ export class MealsService {
           this.meals = meals;
           this.mealCaloriesNumberUpdate();
           this.getTodaysCalories();
+          this.todaysCaloriesChanged.next(this.todaysCalories);
           this.mealsChanged.next(this.meals);
         } else {
           this.meals = [];
@@ -212,6 +213,8 @@ export class MealsService {
       this.meals.push(meal);
       this.mealsChanged.next(this.meals.slice());
       this.mealCaloriesNumberUpdate();
+      this.getTodaysCalories();
+      this.todaysCaloriesChanged.next(this.todaysCalories);
     });
   }
 
@@ -223,6 +226,8 @@ export class MealsService {
     this.dataStorageService
       .changeMeal(newMeal)
       .subscribe((meals: Meal[]) => {});
+    this.getTodaysCalories();
+    this.todaysCaloriesChanged.next(this.todaysCalories);
   }
 
   mealDelete(meal: Meal) {
@@ -235,6 +240,8 @@ export class MealsService {
     this.dataStorageService
       .deleteMeal(meal.id)
       .subscribe((meals: Meal[]) => {});
+    this.getTodaysCalories();
+    this.todaysCaloriesChanged.next(this.todaysCalories);
   }
 
   getTodaysCalories() {
@@ -250,6 +257,7 @@ export class MealsService {
       .reduce((acc, meal) => {
         return acc + meal.calories;
       }, 0);
-    this.todaysCaloriesChanged.next(this.todaysCalories);
+    console.log(this.todaysCalories);
+    return this.todaysCalories;
   }
 }

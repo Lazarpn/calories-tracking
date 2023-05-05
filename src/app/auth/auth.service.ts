@@ -53,6 +53,7 @@ export class AuthService {
   }
 
   signIn(email: string, password: string) {
+    console.log('radi ovde');
     return this.http
       .post<AuthResponseData>(this.url + '/Account/login', {
         email: email,
@@ -147,11 +148,11 @@ export class AuthService {
   }
 
   private handleLogin(email: string, userId: string, token: string) {
-    // Retrieve first and last name
     this.userId = userId;
-
     const parsedToken = this.parseJwt(token);
     const expirationTime = new Date(Date.now() + parsedToken.exp).getTime();
+
+    console.log(parsedToken, expirationTime);
 
     this.http
       .get<User>(this.url + `/Account/${email}`)

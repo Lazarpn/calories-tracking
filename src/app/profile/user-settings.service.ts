@@ -10,11 +10,8 @@ import { environment } from 'src/environments/environment';
 })
 export class UserSettingsService {
   url: string = environment.url + '/api';
-  userInfoChanged = new Subject<{}>();
-  userPhotoChanged = new Subject<any>();
+  preferenceCaloriesChanged = new Subject<number>();
   userPhoto: any;
-  caloriesPreference: boolean;
-  preferenceCalories: number;
 
   constructor(
     private dataStorageService: DataStorageService,
@@ -40,13 +37,14 @@ export class UserSettingsService {
     const user: User = JSON.parse(localStorage.getItem('userData'));
     user.caloriesPreference = caloriesPreference;
     localStorage.setItem('userData', JSON.stringify(user));
-
     this.http
       .put(this.url + `/Account/calories/${id}`, {
         id: id,
         caloriesPreference: caloriesPreference,
       })
-      .subscribe((res) => {});
+      .subscribe((res) => {
+        this.preferenceCaloriesChanged.next(caloriesPreference);
+      });
   }
 
   uploadPhoto(base64) {

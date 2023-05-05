@@ -3,6 +3,7 @@ import { UserSettingsService } from '../../../profile/user-settings.service';
 import { Subscription } from 'rxjs';
 import { MealsService } from '../../meals.service';
 import { Filter } from '../filter.model';
+import { User } from 'src/app/auth/user.model';
 
 @Component({
   selector: 'app-meal-expected-calories',
@@ -22,14 +23,24 @@ export class MealExpectedCaloriesComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    const user: User = JSON.parse(localStorage.getItem('userData'));
+    if (user.caloriesPreference) {
+      this.caloriesPreferenceApplied = true;
+      this.preferenceCalories = user.caloriesPreference;
+    }
+    this.caloriesHad = this.mealsService.getTodaysCalories();
+
+    this.userSettings.preferenceCaloriesChanged.subscribe(
+      (calories: number) => {
+        this.caloriesPreferenceApplied = true;
+        this.preferenceCalories = calories;
+      }
+    );
+
     this.mealsService.todaysCaloriesChanged.subscribe((calories: number) => {
       this.caloriesHad = calories;
       this.calculateCalories();
     });
-
-    this.caloriesPreferenceApplied = this.userSettings.caloriesPreference;
-    this.preferenceCalories = this.userSettings.preferenceCalories;
-    this.mealsService.getTodaysCalories();
   }
 
   calculateCalories() {
