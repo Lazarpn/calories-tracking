@@ -1,9 +1,17 @@
+@import "/src/styles.scss";
 .meal-list {
   display: flex;
   justify-content: center;
+  @include respond(tab-land) {
+    flex-direction: column;
+  }
 }
 
 .meals {
+  @include respond(tab-land) {
+    padding: 0 30px;
+    width: 100%;
+  }
 }
 
 .meals-advanced {
@@ -11,6 +19,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @include respond(tab-land) {
+    order: -1;
+    margin-left: 0;
+  }
 }
 
 .button-add {
@@ -28,4 +41,8 @@
   bottom: 10%;
   right: 5%;
   cursor: pointer;
+
+  @include respond(tab-land) {
+    top: 10%;
+  }
 }

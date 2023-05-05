@@ -66,9 +66,9 @@ export class AuthComponent implements OnInit {
 
     authObs.subscribe(
       (responseData) => {
+        console.log('ipak ja');
         this.isLoading = false;
         this.router.navigate(['/meals/meal-list']);
-        console.log('ipak ja');
       },
       (errorMessage) => {
         this.error = errorMessage;
