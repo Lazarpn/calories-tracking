@@ -1,88 +1,65 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { DataStorageService } from '../shared/data-storage.service';
+import { User } from '../auth/user.model';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserSettingsService {
-  caloriesPreferenceChanged = new Subject<{
-    preferenceApplied: boolean;
-    caloriesNumber?: number;
-  }>();
+  url: string = environment.url + '/api';
   userInfoChanged = new Subject<{}>();
   userPhotoChanged = new Subject<any>();
   userPhoto: any;
   caloriesPreference: boolean;
   preferenceCalories: number;
-  name: string;
-  surname: string;
-  constructor(private dataStorageService: DataStorageService) {}
 
-  onChangeCaloriesPreference(preference: boolean, calories?: number) {
-    this.caloriesPreference = preference;
-    this.preferenceCalories = calories;
-    this.caloriesPreferenceChanged.next({
-      preferenceApplied: this.caloriesPreference,
-      caloriesNumber: this.preferenceCalories,
-    });
+  constructor(
+    private dataStorageService: DataStorageService,
+    private http: HttpClient
+  ) {}
+
+  changeUserInfo(firstName: string, lastName: string) {
+    const user: User = JSON.parse(localStorage.getItem('userData'));
+    user.firstName = firstName;
+    user.lastName = lastName;
+    localStorage.setItem('userData', JSON.stringify(user));
+
+    this.http
+      .put(this.url + `/Account/${user.id}`, {
+        id: user.id,
+        firstName: firstName,
+        lastName: lastName,
+      })
+      .subscribe((res) => {});
   }
 
-  onSetUserInfo(name: string, surname: string) {
-    this.name = name;
-    this.surname = surname;
-    // this.dataStorageService.storeUserInfo({
-    //   name: this.name,
-    //   surname: this.surname,
-    // });
+  changeCalories(id: string, caloriesPreference: number) {
+    const user: User = JSON.parse(localStorage.getItem('userData'));
+    user.caloriesPreference = caloriesPreference;
+    localStorage.setItem('userData', JSON.stringify(user));
+
+    this.http
+      .put(this.url + `/Account/calories/${id}`, {
+        id: id,
+        caloriesPreference: caloriesPreference,
+      })
+      .subscribe((res) => {});
   }
 
-  onGetUserInfo() {
-    // this.dataStorageService
-    //   .getUserInfo()
-    //   .subscribe((userInfo: { name: string; surname: string }) => {
-    //     this.name = userInfo.name;
-    //     this.surname = userInfo.surname;
-    //     this.userInfoChanged.next({
-    //       name: this.name,
-    //       surname: this.surname,
-    //     });
-    //   });
-  }
-
-  onSetUserSettings() {
-    // this.dataStorageService.storeUserSettings({
-    //   caloriesPreferenceApplied: this.caloriesPreference,
-    //   caloriesNumber: this.preferenceCalories,
-    // });
-  }
-
-  onGetUserSettings() {
-    // this.dataStorageService
-    //   .getUserSettings()
-    //   .subscribe(
-    //     (settings: {
-    //       caloriesPreferenceApplied: boolean;
-    //       caloriesNumber: number;
-    //     }) => {
-    //       this.caloriesPreference = settings.caloriesPreferenceApplied;
-    //       this.preferenceCalories = settings.caloriesNumber;
-    //       this.caloriesPreferenceChanged.next({
-    //         preferenceApplied: this.caloriesPreference,
-    //         caloriesNumber: this.preferenceCalories,
-    //       });
-    //     }
-    //   );
-  }
-
-  onStoreUserPhoto(photo) {
-    // this.dataStorageService.storeUserPhoto(photo);
-  }
-
-  onGetUserPhoto() {
-    // this.dataStorageService.getUserPhoto().subscribe((photo) => {
-    //   this.userPhoto = photo;
-    //   this.userPhotoChanged.next(photo);
-    // });
+  uploadPhoto(base64) {
+    const user: User = JSON.parse(localStorage.getItem('userData'));
+    user.userPhoto = base64;
+    localStorage.setItem('userData', JSON.stringify(user));
+    this.http
+      .put(this.url + `/Account/photo/${user.id}`, {
+        id: user.id,
+        userPhoto: base64,
+      })
+      .subscribe((res) => {
+        console.log('ord');
+      });
   }
 }

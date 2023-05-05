@@ -72,17 +72,23 @@ export class AuthService {
       id: string;
       name: string;
       surname: string;
+      caloriesPreference?: number;
+      userPhoto: any;
       _token: string;
       _tokenExpirationDate: string;
     } = JSON.parse(localStorage.getItem('userData'));
     if (!userData) {
       return;
     }
+
+    console.log(userData);
     const loadedUser = new User(
       userData.email,
       userData.name,
       userData.surname,
       userData.id,
+      userData.caloriesPreference,
+      userData.userPhoto,
       userData._token,
       new Date(userData._tokenExpirationDate)
     );
@@ -129,6 +135,8 @@ export class AuthService {
       firstName,
       lastName,
       userId,
+      null,
+      null,
       token,
       new Date(expirationTime)
     );
@@ -153,6 +161,8 @@ export class AuthService {
           user.firstName,
           user.lastName,
           userId,
+          user.caloriesPreference,
+          user.userPhoto,
           token,
           new Date(expirationTime)
         );

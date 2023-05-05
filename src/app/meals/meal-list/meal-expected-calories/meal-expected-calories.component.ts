@@ -27,14 +27,6 @@ export class MealExpectedCaloriesComponent implements OnInit, OnDestroy {
       this.calculateCalories();
     });
 
-    this.subscription = this.userSettings.caloriesPreferenceChanged.subscribe(
-      (settings: { preferenceApplied: boolean; caloriesNumber: number }) => {
-        this.caloriesPreferenceApplied = settings.preferenceApplied;
-        this.preferenceCalories = settings.caloriesNumber;
-        this.calculateCalories();
-      }
-    );
-
     this.caloriesPreferenceApplied = this.userSettings.caloriesPreference;
     this.preferenceCalories = this.userSettings.preferenceCalories;
     this.mealsService.getTodaysCalories();
@@ -53,7 +45,5 @@ export class MealExpectedCaloriesComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
+  ngOnDestroy(): void {}
 }

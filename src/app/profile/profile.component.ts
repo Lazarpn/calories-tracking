@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  OnDestroy,
+  ElementRef,
+} from '@angular/core';
 import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { UserSettingsService } from './user-settings.service';
@@ -11,11 +17,9 @@ import { Subscription } from 'rxjs';
 })
 export class ProfileComponent implements OnInit, OnDestroy {
   form: FormGroup;
-  imageSrc: SafeUrl = '';
+  imageSrc: any = '';
   isPhotoUploaded: boolean;
   isEditMode: boolean = false;
-  name: string;
-  surname: string;
   userInfoSub: Subscription;
   constructor(
     private sanitizer: DomSanitizer,
@@ -29,37 +33,35 @@ export class ProfileComponent implements OnInit, OnDestroy {
       lastName: new FormControl({ value: userInfo.lastName, disabled: true }),
     });
 
-    //NE ZNAM STA JE OVO
-    this.userInfoSub = this.userSettingsService.userInfoChanged.subscribe(
-      (userInfo: { name: string; surname: string }) => {
-        this.name = userInfo.name;
-        this.surname = userInfo.surname;
-      }
-    );
-
-    this.userSettingsService.userPhotoChanged.subscribe((photo) => {
-      this.imageSrc = photo;
-    });
-    this.userSettingsService.onGetUserPhoto();
-    this.userSettingsService.onGetUserInfo();
-    this.name = this.userSettingsService.name;
-    this.surname = this.userSettingsService.surname;
+    const binaryString = userInfo.userPhoto;
+    this.imageSrc = binaryString;
   }
 
-  onUpload(event) {
+  onUploadPhoto(event) {
+    // console.log(event);
     const uploadedImage = URL.createObjectURL(event.target.files[0]);
     const sanitizedUrl = this.sanitizer.bypassSecurityTrustUrl(uploadedImage);
-    this.userSettingsService.onStoreUserPhoto(sanitizedUrl);
     this.imageSrc = sanitizedUrl;
     this.isPhotoUploaded = true;
+
+    const file: File = event.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      const binaryString = reader.result as string;
+      this.userSettingsService.uploadPhoto(binaryString);
+    };
   }
 
   onInfoConfirm() {
     this.isEditMode = false;
     this.form.get('firstName').disable();
     this.form.get('lastName').disable();
+    const firstName = this.form.get('firstName').value;
+    const lastName = this.form.get('lastName').value;
+
     // NEED LOGIC TO SAVE IT TO THE BACKEND
-    this.userSettingsService.onSetUserInfo(this.name, this.surname);
+    this.userSettingsService.changeUserInfo(firstName, lastName);
   }
 
   onInfoEdit() {
@@ -70,7 +72,5 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   onSubmit() {}
 
-  ngOnDestroy(): void {
-    this.userInfoSub.unsubscribe();
-  }
+  ngOnDestroy(): void {}
 }

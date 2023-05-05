@@ -6,16 +6,10 @@
           <svg class="icon-camera">
             <use xlink:href="/assets/sprite.svg#icon-camera"></use>
           </svg>
-          <img
-            *ngIf="isPhotoUploaded"
-            [src]="imageSrc"
-            alt="User Image"
-            class="image"
-            id="image"
-          />
+          <img [(src)]="imageSrc" alt="User Image" class="image" id="image" />
         </label>
         <input
-          (change)="onUpload($event)"
+          (change)="onUploadPhoto($event)"
           type="file"
           name="photo"
           id="photo"

@@ -51,7 +51,6 @@ export class MealListComponent
     });
 
     this.meals = this.mealsService.getMeals();
-    this.userSettingsService.onGetUserSettings();
   }
 
   onMealAdd() {
@@ -84,6 +83,5 @@ export class MealListComponent
 
   ngOnDestroy(): void {
     // this.subscription.unsubscribe();
-    this.userSub.unsubscribe();
   }
 }
