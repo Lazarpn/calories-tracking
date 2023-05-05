@@ -68,10 +68,6 @@ export class MealListComponent
       hour12: false,
     }).format(date);
 
-    console.log(formatedTime);
-
-    console.log(formatedTime);
-
     // POPRAVITI
     this.mealsService.mealAdd({
       name: '',

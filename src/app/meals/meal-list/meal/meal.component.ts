@@ -28,7 +28,7 @@ export class MealComponent implements OnInit, AfterViewChecked {
   constructor(private mealsService: MealsService) {}
 
   ngOnInit(): void {
-    console.log(this.meal);
+    this.meal;
   }
 
   ngAfterViewChecked(): void {

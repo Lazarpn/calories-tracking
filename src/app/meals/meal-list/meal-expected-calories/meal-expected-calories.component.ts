@@ -23,7 +23,6 @@ export class MealExpectedCaloriesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.mealsService.todaysCaloriesChanged.subscribe((calories: number) => {
-      console.log(calories);
       this.caloriesHad = calories;
       this.calculateCalories();
     });

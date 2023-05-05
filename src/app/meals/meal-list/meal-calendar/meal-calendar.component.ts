@@ -77,7 +77,6 @@ export class MealCalendarComponent implements OnInit, OnDestroy {
       timeEnd: timeEnd,
     };
 
-    console.log(formatedData);
     // Converting data
 
     this.filterApplied.next(formatedData);

@@ -140,26 +140,31 @@ export class AuthService {
 
   private handleLogin(email: string, userId: string, token: string) {
     // Retrieve first and last name
+    this.userId = userId;
+
     const parsedToken = this.parseJwt(token);
     const expirationTime = new Date(Date.now() + parsedToken.exp).getTime();
-    const user = new User(
-      email,
-      null,
-      null,
-      userId,
-      token,
-      new Date(expirationTime)
-    );
 
-    this.user.next(user);
-    this.userId = userId;
-    localStorage.setItem('userData', JSON.stringify(user));
+    this.http
+      .get<User>(this.url + `/Account/${email}`)
+      .subscribe((user: User) => {
+        const newUser = new User(
+          email,
+          user.firstName,
+          user.lastName,
+          userId,
+          token,
+          new Date(expirationTime)
+        );
+        this.user.next(newUser);
+        this.userId = userId;
+        localStorage.setItem('userData', JSON.stringify(newUser));
+      });
   }
 
   private handleAuthentication(email: string, userId: string, token: string) {}
 
   private handleError(errorRes: HttpErrorResponse) {
-    console.log(errorRes);
     let errorMessage = 'An unknown error occured';
     if (!errorRes.error && !errorRes.error.error) {
       return throwError(errorMessage);

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { UserSettingsService } from './user-settings.service';
 import { Subscription } from 'rxjs';
@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit, OnDestroy {
-  @ViewChild('form', { static: true }) form: NgForm;
+  form: FormGroup;
   imageSrc: SafeUrl = '';
   isPhotoUploaded: boolean;
   isEditMode: boolean = false;
@@ -23,6 +23,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    const userInfo = JSON.parse(localStorage.getItem('userData'));
+    this.form = new FormGroup({
+      firstName: new FormControl({ value: userInfo.firstName, disabled: true }),
+      lastName: new FormControl({ value: userInfo.lastName, disabled: true }),
+    });
+
+    //NE ZNAM STA JE OVO
     this.userInfoSub = this.userSettingsService.userInfoChanged.subscribe(
       (userInfo: { name: string; surname: string }) => {
         this.name = userInfo.name;
@@ -43,21 +50,25 @@ export class ProfileComponent implements OnInit, OnDestroy {
     const uploadedImage = URL.createObjectURL(event.target.files[0]);
     const sanitizedUrl = this.sanitizer.bypassSecurityTrustUrl(uploadedImage);
     this.userSettingsService.onStoreUserPhoto(sanitizedUrl);
-    console.log(sanitizedUrl);
     this.imageSrc = sanitizedUrl;
     this.isPhotoUploaded = true;
   }
 
   onInfoConfirm() {
     this.isEditMode = false;
-    this.name = this.form.value.name;
-    this.surname = this.form.value.surname;
+    this.form.get('firstName').disable();
+    this.form.get('lastName').disable();
+    // NEED LOGIC TO SAVE IT TO THE BACKEND
     this.userSettingsService.onSetUserInfo(this.name, this.surname);
   }
 
   onInfoEdit() {
     this.isEditMode = true;
+    this.form.get('firstName').enable();
+    this.form.get('lastName').enable();
   }
+
+  onSubmit() {}
 
   ngOnDestroy(): void {
     this.userInfoSub.unsubscribe();

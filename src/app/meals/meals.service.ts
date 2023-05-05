@@ -29,7 +29,6 @@ export class MealsService {
     const filteredMeals = this.meals.filter((meal) => {
       const mealDate = new Date(meal.date);
       const mealTime = meal.time;
-      // console.log(meal);
 
       // BOTH DATES SET
       if (filter.dateStart != '' && filter.dateEnd != '') {
@@ -190,8 +189,6 @@ export class MealsService {
   getMeals() {
     if (this.meals.length === 0) {
       this.dataStorageService.getMeals().subscribe((meals) => {
-        console.log(meals);
-        console.log('eo zovem');
         if (meals) {
           this.meals = meals;
           this.mealCaloriesNumberUpdate();
@@ -212,7 +209,6 @@ export class MealsService {
 
   mealAdd(meal: Meal) {
     this.dataStorageService.addMeal(meal).subscribe((meal: Meal) => {
-      console.log(meal);
       this.meals.push(meal);
       this.mealsChanged.next(this.meals.slice());
       this.mealCaloriesNumberUpdate();
@@ -230,14 +226,12 @@ export class MealsService {
   }
 
   mealDelete(meal: Meal) {
-    console.log(meal);
     const mealPosition = this.meals.indexOf(meal);
     this.meals.splice(mealPosition, 1);
 
     this.mealCaloriesNumberUpdate();
 
     this.mealsChanged.next(this.meals.slice());
-    console.log(meal);
     this.dataStorageService
       .deleteMeal(meal.id)
       .subscribe((meals: Meal[]) => {});

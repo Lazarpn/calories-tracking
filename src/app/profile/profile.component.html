@@ -1,6 +1,6 @@
 <div class="profile">
   <div class="info">
-    <form class="info__form form" #form="ngForm">
+    <form class="info__form form" [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="form__photo">
         <label for="photo">
           <svg class="icon-camera">
@@ -15,7 +15,6 @@
           />
         </label>
         <input
-          ngModel
           (change)="onUpload($event)"
           type="file"
           name="photo"
@@ -24,21 +23,19 @@
       </div>
 
       <div class="form__user-info">
-        <label for="name">Name</label>
+        <label for="firstName">Name</label>
         <input
-          [disabled]="!isEditMode"
-          [ngModel]="name"
+          formControlName="firstName"
           type="text"
-          name="name"
-          id="name"
+          name="firstName"
+          id="firstName"
         />
-        <label for="surname">Surname</label>
+        <label for="lastName">Surname</label>
         <input
-          [disabled]="!isEditMode"
-          [ngModel]="surname"
+          formControlName="lastName"
           type="text"
-          name="surname"
-          id="surname"
+          name="lastName"
+          id="lastName"
         />
       </div>
 
