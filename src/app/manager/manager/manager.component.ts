@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { UsersService } from '../users.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-manager',
@@ -13,21 +15,18 @@ export class ManagerComponent implements OnInit {
   usersList: any;
   isLoading: boolean = true;
 
-  constructor(private router: Router, private http: HttpClient) {}
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+    private usersService: UsersService
+  ) {}
 
   ngOnInit(): void {
-    this.http
-      .get<{
-        id: string;
-        email: string;
-        firstName: string;
-        lastName: string;
-        caloriesPreference?: number;
-        userPhoto?: string;
-      }>(this.url + '/User/all')
-      .subscribe((users) => {
-        this.usersList = users;
-        this.isLoading = false;
-      });
+    this.usersList = this.usersService.getUsers();
+
+    this.usersService.usersChanged.subscribe((users) => {
+      this.usersList = users;
+      this.isLoading = false;
+    });
   }
 }

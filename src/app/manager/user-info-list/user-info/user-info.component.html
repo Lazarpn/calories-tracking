@@ -4,12 +4,32 @@
   [formGroup]="userForm"
   (ngSubmit)="onSubmit()"
 >
-  <img [src]="user.userPhoto" class="user__image" alt="User-image" />
-  <input formControlName="email" id="email" type="text" />
-  <input formControlName="firstName" type="text" id="firstName" />
-  <input formControlName="lastName" type="text" id="lastName" />
-  <!-- SAME THING WITH formControlName -->
+  <img
+    *ngIf="user.userPhoto"
+    [src]="user.userPhoto"
+    class="user__image"
+    alt="User-image"
+  />
   <input
+    [ngStyle]="{ color: changesSaved === true ? '#fff' : '#2ecc71' }"
+    formControlName="email"
+    id="email"
+    type="text"
+  />
+  <input
+    [ngStyle]="{ color: changesSaved === true ? '#fff' : '#2ecc71' }"
+    formControlName="firstName"
+    type="text"
+    id="firstName"
+  />
+  <input
+    [ngStyle]="{ color: changesSaved === true ? '#fff' : '#2ecc71' }"
+    formControlName="lastName"
+    type="text"
+    id="lastName"
+  />
+  <input
+    [ngStyle]="{ color: changesSaved === true ? '#fff' : '#2ecc71' }"
     [formControlName]="'caloriesPreference'"
     type="text"
     id="caloriesPreference"
