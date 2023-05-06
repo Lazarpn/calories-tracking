@@ -155,7 +155,7 @@ export class AuthService {
     console.log(parsedToken, expirationTime);
 
     this.http
-      .get<User>(this.url + `/Account/${email}`)
+      .get<User>(this.url + `/User/${email}`)
       .subscribe((user: User) => {
         const newUser = new User(
           email,

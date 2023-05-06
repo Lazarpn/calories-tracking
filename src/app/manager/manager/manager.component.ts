@@ -24,7 +24,7 @@ export class ManagerComponent implements OnInit {
         lastName: string;
         caloriesPreference?: number;
         userPhoto?: string;
-      }>(this.url + '/Account/all')
+      }>(this.url + '/User/all')
       .subscribe((users) => {
         this.usersList = users;
         this.isLoading = false;

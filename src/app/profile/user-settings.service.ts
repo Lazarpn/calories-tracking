@@ -25,7 +25,7 @@ export class UserSettingsService {
     localStorage.setItem('userData', JSON.stringify(user));
 
     this.http
-      .put(this.url + `/Account/${user.id}`, {
+      .put(this.url + `/User/${user.id}`, {
         id: user.id,
         firstName: firstName,
         lastName: lastName,
@@ -38,7 +38,7 @@ export class UserSettingsService {
     user.caloriesPreference = caloriesPreference;
     localStorage.setItem('userData', JSON.stringify(user));
     this.http
-      .put(this.url + `/Account/calories/${id}`, {
+      .put(this.url + `/User/calories/${id}`, {
         id: id,
         caloriesPreference: caloriesPreference,
       })
@@ -52,7 +52,7 @@ export class UserSettingsService {
     user.userPhoto = base64;
     localStorage.setItem('userData', JSON.stringify(user));
     this.http
-      .put(this.url + `/Account/photo/${user.id}`, {
+      .put(this.url + `/User/photo/${user.id}`, {
         id: user.id,
         userPhoto: base64,
       })
