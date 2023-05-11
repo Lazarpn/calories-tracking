@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { DataStorageService } from '../shared/data-storage.service';
+import { MealsDataService } from '../meals/meals-data.service';
 import { User } from '../auth/user.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
@@ -14,7 +14,7 @@ export class UserSettingsService {
   userPhoto: any;
 
   constructor(
-    private dataStorageService: DataStorageService,
+    private mealsDataService: MealsDataService,
     private http: HttpClient
   ) {}
 

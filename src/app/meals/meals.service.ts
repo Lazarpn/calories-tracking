@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Meal } from './meal.model';
-import { DataStorageService } from '../shared/data-storage.service';
+import { MealsDataService } from './meals-data.service';
 import { Filter } from './meal-list/filter.model';
 
 @Injectable({ providedIn: 'root' })
@@ -17,7 +17,7 @@ export class MealsService {
   numberOfMeals: number;
   todaysCalories: number;
 
-  constructor(private dataStorageService: DataStorageService) {}
+  constructor(private mealsDataService: MealsDataService) {}
 
   filterMeals(event: Filter) {
     const filter: Filter = event;
@@ -188,7 +188,7 @@ export class MealsService {
 
   getMeals() {
     if (this.meals.length === 0) {
-      this.dataStorageService.getMeals().subscribe((meals) => {
+      this.mealsDataService.getMeals().subscribe((meals) => {
         if (meals) {
           this.meals = meals;
           this.mealCaloriesNumberUpdate();
@@ -209,7 +209,7 @@ export class MealsService {
   }
 
   mealAdd(meal: Meal) {
-    this.dataStorageService.addMeal(meal).subscribe((meal: Meal) => {
+    this.mealsDataService.addMeal(meal).subscribe((meal: Meal) => {
       this.meals.push(meal);
       this.mealsChanged.next(this.meals.slice());
       this.mealCaloriesNumberUpdate();
@@ -223,9 +223,7 @@ export class MealsService {
     this.mealsChanged.next(this.meals.slice());
     this.mealCaloriesNumberUpdate();
 
-    this.dataStorageService
-      .changeMeal(newMeal)
-      .subscribe((meals: Meal[]) => {});
+    this.mealsDataService.changeMeal(newMeal).subscribe((meals: Meal[]) => {});
     this.getTodaysCalories();
     this.todaysCaloriesChanged.next(this.todaysCalories);
   }
@@ -237,9 +235,7 @@ export class MealsService {
     this.mealCaloriesNumberUpdate();
 
     this.mealsChanged.next(this.meals.slice());
-    this.dataStorageService
-      .deleteMeal(meal.id)
-      .subscribe((meals: Meal[]) => {});
+    this.mealsDataService.deleteMeal(meal.id).subscribe((meals: Meal[]) => {});
     this.getTodaysCalories();
     this.todaysCaloriesChanged.next(this.todaysCalories);
   }

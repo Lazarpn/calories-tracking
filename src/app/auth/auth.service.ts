@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 export interface AuthResponseData {
   token: string;
   userId: string;
+  userInfo: any;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -18,17 +19,6 @@ export class AuthService {
   private tokenExpirationTimer: any;
 
   constructor(private http: HttpClient, private router: Router) {}
-
-  // private async getUserInfo(email: string) {
-  //   return await this.http
-  //     .post<AuthResponseData>(this.url + '/Account/register', {
-  //       email: email,
-  //     })
-  //     .subscribe((data) => {
-  //       console.log(data);
-  //       return data;
-  //     });
-  // }
 
   signUp(email: string, password: string, firstName: string, lastName: string) {
     return this.http
@@ -62,7 +52,12 @@ export class AuthService {
       .pipe(
         catchError(this.handleError),
         tap((resData) => {
-          this.handleLogin(email, resData.userId, resData.token);
+          this.handleLogin(
+            email,
+            resData.userId,
+            resData.token,
+            resData.userInfo
+          );
         })
       );
   }
@@ -71,8 +66,8 @@ export class AuthService {
     const userData: {
       email: string;
       id: string;
-      name: string;
-      surname: string;
+      firstName: string;
+      lastName: string;
       caloriesPreference?: number;
       userPhoto: any;
       _token: string;
@@ -82,11 +77,10 @@ export class AuthService {
       return;
     }
 
-    console.log(userData);
     const loadedUser = new User(
       userData.email,
-      userData.name,
-      userData.surname,
+      userData.firstName,
+      userData.lastName,
       userData.id,
       userData.caloriesPreference,
       userData.userPhoto,
@@ -95,9 +89,8 @@ export class AuthService {
     );
 
     if (loadedUser.token) {
+      this.userId = loadedUser.id;
       this.user.next(loadedUser);
-      this.userId = userData.id;
-
       const expirationDuration =
         new Date(userData._tokenExpirationDate).getTime() -
         new Date().getTime();
@@ -121,6 +114,13 @@ export class AuthService {
     this.tokenExpirationTimer = null;
   }
 
+  private handleAuthentication(user: User) {
+    this.userId = user.id;
+    console.log(this.userId);
+    localStorage.setItem('userData', JSON.stringify(user));
+    this.user.next(user);
+  }
+
   private handleRegistration(
     email: string,
     firstName: string,
@@ -141,39 +141,31 @@ export class AuthService {
       token,
       new Date(expirationTime)
     );
-    this.user.next(user);
-    this.userId = userId;
 
-    localStorage.setItem('userData', JSON.stringify(user));
+    this.handleAuthentication(user);
   }
 
-  private handleLogin(email: string, userId: string, token: string) {
-    this.userId = userId;
+  private handleLogin(
+    email: string,
+    userId: string,
+    token: string,
+    userInfo: any
+  ) {
     const parsedToken = this.parseJwt(token);
     const expirationTime = new Date(Date.now() + parsedToken.exp).getTime();
+    const newUser = new User(
+      email,
+      userInfo.firstName,
+      userInfo.lastName,
+      userId,
+      userInfo.caloriesPreference,
+      userInfo.userPhoto,
+      token,
+      new Date(expirationTime)
+    );
 
-    console.log(parsedToken, expirationTime);
-
-    this.http
-      .get<User>(this.url + `/User/${email}`)
-      .subscribe((user: User) => {
-        const newUser = new User(
-          email,
-          user.firstName,
-          user.lastName,
-          userId,
-          user.caloriesPreference,
-          user.userPhoto,
-          token,
-          new Date(expirationTime)
-        );
-        this.user.next(newUser);
-        this.userId = userId;
-        localStorage.setItem('userData', JSON.stringify(newUser));
-      });
+    this.handleAuthentication(newUser);
   }
-
-  private handleAuthentication(email: string, userId: string, token: string) {}
 
   private handleError(errorRes: HttpErrorResponse) {
     let errorMessage = 'An unknown error occured';

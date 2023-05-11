@@ -1,13 +1,13 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Meal } from '../meals/meal.model';
+import { Meal } from './meal.model';
 import { AuthService } from '../auth/auth.service';
 import { exhaustMap, last, take, takeLast } from 'rxjs';
 import { User } from '../auth/user.model';
 import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
-export class DataStorageService {
+export class MealsDataService {
   url: string = environment.url;
   constructor(private http: HttpClient, private authService: AuthService) {}
 
@@ -35,7 +35,6 @@ export class DataStorageService {
   deleteMeal(id: number) {
     return this.http.delete<Meal[]>(this.url + `/Meals/${id}`);
   }
-
   getMeals() {
     const userId = this.authService.userId;
     console.log(userId);

@@ -6,7 +6,7 @@ import { CanDeactivateGuard } from './meals/meal-list/meal/can-deactivate-guard.
 import { MealListComponent } from './meals/meal-list/meal-list.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ProfileSettingsComponent } from './profile/profile-settings/profile-settings.component';
-import { ManagerComponent } from './manager/manager/manager.component';
+import { ManagerComponent } from './manager/manager.component';
 import { Role } from './shared/role';
 
 const routes: Routes = [

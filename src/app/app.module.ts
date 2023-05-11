@@ -16,7 +16,7 @@ import { AuthInterceptorService } from './auth/auth-interceptor.service';
 import { ProfileComponent } from './profile/profile.component';
 import { ProfileSettingsComponent } from './profile/profile-settings/profile-settings.component';
 import { MealExpectedCaloriesComponent } from './meals/meal-list/meal-expected-calories/meal-expected-calories.component';
-import { ManagerComponent } from './manager/manager/manager.component';
+import { ManagerComponent } from './manager/manager.component';
 import { UserInfoListComponent } from './manager/user-info-list/user-info-list.component';
 import { UserInfoComponent } from './manager/user-info-list/user-info/user-info.component';
 
