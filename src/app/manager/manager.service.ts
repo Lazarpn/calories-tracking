@@ -18,11 +18,11 @@ export class ManagerService {
       lastName: string;
       caloriesPreference?: number;
       userPhoto?: string;
-    }>(this.url + '/User/all');
+    }>(this.url + '/UserAdministrator/all');
   }
 
   updateUser(id, firstName, lastName, email, caloriesPreference) {
-    return this.http.put(this.url + `/Account/${id}`, {
+    return this.http.put(this.url + `/UserAdministrator/${id}`, {
       id: id,
       firstName: firstName,
       lastName: lastName,
@@ -32,6 +32,6 @@ export class ManagerService {
   }
 
   deleteUser(email: string) {
-    return this.http.delete(this.url + `/Account/${email}`);
+    return this.http.delete(this.url + `/UserAdministrator/${email}`);
   }
 }
