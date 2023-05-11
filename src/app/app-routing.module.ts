@@ -11,33 +11,8 @@ import { Role } from './shared/role';
 
 const routes: Routes = [
   { path: '', redirectTo: 'auth', pathMatch: 'full' },
-  { path: 'auth', component: AuthComponent },
-  {
-    path: 'manager-auth',
-    component: AuthComponent,
-    data: {
-      role: Role.MANAGER,
-    },
-  },
-  { path: 'manager', component: ManagerComponent },
-  {
-    path: 'profile',
-    component: ProfileComponent,
-    children: [{ path: 'settings', component: ProfileSettingsComponent }],
-  },
-
-  {
-    path: 'meals',
-    component: MealsComponent,
-    // canActivate: [AuthGuard],
-    children: [
-      {
-        path: 'meal-list',
-        component: MealListComponent,
-        canDeactivate: [CanDeactivateGuard],
-      },
-    ],
-  },
+  { path: '*', redirectTo: 'auth' },
+  // TREBA ISPRAVITI
 ];
 
 @NgModule({
