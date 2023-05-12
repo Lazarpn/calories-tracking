@@ -51,16 +51,18 @@
     <button type="submit" class="form__button" [disabled]="!authForm.valid">
       {{ isSignInMode ? "Sign in" : "Sign up" }}
     </button>
-    <p class="form__text">
-      {{
-        isSignInMode
-          ? "Don't have an account? Switch to "
-          : "Already have an account? Switch to "
-      }}
-      <button class="btn-switch" type="button" (click)="onSwitchMode()">
-        {{ isSignInMode ? "Sign up" : "Sign in" }}
-      </button>
-    </p>
+    <ng-container *ngIf="role != 'Administrator'">
+      <p class="form__text">
+        {{
+          isSignInMode
+            ? "Don't have an account? Switch to "
+            : "Already have an account? Switch to "
+        }}
+        <button class="btn-switch" type="button" (click)="onSwitchMode()">
+          {{ isSignInMode ? "Sign up" : "Sign in" }}
+        </button>
+      </p>
+    </ng-container>
   </form>
 
   <div class="auth__error" *ngIf="error">

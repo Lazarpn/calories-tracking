@@ -6,6 +6,7 @@ export class User {
     public firstName: string,
     public lastName: string,
     public id: string,
+    public role: string,
     caloriesPreference: number,
     userPhoto: any,
     private _token: string,

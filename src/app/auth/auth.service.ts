@@ -16,6 +16,7 @@ export class AuthService {
   url: string = environment.url + '/api';
   user = new BehaviorSubject<User>(null);
   userId: string;
+
   private tokenExpirationTimer: any;
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -43,7 +44,6 @@ export class AuthService {
   }
 
   signIn(email: string, password: string) {
-    console.log('radi ovde');
     return this.http
       .post<AuthResponseData>(this.url + '/Account/login', {
         email: email,
@@ -66,6 +66,7 @@ export class AuthService {
     const userData: {
       email: string;
       id: string;
+      role: string;
       firstName: string;
       lastName: string;
       caloriesPreference?: number;
@@ -73,6 +74,7 @@ export class AuthService {
       _token: string;
       _tokenExpirationDate: string;
     } = JSON.parse(localStorage.getItem('userData'));
+    console.log(userData);
     if (!userData) {
       return;
     }
@@ -82,6 +84,7 @@ export class AuthService {
       userData.firstName,
       userData.lastName,
       userData.id,
+      userData.role,
       userData.caloriesPreference,
       userData.userPhoto,
       userData._token,
@@ -136,6 +139,7 @@ export class AuthService {
       firstName,
       lastName,
       userId,
+      parsedToken.role,
       null,
       null,
       token,
@@ -149,8 +153,17 @@ export class AuthService {
     email: string,
     userId: string,
     token: string,
-    userInfo: any
+    userInfo: {
+      id: string;
+      email: string;
+      firstName: string;
+      lastName: string;
+      caloriesPreference?: number;
+      userPhoto?: string;
+      userPhotoByte?: any;
+    }
   ) {
+    // console.log(this.router)
     const parsedToken = this.parseJwt(token);
     const expirationTime = new Date(Date.now() + parsedToken.exp).getTime();
     const newUser = new User(
@@ -158,8 +171,9 @@ export class AuthService {
       userInfo.firstName,
       userInfo.lastName,
       userId,
+      parsedToken.role,
       userInfo.caloriesPreference,
-      userInfo.userPhoto,
+      userInfo.userPhotoByte,
       token,
       new Date(expirationTime)
     );

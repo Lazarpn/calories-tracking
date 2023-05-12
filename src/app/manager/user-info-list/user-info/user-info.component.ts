@@ -10,6 +10,7 @@ import { UsersService } from '../../users.service';
 })
 export class UserInfoComponent implements OnInit {
   @Input() user: any;
+  userImage: any;
   userForm: FormGroup;
   isDisabled: boolean = true;
   changesSaved: boolean = true;
@@ -31,6 +32,8 @@ export class UserInfoComponent implements OnInit {
         disabled: true,
       }),
     });
+
+    this.userImage = atob(this.user.userPhotoByte);
   }
 
   onSubmit() {}
@@ -44,7 +47,7 @@ export class UserInfoComponent implements OnInit {
   }
 
   onUserDelete() {
-    this.usersService.onUserDelete(this.user);
+    this.managerService.deleteUser(this.user.email);
   }
 
   onUserConfirm() {
@@ -59,7 +62,7 @@ export class UserInfoComponent implements OnInit {
     const email = this.userForm.get('email').value;
     const caloriesPreference = this.userForm.get('caloriesPreference').value;
 
-    this.usersService.onUserUpdate(
+    this.managerService.updateUser(
       this.user.id,
       firstName,
       lastName,

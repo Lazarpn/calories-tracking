@@ -8,36 +8,24 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class UsersService {
-  url: string = environment.url + '/api';
-
   users: any;
   usersChanged = new Subject<any>();
 
-  constructor(
-    private managerService: ManagerService,
-    private http: HttpClient
-  ) {}
+  constructor() {}
+
+  setUsers(users) {
+    this.users = users;
+    this.usersChanged.next(users);
+  }
 
   getUsers() {
-    this.managerService.getUsers().subscribe((users) => {
-      this.users = users;
-      this.usersChanged.next(this.users);
-    });
+    return this.users;
   }
 
-  onUserUpdate(id, firstName, lastName, email, caloriesPreference) {
-    this.managerService
-      .updateUser(id, firstName, lastName, email, caloriesPreference)
-      .subscribe((res) => {
-        console.log('uspesno');
-      });
-  }
-
-  onUserDelete(user) {
-    this.managerService.deleteUser(user.email).subscribe((res) => {
-      const userPosition = this.users.indexOf(user);
-      this.users.splice(userPosition, 1);
-      this.usersChanged.next(this.users);
-    });
+  onUserDelete(email) {
+    const user = this.users.find((u) => u.email == email);
+    const userPosition = this.users.indexOf(user);
+    this.users.splice(userPosition, 1);
+    this.usersChanged.next(this.users);
   }
 }

@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { UsersService } from '../users.service';
+import { ManagerService } from '../manager.service';
 
 @Component({
   selector: 'app-user-info-list',
@@ -6,8 +8,27 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./user-info-list.component.scss'],
 })
 export class UserInfoListComponent implements OnInit {
+  isLoading: boolean = true;
   @Input() usersList: any[];
-  constructor() {}
+  constructor(
+    private usersService: UsersService,
+    private managerService: ManagerService
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.usersList = this.usersService.getUsers();
+
+    if (!this.usersList) {
+      this.managerService.getUsers();
+    }
+
+    if (this.usersList) {
+      this.isLoading = false;
+    }
+
+    this.usersService.usersChanged.subscribe((users) => {
+      this.usersList = users;
+      this.isLoading = false;
+    });
+  }
 }

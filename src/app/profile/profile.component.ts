@@ -33,7 +33,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       lastName: new FormControl({ value: userInfo.lastName, disabled: true }),
     });
 
-    const binaryString = userInfo.userPhoto;
+    const binaryString = atob(userInfo.userPhoto);
     this.imageSrc = binaryString;
   }
 
@@ -49,7 +49,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     reader.readAsDataURL(file);
     reader.onload = () => {
       const binaryString = reader.result as string;
-      this.userSettingsService.uploadPhoto(binaryString);
+      const base64 = btoa(binaryString);
+      this.userSettingsService.uploadPhoto(base64);
     };
   }
 

@@ -1,3 +1,9 @@
+<div class="lds-ring" *ngIf="isLoading">
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
 <div class="users-box">
   <app-user-info *ngFor="let user of usersList" [user]="user"></app-user-info>
 </div>
