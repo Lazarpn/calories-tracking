@@ -74,7 +74,6 @@ export class AuthService {
       _token: string;
       _tokenExpirationDate: string;
     } = JSON.parse(localStorage.getItem('userData'));
-    console.log(userData);
     if (!userData) {
       return;
     }
@@ -119,7 +118,6 @@ export class AuthService {
 
   private handleAuthentication(user: User) {
     this.userId = user.id;
-    console.log(this.userId);
     localStorage.setItem('userData', JSON.stringify(user));
     this.user.next(user);
   }
@@ -163,7 +161,6 @@ export class AuthService {
       userPhotoByte?: any;
     }
   ) {
-    // console.log(this.router)
     const parsedToken = this.parseJwt(token);
     const expirationTime = new Date(Date.now() + parsedToken.exp).getTime();
     const newUser = new User(

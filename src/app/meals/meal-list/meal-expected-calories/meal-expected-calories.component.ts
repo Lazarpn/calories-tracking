@@ -23,17 +23,19 @@ export class MealExpectedCaloriesComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.caloriesHad = this.mealsService.getTodaysCalories();
     const user: User = JSON.parse(localStorage.getItem('userData'));
     if (user.caloriesPreference) {
       this.caloriesPreferenceApplied = true;
       this.preferenceCalories = user.caloriesPreference;
+      this.calculateCalories();
     }
-    this.caloriesHad = this.mealsService.getTodaysCalories();
 
     this.userSettings.preferenceCaloriesChanged.subscribe(
       (calories: number) => {
         this.caloriesPreferenceApplied = true;
         this.preferenceCalories = calories;
+        this.calculateCalories();
       }
     );
 
@@ -44,10 +46,7 @@ export class MealExpectedCaloriesComponent implements OnInit, OnDestroy {
   }
 
   calculateCalories() {
-    // FIX THIS
-    // console.log(this.caloriesHad, this.preferenceCalories);
     this.caloriesLeft = this.preferenceCalories - this.caloriesHad;
-    // console.log(this.caloriesLeft);
     if (this.caloriesHad && this.preferenceCalories) {
       this.progressBar = +(
         (this.caloriesHad * 100) /

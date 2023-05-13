@@ -22,7 +22,6 @@ export class ManagerService {
         userPhoto?: string;
       }>(this.url + '/UserAdministrator/all')
       .subscribe((users) => {
-        console.log(users);
         this.usersService.setUsers(users);
       });
   }
@@ -37,7 +36,6 @@ export class ManagerService {
         caloriesPreference: caloriesPreference,
       })
       .subscribe((data) => {
-        console.log(data);
       });
   }
 

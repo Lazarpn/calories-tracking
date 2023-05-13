@@ -253,7 +253,6 @@ export class MealsService {
       .reduce((acc, meal) => {
         return acc + meal.calories;
       }, 0);
-    console.log(this.todaysCalories);
     return this.todaysCalories;
   }
 }

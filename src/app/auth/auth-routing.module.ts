@@ -8,16 +8,6 @@ const routes: Routes = [
   {
     path: 'auth',
     component: AuthComponent,
-    data: {
-      role: Role.USER,
-    },
-  },
-  {
-    path: 'manager-auth',
-    component: AuthComponent,
-    data: {
-      role: Role.MANAGER,
-    },
   },
 ];
 

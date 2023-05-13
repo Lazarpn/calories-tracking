@@ -37,7 +37,6 @@ export class MealsDataService {
   }
   getMeals() {
     const userId = this.authService.userId;
-    console.log(userId);
     return this.http.get<Meal[]>(this.url + `/Meals/meals/${userId}`);
   }
 }

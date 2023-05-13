@@ -1,9 +1,20 @@
 <div class="calories" *ngIf="caloriesPreferenceApplied">
-  <p class="calories__info">
-    Today you had <span>{{ caloriesHad }}</span> calories out of
-    <span>{{ preferenceCalories }}</span
-    >. You have <span>{{ caloriesLeft }}</span> more to go
-  </p>
+  <ng-container *ngIf="caloriesLeft > 0">
+    <p class="calories__info">
+      Today you had <span>{{ caloriesHad }}</span> calories out of
+      <span>{{ preferenceCalories }}</span
+      >. You have <span>{{ caloriesLeft }}</span> more to go
+    </p>
+  </ng-container>
+
+  <ng-container *ngIf="caloriesLeft < 0">
+    <p class="calories__info">
+      Congratulations! You've reached your goal for today! You had
+      <span>{{ caloriesHad }}</span> out of
+      <span>{{ preferenceCalories }}</span> calories
+    </p>
+  </ng-container>
+
   <form class="calories__form form" #form="ngForm">
     <label for="progress">Your progress</label>
     <progress id="progress" max="100" value="{{ progressBar }}"></progress>

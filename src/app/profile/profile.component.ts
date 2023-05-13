@@ -38,7 +38,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   onUploadPhoto(event) {
-    // console.log(event);
     const uploadedImage = URL.createObjectURL(event.target.files[0]);
     const sanitizedUrl = this.sanitizer.bypassSecurityTrustUrl(uploadedImage);
     this.imageSrc = sanitizedUrl;

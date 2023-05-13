@@ -57,8 +57,6 @@ export class UserSettingsService {
         id: user.id,
         userPhoto: base64,
       })
-      .subscribe((res) => {
-        console.log('ord');
-      });
+      .subscribe((res) => {});
   }
 }

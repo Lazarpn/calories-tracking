@@ -17,7 +17,7 @@ import { Subject } from 'rxjs';
   templateUrl: './meal.component.html',
   styleUrls: ['./meal.component.scss'],
 })
-export class MealComponent implements OnInit, AfterViewChecked {
+export class MealComponent implements OnInit {
   @ViewChild('form', { static: true }) mealForm: NgForm;
 
   @Input() meal: Meal;
@@ -29,12 +29,6 @@ export class MealComponent implements OnInit, AfterViewChecked {
 
   ngOnInit(): void {
     this.meal;
-  }
-
-  ngAfterViewChecked(): void {
-    // HAS TO BE FIXED - TOO MANY UNWANTED NUMBER OF SETTINGS
-    // this.mealForm.form.patchValue({ date: this.meal.date });
-    // console.log(this.mealForm.value.date);
   }
 
   onFormSubmit() {}

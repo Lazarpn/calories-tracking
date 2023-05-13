@@ -15,7 +15,6 @@ export class AuthComponent implements OnInit {
   isLoading: boolean = false;
   error: string = null;
   authForm: FormGroup;
-  role: string;
 
   constructor(
     private authService: AuthService,
@@ -24,10 +23,6 @@ export class AuthComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.data.subscribe((roles) => {
-      this.role = roles['role'];
-    });
-
     this.authForm = new FormGroup({
       email: new FormControl(null, [Validators.required, Validators.email]),
       password: new FormControl(null, [
@@ -72,16 +67,9 @@ export class AuthComponent implements OnInit {
 
     authObs.subscribe(
       (responseData) => {
-        console.log(responseData);
         this.isLoading = false;
 
-        if (this.role === Role.USER) {
-          this.router.navigate(['/meals/meal-list']);
-        }
-        if (this.role === Role.MANAGER) {
-          console.log(this.role);
-          this.router.navigate(['/manager/user-list']);
-        }
+        this.router.navigate(['/meals/meal-list']);
       },
       (errorMessage) => {
         this.error = errorMessage;
