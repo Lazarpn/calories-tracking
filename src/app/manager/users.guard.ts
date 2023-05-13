@@ -6,14 +6,14 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { Observable } from 'rxjs';
-import { AuthService } from './auth.service';
-import { User } from './user.model';
+import { Observable, map, take } from 'rxjs';
+import { AuthService } from '../auth/auth.service';
+import { User } from '../auth/user.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthenticatedGuard implements CanActivate {
+export class UsersGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -23,15 +23,15 @@ export class AuthenticatedGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    let isAuth = false;
-    this.authService.user.subscribe((user: User) => {
-      if (user) {
-        isAuth = true;
-      }
-    });
-    if (isAuth) {
-      return this.router.createUrlTree(['/meals/meal-list']);
-    }
-    return true;
+    return this.authService.user.pipe(
+      take(1),
+      map((user) => {
+        const canAccess = user.role === 'Administrator';
+        if (canAccess) {
+          return true;
+        }
+        return this.router.createUrlTree(['/meals/meal-list']);
+      })
+    );
   }
 }
