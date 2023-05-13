@@ -21,6 +21,10 @@ export class ProfileSettingsComponent implements OnInit {
     const userInfo = JSON.parse(localStorage.getItem('userData'));
     this.caloriesPreference = userInfo.caloriesPreference;
   }
+  onInput(event: any) {
+    const input = event.target.value;
+    event.target.value = input.replace(/[^0-9]/g, '');
+  }
 
   onCaloriesEdit() {
     this.isEditMode = true;

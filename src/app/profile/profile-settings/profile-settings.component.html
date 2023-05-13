@@ -5,6 +5,8 @@
       [disabled]="!isEditMode"
       ngModel
       type="number"
+      min="0"
+      (input)="onInput($event)"
       name="caloriesPreference"
       id="caloriesPreference"
       [(ngModel)]="caloriesPreference"
