@@ -27,6 +27,7 @@ export class ManagerService {
   }
 
   updateUser(id, firstName, lastName, email, caloriesPreference) {
+    console.log(id, firstName, lastName, email, caloriesPreference);
     this.http
       .put(this.url + `/UserAdministrator/${id}`, {
         id: id,
@@ -35,8 +36,7 @@ export class ManagerService {
         email: email,
         caloriesPreference: caloriesPreference,
       })
-      .subscribe((data) => {
-      });
+      .subscribe((data) => {});
   }
 
   deleteUser(email: string) {

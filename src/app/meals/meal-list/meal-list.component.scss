@@ -8,9 +8,28 @@
 }
 
 .meals {
+  padding-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   @include respond(tab-land) {
     padding: 0 30px;
     width: 100%;
+    font-size: 20px;
+  }
+
+  @include respond(phone) {
+    padding-bottom: 30px;
+  }
+
+  p {
+    font-size: 30px;
+    text-align: center;
+
+    @include respond(phone) {
+      margin-top: 40px;
+    }
   }
 }
 
@@ -44,5 +63,18 @@
 
   @include respond(tab-land) {
     top: 10%;
+  }
+}
+
+@include respond(phone) {
+  app-meal-calendar {
+    width: 100%;
+    // padding: 15px;
+  }
+  app-meal-expected-calories {
+    width: 100%;
+  }
+  app-meal {
+    width: 95%;
   }
 }

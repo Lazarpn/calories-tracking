@@ -10,24 +10,33 @@
     class="user__image"
     alt="User-image"
   />
+
+  <label for="email">Email:</label>
   <input
     [ngStyle]="{ color: changesSaved === true ? '#fff' : '#2ecc71' }"
     formControlName="email"
     id="email"
     type="text"
   />
+  <label for="firstName">First Name:</label>
+
   <input
     [ngStyle]="{ color: changesSaved === true ? '#fff' : '#2ecc71' }"
     formControlName="firstName"
     type="text"
     id="firstName"
   />
+
+  <label for="lastName">Last Name:</label>
+
   <input
     [ngStyle]="{ color: changesSaved === true ? '#fff' : '#2ecc71' }"
     formControlName="lastName"
     type="text"
     id="lastName"
   />
+  <label for="caloriesPreferencee">Calories Preference:</label>
+
   <input
     [ngStyle]="{ color: changesSaved === true ? '#fff' : '#2ecc71' }"
     [formControlName]="'caloriesPreference'"

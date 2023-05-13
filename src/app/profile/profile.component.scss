@@ -12,7 +12,12 @@
   @include respond(tab-land) {
     width: 90%;
     height: 80%;
+    top: 55%;
     grid-template-columns: 150px 1fr;
+  }
+
+  @include respond(phone) {
+    top: 60%;
   }
 }
 

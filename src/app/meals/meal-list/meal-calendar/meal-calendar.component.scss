@@ -1,16 +1,20 @@
+@import "/src/styles.scss";
+
 .calendar {
   margin-top: 50px;
 
   &__output {
     border-top: 1px solid #2ecc71;
     border-bottom: 1px solid #2ecc71;
-
     margin-top: 40px;
     text-align: center;
+
     p {
       margin-top: 20px;
       margin-bottom: 20px;
-
+      @include respond(phone) {
+        font-size: 18px;
+      }
       span {
         color: #2ecc71;
         border-bottom: 1px solid #2ecc71;
@@ -31,6 +35,16 @@
     justify-content: space-between;
     align-items: center;
 
+    @include respond(phone) {
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    label {
+      font-size: 18px;
+      color: #303030;
+    }
+
     input {
       width: 150px;
       height: 30px;
@@ -45,6 +59,17 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    @include respond(phone) {
+      margin-top: 20px;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    label {
+      font-size: 18px;
+      color: #303030;
+    }
 
     input {
       width: 150px;

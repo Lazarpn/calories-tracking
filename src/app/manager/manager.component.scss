@@ -5,6 +5,6 @@
   position: relative;
 }
 
-app-user-info-list {
-  width: 80%;
+::ng-deep app-user-info-list {
+  width: 85%;
 }

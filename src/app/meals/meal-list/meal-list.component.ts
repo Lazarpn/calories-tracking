@@ -72,6 +72,10 @@ export class MealListComponent
     const meal = new Meal(null, '', 0, formatedDate, formatedTime);
 
     this.mealsService.mealAdd(meal);
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: 'smooth',
+    });
   }
 
   onFilterApplied(event) {

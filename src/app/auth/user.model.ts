@@ -1,5 +1,5 @@
 export class User {
-  caloriesPreference: number = null;
+  caloriesPreference: number = 0;
   userPhoto: any = null;
   constructor(
     public email: string,

@@ -27,6 +27,10 @@
 
 .btn {
   all: unset;
+
+  @include respond(phone) {
+    margin-top: 15px;
+  }
 }
 
 .icon {
