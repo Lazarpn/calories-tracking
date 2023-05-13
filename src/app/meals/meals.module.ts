@@ -7,6 +7,7 @@ import { MealCalendarComponent } from './meal-list/meal-calendar/meal-calendar.c
 import { MealExpectedCaloriesComponent } from './meal-list/meal-expected-calories/meal-expected-calories.component';
 import { FormsModule } from '@angular/forms';
 import { MealsRoutingModule } from './meals-routing.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,6 @@ import { MealsRoutingModule } from './meals-routing.module';
     MealCalendarComponent,
     MealExpectedCaloriesComponent,
   ],
-  imports: [CommonModule, FormsModule, MealsRoutingModule],
+  imports: [CommonModule, SharedModule, FormsModule, MealsRoutingModule],
 })
 export class MealsModule {}

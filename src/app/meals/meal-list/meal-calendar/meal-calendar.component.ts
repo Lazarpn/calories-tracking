@@ -39,9 +39,9 @@ export class MealCalendarComponent implements OnInit, OnDestroy {
     if (unformatedData.dateStart != '') {
       dateStart = new Date(unformatedData.dateStart);
       dateStartFormated = new Intl.DateTimeFormat(navigator.language, {
-        day: '2-digit',
-        month: 'short',
-        year: undefined,
+        // day: '2-digit',
+        // month: 'short',
+        // year: undefined,
       }).format(dateStart);
     } else {
       dateStartFormated = '';
@@ -50,9 +50,9 @@ export class MealCalendarComponent implements OnInit, OnDestroy {
     if (unformatedData.dateEnd != '') {
       dateEnd = new Date(unformatedData.dateEnd);
       dateEndFormated = new Intl.DateTimeFormat(navigator.language, {
-        day: '2-digit',
-        month: 'short',
-        year: undefined,
+        // day: '2-digit',
+        // month: 'short',
+        // year: undefined,
       }).format(dateEnd);
     } else {
       dateEndFormated = '';
@@ -76,8 +76,6 @@ export class MealCalendarComponent implements OnInit, OnDestroy {
       timeStart: timeStart,
       timeEnd: timeEnd,
     };
-
-    // Converting data
 
     this.filterApplied.next(formatedData);
   }

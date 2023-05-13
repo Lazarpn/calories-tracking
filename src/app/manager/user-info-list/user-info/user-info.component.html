@@ -24,6 +24,7 @@
     [ngStyle]="{ color: changesSaved === true ? '#fff' : '#2ecc71' }"
     formControlName="firstName"
     type="text"
+    appNullToEmpty
     id="firstName"
   />
 
@@ -33,6 +34,7 @@
     [ngStyle]="{ color: changesSaved === true ? '#fff' : '#2ecc71' }"
     formControlName="lastName"
     type="text"
+    appNullToEmpty
     id="lastName"
   />
   <label for="caloriesPreferencee">Calories Preference:</label>
@@ -40,7 +42,8 @@
   <input
     [ngStyle]="{ color: changesSaved === true ? '#fff' : '#2ecc71' }"
     [formControlName]="'caloriesPreference'"
-    type="text"
+    type="number"
+    (input)="onInput($event)"
     id="caloriesPreference"
   />
 

@@ -72,11 +72,14 @@ export class AuthService {
       caloriesPreference?: number;
       userPhoto: any;
       _token: string;
-      _tokenExpirationDate: string;
+      _tokenExpirationDate: Date;
     } = JSON.parse(localStorage.getItem('userData'));
     if (!userData) {
       return;
     }
+
+    console.log(userData._tokenExpirationDate);
+
     const loadedUser = new User(
       userData.email,
       userData.firstName,
@@ -118,6 +121,9 @@ export class AuthService {
     this.userId = user.id;
     localStorage.setItem('userData', JSON.stringify(user));
     this.user.next(user);
+    const expirationDuration =
+      new Date(user._tokenExpirationDate).getTime() - new Date().getTime();
+    this.autoSignOut(expirationDuration);
   }
 
   private handleRegistration(
@@ -129,7 +135,8 @@ export class AuthService {
   ) {
     // CALCULATE TIMEOUT
     const parsedToken = this.parseJwt(token);
-    const expirationTime = new Date(Date.now() + parsedToken.exp).getTime();
+    const expirationTime = new Date(Date.now() + 10 * 60 * 1000);
+
     const user = new User(
       email,
       firstName,
@@ -139,7 +146,7 @@ export class AuthService {
       null,
       null,
       token,
-      new Date(expirationTime)
+      expirationTime
     );
 
     this.handleAuthentication(user);
@@ -160,7 +167,7 @@ export class AuthService {
     }
   ) {
     const parsedToken = this.parseJwt(token);
-    const expirationTime = new Date(Date.now() + parsedToken.exp).getTime();
+    const expirationTime = new Date(Date.now() + 10 * 60 * 1000);
     const newUser = new User(
       email,
       userInfo.firstName,
@@ -170,7 +177,7 @@ export class AuthService {
       userInfo.caloriesPreference,
       userInfo.userPhotoByte,
       token,
-      new Date(expirationTime)
+      expirationTime
     );
     this.handleAuthentication(newUser);
   }

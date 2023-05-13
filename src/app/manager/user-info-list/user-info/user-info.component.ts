@@ -50,6 +50,11 @@ export class UserInfoComponent implements OnInit {
     this.managerService.deleteUser(this.user.email);
   }
 
+  onInput(event: any) {
+    const input = event.target.value;
+    event.target.value = input.replace(/[^0-9]/g, '');
+  }
+
   onUserConfirm() {
     this.changesSaved = true;
     this.userForm.get('firstName').disable();
@@ -60,7 +65,11 @@ export class UserInfoComponent implements OnInit {
     const firstName = this.userForm.get('firstName').value;
     const lastName = this.userForm.get('lastName').value;
     const email = this.userForm.get('email').value;
-    const caloriesPreference = this.userForm.get('caloriesPreference').value;
+    let caloriesPreference = this.userForm.get('caloriesPreference').value;
+    if (!caloriesPreference) {
+      this.userForm.controls['caloriesPreference'].setValue(0);
+      caloriesPreference = 0;
+    }
 
     this.managerService.updateUser(
       this.user.id,

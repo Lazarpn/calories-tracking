@@ -13,12 +13,14 @@
         type="text"
         id="mealName"
         name="mealName"
+        appNullToEmpty
         [ngModel]="meal.name"
       />
       <label for="calories">Calories:</label>
       <input
         [disabled]="isDisabled"
         type="number"
+        (input)="onInput($event)"
         id="calories"
         name="calories"
         [ngModel]="meal.calories"
@@ -26,16 +28,21 @@
       <label for="date">Date:</label>
       <input
         [disabled]="isDisabled"
-        type="text"
+        [style]="{ width: '130px' }"
+        type="date"
         id="date"
         name="date"
+        appNullToEmpty
         [ngModel]="meal.date"
       />
 
       <label for="date">Time:</label>
       <input
+        [style]="{ width: '130px' }"
+        type="time"
         [disabled]="isDisabled"
         id="time"
+        appNullToEmpty
         name="time"
         [ngModel]="meal.time"
       />
