@@ -68,13 +68,10 @@ export class MealListComponent
     }).format(date);
 
     // POPRAVITI
-    this.mealsService.mealAdd({
-      name: '',
-      id: null,
-      calories: 0,
-      date: formatedDate,
-      time: formatedTime,
-    });
+
+    const meal = new Meal(null, '', 0, formatedDate, formatedTime);
+
+    this.mealsService.mealAdd(meal);
   }
 
   onFilterApplied(event) {

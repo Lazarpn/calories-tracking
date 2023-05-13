@@ -77,7 +77,6 @@ export class AuthService {
     if (!userData) {
       return;
     }
-
     const loadedUser = new User(
       userData.email,
       userData.firstName,
@@ -89,7 +88,6 @@ export class AuthService {
       userData._token,
       new Date(userData._tokenExpirationDate)
     );
-
     if (loadedUser.token) {
       this.userId = loadedUser.id;
       this.user.next(loadedUser);
@@ -174,7 +172,6 @@ export class AuthService {
       token,
       new Date(expirationTime)
     );
-
     this.handleAuthentication(newUser);
   }
 

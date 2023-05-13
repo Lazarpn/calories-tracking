@@ -27,9 +27,7 @@ export class MealComponent implements OnInit {
   @Output() changesSavedInfo = new Subject<boolean>();
   constructor(private mealsService: MealsService) {}
 
-  ngOnInit(): void {
-    this.meal;
-  }
+  ngOnInit(): void {}
 
   onFormSubmit() {}
 
