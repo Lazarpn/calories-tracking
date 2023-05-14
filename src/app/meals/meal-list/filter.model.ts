@@ -1,12 +1,12 @@
 export class Filter {
-  public dateStart: string;
-  public dateEnd: string;
+  public dateStart: Date | '';
+  public dateEnd: Date | '';
   public timeStart: string;
   public timeEnd: string;
 
   constructor(
-    dateStart: string,
-    dateEnd: string,
+    dateStart: Date | '',
+    dateEnd: Date | '',
     timeStart: string,
     timeEnd: string
   ) {

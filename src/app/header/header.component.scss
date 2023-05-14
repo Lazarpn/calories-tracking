@@ -11,7 +11,7 @@
   background-color: #2ecc71;
 
   @include respond(phone) {
-    padding-top: 20px;
+    padding-top: 15px;
     height: auto;
   }
 

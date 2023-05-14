@@ -31,11 +31,10 @@ export class MealComponent implements OnInit {
 
   ngOnInit(): void {
     // FIX
-    const receivedDate = new Date(this.meal.date);
-    receivedDate.setHours(receivedDate.getHours() + 2);
-    this.date = new Date(receivedDate).toISOString().split('T')[0];
-    const hours = new Date(receivedDate).getHours();
-    const minutes = new Date(receivedDate).getMinutes();
+    this.meal.date = new Date(this.meal.date + 'Z');
+    this.date = this.meal.date.toISOString().split('T')[0];
+    const hours = this.meal.date.getHours();
+    const minutes = this.meal.date.getMinutes();
     this.time = `${hours}:${minutes}`;
   }
 
@@ -54,9 +53,9 @@ export class MealComponent implements OnInit {
     this.isDisabled = true;
     this.meal.name = value.mealName;
     this.meal.calories = value.calories;
-    console.log(value.date);
     const time = value.time.split(':');
     this.meal.date = new Date(new Date(value.date).setHours(time[0], time[1]));
+    console.log(this.meal.date);
 
     // const dateFormated = new Intl.DateTimeFormat(navigator.language, {
     //   day: '2-digit',

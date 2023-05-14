@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 import { Meal } from './meal.model';
 import { MealsDataService } from './meals-data.service';
 import { Filter } from './meal-list/filter.model';
+import { FilterService } from '../shared/filter.service';
 
 @Injectable({ providedIn: 'root' })
 export class MealsService {
@@ -17,165 +18,16 @@ export class MealsService {
   numberOfMeals: number;
   todaysCalories: number;
 
-  constructor(private mealsDataService: MealsDataService) {}
+  constructor(
+    private mealsDataService: MealsDataService,
+    private filterService: FilterService
+  ) {}
 
-  filterMeals(event: Filter) {
-    console.log(event);
-    const filter: Filter = event;
-    const formatedDateStart = new Date(filter.dateStart);
-    const formatedDateEnd = new Date(filter.dateEnd);
-    const formatedTimeStart = filter.timeStart;
-    const formatedTimeEnd = filter.timeEnd;
-
-    const filteredMeals = this.meals.filter((meal) => {
-      const mealDate = new Date(meal.date);
-      // FIX
-      const hours = new Date(mealDate).getHours();
-      const minutes = new Date(mealDate).getMinutes();
-      const mealTime = `${hours}:${minutes}`;
-
-      // BOTH DATES SET
-      if (filter.dateStart != '' && filter.dateEnd != '') {
-        // BOTH TIMES SET
-        if (filter.timeStart != '' && filter.timeEnd != '') {
-          const answer =
-            mealDate >= formatedDateStart &&
-            mealDate <= formatedDateEnd &&
-            mealTime >= formatedTimeStart &&
-            mealTime <= formatedTimeEnd;
-          return answer;
-        }
-
-        // ONLY TIME START SET
-        if (filter.timeStart != '' && filter.timeEnd === '') {
-          const answer =
-            mealDate >= formatedDateStart &&
-            mealDate <= formatedDateEnd &&
-            mealTime >= formatedTimeStart;
-          return answer;
-        }
-        // ONLY TIME END SET
-        if (filter.timeEnd != '' && filter.timeStart === '') {
-          const answer =
-            mealDate >= formatedDateStart &&
-            mealDate <= formatedDateEnd &&
-            mealTime <= formatedTimeEnd;
-          return answer;
-        }
-        // BOTH TIMES NOT SET
-        if (filter.timeEnd === '' && filter.timeStart === '') {
-          const answer =
-            mealDate >= formatedDateStart && mealDate <= formatedDateEnd;
-          return answer;
-        }
-      }
-
-      // ONLY DATE START SET
-
-      if (filter.dateStart != '' && filter.dateEnd === '') {
-        // BOTH TIMES SET
-        if (filter.timeStart != '' && filter.timeEnd != '') {
-          const answer =
-            mealDate >= formatedDateStart &&
-            mealTime >= formatedTimeStart &&
-            mealTime <= formatedTimeEnd;
-          return answer;
-        }
-
-        // ONLY TIME START SET
-        if (filter.timeStart != '' && filter.timeEnd === '') {
-          const answer =
-            mealDate >= formatedDateStart && mealTime >= formatedTimeStart;
-
-          return answer;
-        }
-        // ONLY TIME END SET
-        if (filter.timeEnd != '' && filter.timeStart === '') {
-          const answer =
-            mealDate >= formatedDateStart && mealTime <= formatedTimeEnd;
-          return answer;
-        }
-        // BOTH TIMES NOT SET
-        if (filter.timeEnd === '' && filter.timeStart === '') {
-          const answer = mealDate >= formatedDateStart;
-          return answer;
-        }
-      }
-
-      // ONLY DATE END SET
-
-      if (filter.dateEnd != '' && filter.dateStart === '') {
-        // BOTH TIMES SET
-        if (filter.timeStart != '' && filter.timeEnd != '') {
-          const answer =
-            mealDate <= formatedDateEnd &&
-            mealTime >= formatedTimeStart &&
-            mealTime <= formatedTimeEnd;
-          return answer;
-        }
-
-        // ONLY TIME START SET
-        if (filter.timeStart != '' && filter.timeEnd === '') {
-          const answer =
-            mealDate <= formatedDateEnd && mealTime >= formatedTimeStart;
-
-          return answer;
-        }
-        // ONLY TIME END SET
-        if (filter.timeEnd != '' && filter.timeStart === '') {
-          const answer =
-            mealDate <= formatedDateEnd && mealTime <= formatedTimeEnd;
-          return answer;
-        }
-        // BOTH TIMES NOT SET
-        if (filter.timeEnd === '' && filter.timeStart === '') {
-          const answer = mealDate <= formatedDateEnd;
-          return answer;
-        }
-      }
-
-      // BOTH DATES NOT SET
-
-      if (filter.dateStart === '' && filter.dateEnd === '') {
-        // BOTH TIMES SET
-        if (filter.timeStart != '' && filter.timeEnd != '') {
-          const answer =
-            mealTime >= formatedTimeStart && mealTime <= formatedTimeEnd;
-          return answer;
-        }
-
-        // ONLY TIME START SET
-        if (filter.timeStart != '' && filter.timeEnd === '') {
-          const answer = mealTime >= formatedTimeStart;
-
-          return answer;
-        }
-        // ONLY TIME END SET
-        if (filter.timeEnd != '' && filter.timeStart === '') {
-          const answer = mealTime <= formatedTimeEnd;
-          return answer;
-        }
-        // BOTH TIMES NOT SET
-        if (filter.timeEnd === '' && filter.timeStart === '') {
-          return true;
-        }
-      }
-
-      return true;
-    });
-
-    if (filteredMeals) {
-      this.numberOfMeals = filteredMeals.length;
-      this.numberOfCalories = filteredMeals.reduce((accumulator, meal) => {
-        return accumulator + meal.calories;
-      }, 0);
-
-      this.numberOfCaloriesMealsChanged.next({
-        numberOfCalories: this.numberOfCalories,
-        numberOfMeals: this.numberOfMeals,
-      });
-    }
-
+  filterMeals(filter: Filter) {
+    const filteredMeals: Meal[] = this.filterService.filterMeals(
+      filter,
+      this.meals.slice()
+    );
     this.mealsChanged.next(filteredMeals);
   }
 
@@ -216,8 +68,10 @@ export class MealsService {
     const meal = new Meal(null, '', 0, new Date());
 
     this.mealsDataService.addMeal(meal).subscribe((meal: Meal) => {
-      console.log(meal);
-      this.meals.push(meal);
+      console.log(meal.date);
+      this.meals.push(
+        new Meal(meal.id, meal.name, meal.calories, new Date(meal.date))
+      );
       this.mealsChanged.next(this.meals.slice());
       this.mealCaloriesNumberUpdate();
       this.getTodaysCalories();
@@ -251,7 +105,14 @@ export class MealsService {
     const date = new Date();
     // FIX
     this.todaysCalories = this.meals
-      .filter((meal) => meal.date === date)
+      .filter((meal) => {
+        const mealDate = new Date(meal.date);
+        return (
+          mealDate.getDate() === date.getDate() &&
+          mealDate.getMonth() === date.getMonth() &&
+          mealDate.getFullYear() === date.getFullYear()
+        );
+      })
       .reduce((acc, meal) => {
         return acc + meal.calories;
       }, 0);

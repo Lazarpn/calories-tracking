@@ -28,56 +28,26 @@ export class MealCalendarComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(form) {
-    // Converting data
-    const unformatedData = form.value;
-    let dateStart;
-    let dateEnd;
-    let dateStartFormated;
-    let dateEndFormated;
-    let timeStart;
-    let timeEnd;
-    if (unformatedData.dateStart != '') {
-      dateStart = new Date(unformatedData.dateStart);
-      dateStartFormated = new Intl.DateTimeFormat(navigator.language, {
-        // day: '2-digit',
-        // month: 'short',
-        // year: undefined,
-      }).format(dateStart);
-    } else {
-      dateStartFormated = '';
+    const dateStart = form.value.dateStart
+      ? new Date(form.value.dateStart)
+      : '';
+    const dateEnd = form.value.dateEnd ? new Date(form.value.dateEnd) : '';
+
+    if (dateEnd < dateStart) {
+      if (dateEnd != '') {
+        alert('Date end must be bigger than Date end!');
+        return;
+      }
     }
 
-    if (unformatedData.dateEnd != '') {
-      dateEnd = new Date(unformatedData.dateEnd);
-      dateEndFormated = new Intl.DateTimeFormat(navigator.language, {
-        // day: '2-digit',
-        // month: 'short',
-        // year: undefined,
-      }).format(dateEnd);
-    } else {
-      dateEndFormated = '';
-    }
+    const filter: Filter = new Filter(
+      dateStart,
+      dateEnd,
+      form.value.timeStart,
+      form.value.timeEnd
+    );
 
-    if (unformatedData.timeStart != '') {
-      timeStart = unformatedData.timeStart;
-    } else {
-      timeStart = '';
-    }
-
-    if (unformatedData.timeEnd != '') {
-      timeEnd = unformatedData.timeEnd;
-    } else {
-      timeEnd = '';
-    }
-
-    const formatedData: Filter = {
-      dateStart: dateStartFormated,
-      dateEnd: dateEndFormated,
-      timeStart: timeStart,
-      timeEnd: timeEnd,
-    };
-
-    this.filterApplied.next(formatedData);
+    this.filterApplied.next(filter);
   }
 
   ngOnDestroy(): void {}

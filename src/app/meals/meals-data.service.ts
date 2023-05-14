@@ -10,6 +10,7 @@ export class MealsDataService {
   constructor(private http: HttpClient, private authService: AuthService) {}
 
   changeMeal(meal: Meal) {
+    console.log(meal);
     return this.http.put<Meal[]>(this.url + `/Meals/meal/${meal.id}`, {
       name: meal.name,
       id: meal.id,
@@ -24,7 +25,7 @@ export class MealsDataService {
       name: 'Obrok',
       calories: meal.calories,
       mealsUserId: userId,
-      date: meal.date.toISOString(),
+      date: meal.date,
     });
   }
 
