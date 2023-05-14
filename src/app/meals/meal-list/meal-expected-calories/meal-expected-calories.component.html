@@ -7,7 +7,7 @@
     </p>
   </ng-container>
 
-  <ng-container *ngIf="caloriesLeft < 0">
+  <ng-container *ngIf="caloriesLeft <= 0">
     <p class="calories__info">
       Congratulations! You've reached your goal for today! You had
       <span>{{ caloriesHad }}</span> out of

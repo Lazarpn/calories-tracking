@@ -21,6 +21,7 @@ export class MealsDataService {
 
   addMeal(meal: Meal) {
     const userId = this.authService.userId;
+    console.log(meal.date);
     return this.http.post<Meal>(this.url + `/Meals`, {
       name: 'Obrok',
       calories: meal.calories,

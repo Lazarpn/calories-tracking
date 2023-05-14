@@ -44,11 +44,39 @@ export class FilterService {
       }
 
       if (filter.dateStart && !filter.dateEnd) {
-        return meal.date >= filter.dateStart;
+        if (filter.timeEnd) {
+          return (
+            meal.date >= filter.dateEnd &&
+            mealTime <= filter.timeEnd &&
+            mealTime >= filter.timeStart
+          );
+        }
+        return meal.date >= filter.dateStart && mealTime >= filter.timeStart;
       }
 
       if (filter.dateEnd && !filter.dateStart) {
-        return meal.date <= filter.dateEnd;
+        if (filter.timeStart) {
+          return (
+            meal.date <= filter.dateEnd &&
+            mealTime >= filter.timeStart &&
+            mealTime <= filter.timeEnd
+          );
+        }
+        return meal.date <= filter.dateEnd && mealTime <= filter.timeEnd;
+      }
+
+      if (!filter.dateStart && !filter.dateEnd) {
+        if (filter.timeStart && filter.timeEnd) {
+          return mealTime > filter.timeStart && mealTime < filter.timeEnd;
+        }
+
+        if (filter.timeStart) {
+          return mealTime > filter.timeStart;
+        }
+
+        if (filter.timeEnd) {
+          return mealTime < filter.timeEnd;
+        }
       }
 
       return meal;

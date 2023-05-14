@@ -30,8 +30,8 @@ export class MealComponent implements OnInit {
   constructor(private mealsService: MealsService) {}
 
   ngOnInit(): void {
-    // FIX
-    this.meal.date = new Date(this.meal.date + 'Z');
+    this.meal.date = new Date(this.meal.date);
+    console.log(this.meal.date);
     this.date = this.meal.date.toISOString().split('T')[0];
     const hours = this.meal.date.getHours();
     const minutes = this.meal.date.getMinutes();

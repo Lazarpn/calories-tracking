@@ -72,6 +72,9 @@
   fill: var(--color-green-primary);
   outline: 1px solid #2ecc71;
   outline-offset: 5px;
+  @include respond(tab-port) {
+    margin-right: 0;
+  }
 }
 
 .display-none {
