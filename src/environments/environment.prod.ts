@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  url: 'https://caloriestrackingapi-rg.azurewebsites.net',
+  url: 'https://calories-tracking-api.azurewebsites.net',
 };
