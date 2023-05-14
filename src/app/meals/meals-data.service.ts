@@ -2,8 +2,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Meal } from './meal.model';
 import { AuthService } from '../auth/auth.service';
-import { exhaustMap, last, take, takeLast } from 'rxjs';
-import { User } from '../auth/user.model';
 import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
@@ -17,7 +15,6 @@ export class MealsDataService {
       id: meal.id,
       calories: meal.calories,
       date: meal.date,
-      time: meal.time,
     });
   }
 
@@ -27,8 +24,7 @@ export class MealsDataService {
       name: 'Obrok',
       calories: meal.calories,
       mealsUserId: userId,
-      date: meal.date,
-      time: meal.time,
+      date: meal.date.toISOString(),
     });
   }
 

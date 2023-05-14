@@ -54,24 +54,21 @@ export class MealListComponent
   }
 
   onMealAdd() {
-    const date = new Date();
-    const formatedDate = new Intl.DateTimeFormat(navigator.language, {
-      day: '2-digit',
-      month: 'short',
-      year: undefined,
-    }).format(date);
+    // const formatedDate = new Intl.DateTimeFormat(navigator.language, {
+    //   day: '2-digit',
+    //   month: 'short',
+    //   year: undefined,
+    // }).format(date);
 
-    const formatedTime = new Intl.DateTimeFormat(navigator.language, {
-      hour: 'numeric',
-      minute: 'numeric',
-      hour12: false,
-    }).format(date);
+    // const formatedTime = new Intl.DateTimeFormat(navigator.language, {
+    //   hour: 'numeric',
+    //   minute: 'numeric',
+    //   hour12: false,
+    // }).format(date);
 
-    // POPRAVITI
+    // // POPRAVITI
 
-    const meal = new Meal(null, '', 0, formatedDate, formatedTime);
-
-    this.mealsService.mealAdd(meal);
+    this.mealsService.mealAdd();
     window.scrollTo({
       top: document.documentElement.scrollHeight,
       behavior: 'smooth',

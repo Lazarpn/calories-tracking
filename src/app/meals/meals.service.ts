@@ -20,6 +20,7 @@ export class MealsService {
   constructor(private mealsDataService: MealsDataService) {}
 
   filterMeals(event: Filter) {
+    console.log(event);
     const filter: Filter = event;
     const formatedDateStart = new Date(filter.dateStart);
     const formatedDateEnd = new Date(filter.dateEnd);
@@ -28,7 +29,10 @@ export class MealsService {
 
     const filteredMeals = this.meals.filter((meal) => {
       const mealDate = new Date(meal.date);
-      const mealTime = meal.time;
+      // FIX
+      const hours = new Date(mealDate).getHours();
+      const minutes = new Date(mealDate).getMinutes();
+      const mealTime = `${hours}:${minutes}`;
 
       // BOTH DATES SET
       if (filter.dateStart != '' && filter.dateEnd != '') {
@@ -208,8 +212,11 @@ export class MealsService {
     return this.meals.indexOf(meal);
   }
 
-  mealAdd(meal: Meal) {
+  mealAdd() {
+    const meal = new Meal(null, '', 0, new Date());
+
     this.mealsDataService.addMeal(meal).subscribe((meal: Meal) => {
+      console.log(meal);
       this.meals.push(meal);
       this.mealsChanged.next(this.meals.slice());
       this.mealCaloriesNumberUpdate();
@@ -242,14 +249,9 @@ export class MealsService {
 
   getTodaysCalories() {
     const date = new Date();
-    const formatedDate = new Intl.DateTimeFormat(navigator.language, {
-      day: '2-digit',
-      month: 'short',
-      year: undefined,
-    }).format(date);
-
+    // FIX
     this.todaysCalories = this.meals
-      .filter((meal) => meal.date === formatedDate)
+      .filter((meal) => meal.date === date)
       .reduce((acc, meal) => {
         return acc + meal.calories;
       }, 0);

@@ -78,8 +78,6 @@ export class AuthService {
       return;
     }
 
-    console.log(userData._tokenExpirationDate);
-
     const loadedUser = new User(
       userData.email,
       userData.firstName,

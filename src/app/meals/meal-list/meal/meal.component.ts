@@ -21,13 +21,23 @@ export class MealComponent implements OnInit {
   @ViewChild('form', { static: true }) mealForm: NgForm;
 
   @Input() meal: Meal;
+  date: string;
+  time: string;
   isDisabled: boolean = true;
   changesSaved: boolean = true;
 
   @Output() changesSavedInfo = new Subject<boolean>();
   constructor(private mealsService: MealsService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // FIX
+    const receivedDate = new Date(this.meal.date);
+    receivedDate.setHours(receivedDate.getHours() + 2);
+    this.date = new Date(receivedDate).toISOString().split('T')[0];
+    const hours = new Date(receivedDate).getHours();
+    const minutes = new Date(receivedDate).getMinutes();
+    this.time = `${hours}:${minutes}`;
+  }
 
   onFormSubmit() {}
 
@@ -44,8 +54,9 @@ export class MealComponent implements OnInit {
     this.isDisabled = true;
     this.meal.name = value.mealName;
     this.meal.calories = value.calories;
-    this.meal.date = value.date;
-    this.meal.time = value.time;
+    console.log(value.date);
+    const time = value.time.split(':');
+    this.meal.date = new Date(new Date(value.date).setHours(time[0], time[1]));
 
     // const dateFormated = new Intl.DateTimeFormat(navigator.language, {
     //   day: '2-digit',
@@ -55,7 +66,6 @@ export class MealComponent implements OnInit {
 
     // this.mealForm.controls['date'].setValue(dateFormated);
 
-    console.log(value.date);
     if (!value.calories) {
       value.calories = this.meal.calories = 0;
     }
