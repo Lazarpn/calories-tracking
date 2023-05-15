@@ -31,7 +31,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       }
     }
   }
-  erorMessage;
+  imageError: boolean = false;
   form: FormGroup;
   imageSrc: string;
   isPhotoUploaded: boolean;
@@ -65,16 +65,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
+      this.imageError = false;
       const binaryString = reader.result as string;
       this.imageSrc = binaryString;
 
-      this.imageEl.nativeElement.onload = () => {
-        console.log('odradjeno');
-      };
-
       this.imageEl.nativeElement.onerror = (error) => {
-        this.erorMessage = error;
-        alert(error);
+        this.imageError = true;
+        alert("We couldn't upload this photo, try another one!");
       };
       const base64 = btoa(binaryString);
 

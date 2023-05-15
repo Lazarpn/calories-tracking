@@ -6,7 +6,13 @@
           <svg class="icon-camera">
             <use xlink:href="/assets/sprite.svg#icon-camera"></use>
           </svg>
-          <img #image [(src)]="imageSrc" class="image" id="image" />
+          <img
+            *ngIf="!imageError"
+            #image
+            [(src)]="imageSrc"
+            class="image"
+            id="image"
+          />
         </label>
         <input
           (change)="onUploadPhoto($event)"
@@ -15,8 +21,6 @@
           id="photo"
         />
       </div>
-
-      {{ erorMessage | json }}
 
       <div class="form__user-info">
         <label for="firstName">Name</label>
