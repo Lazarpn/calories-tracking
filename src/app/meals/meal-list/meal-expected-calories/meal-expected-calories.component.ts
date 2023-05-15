@@ -6,7 +6,7 @@ import { Filter } from '../filter.model';
 import { User } from 'src/app/auth/user.model';
 
 @Component({
-  selector: 'app-meal-expected-calories',
+  selector: 'ct-meal-expected-calories',
   templateUrl: './meal-expected-calories.component.html',
   styleUrls: ['./meal-expected-calories.component.scss'],
 })

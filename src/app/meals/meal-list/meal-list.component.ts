@@ -7,7 +7,7 @@ import { UserSettingsService } from '../../profile/user-settings.service';
 import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
-  selector: 'app-meal-list',
+  selector: 'ct-meal-list',
   templateUrl: './meal-list.component.html',
   styleUrls: ['./meal-list.component.scss'],
 })
@@ -77,8 +77,8 @@ export class MealListComponent
   }
 
   onFilterApplied(event) {
-    // console.log(event);
-    this.filterApplied = true;
+    const isFilterEmpty = Object.values(event).every((value) => value === '');
+    this.filterApplied = !isFilterEmpty;
     this.mealsService.filterMeals(event);
   }
 

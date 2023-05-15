@@ -33,8 +33,6 @@ export class FilterService {
       }
     }
 
-    console.log(filter);
-
     // FINAL DATEEND
 
     filteredMeals = meals.filter((meal: Meal) => {

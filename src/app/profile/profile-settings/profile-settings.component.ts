@@ -4,7 +4,7 @@ import { UserSettingsService } from '../user-settings.service';
 import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
-  selector: 'app-profile-settings',
+  selector: 'ct-profile-settings',
   templateUrl: './profile-settings.component.html',
   styleUrls: ['./profile-settings.component.scss'],
 })

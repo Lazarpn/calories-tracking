@@ -1,0 +1,9 @@
+@import "/src/styles.scss";
+::ng-deep ct-meal-list {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  @include respond(tab-land) {
+    flex-direction: column;
+  }
+}

@@ -4,7 +4,7 @@ import { ManagerService } from '../../manager.service';
 import { UsersService } from '../../users.service';
 
 @Component({
-  selector: 'app-user-info',
+  selector: 'ct-user-info',
   templateUrl: './user-info.component.html',
   styleUrls: ['./user-info.component.scss'],
 })

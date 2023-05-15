@@ -13,7 +13,7 @@
 
   <label for="email">Email:</label>
   <input
-    [ngStyle]="{ color: changesSaved === true ? '#fff' : '#2ecc71' }"
+    [ngStyle]="{ color: changesSaved === true ? '#fff' : '#23b5d3' }"
     formControlName="email"
     id="email"
     type="text"
@@ -21,26 +21,26 @@
   <label for="firstName">First Name:</label>
 
   <input
-    [ngStyle]="{ color: changesSaved === true ? '#fff' : '#2ecc71' }"
+    [ngStyle]="{ color: changesSaved === true ? '#fff' : '#23b5d3' }"
     formControlName="firstName"
     type="text"
-    appNullToEmpty
+    ctNullToEmpty
     id="firstName"
   />
 
   <label for="lastName">Last Name:</label>
 
   <input
-    [ngStyle]="{ color: changesSaved === true ? '#fff' : '#2ecc71' }"
+    [ngStyle]="{ color: changesSaved === true ? '#fff' : '#23b5d3' }"
     formControlName="lastName"
     type="text"
-    appNullToEmpty
+    ctNullToEmpty
     id="lastName"
   />
   <label for="caloriesPreferencee">Calories Preference:</label>
 
   <input
-    [ngStyle]="{ color: changesSaved === true ? '#fff' : '#2ecc71' }"
+    [ngStyle]="{ color: changesSaved === true ? '#fff' : '#23b5d3' }"
     [formControlName]="'caloriesPreference'"
     type="number"
     (input)="onInput($event)"

@@ -2,7 +2,7 @@ import { Directive, HostListener } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
 @Directive({
-  selector: '[appNullToEmpty]',
+  selector: '[ctNullToEmpty]',
 })
 export class NullToEmptyDirective {
   constructor(private control: NgControl) {}

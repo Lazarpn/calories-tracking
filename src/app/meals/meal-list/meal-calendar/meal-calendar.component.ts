@@ -5,7 +5,7 @@ import { Filter } from '../filter.model';
 import { MealsService } from '../../meals.service';
 
 @Component({
-  selector: 'app-meal-calendar',
+  selector: 'ct-meal-calendar',
   templateUrl: './meal-calendar.component.html',
   styleUrls: ['./meal-calendar.component.scss'],
 })

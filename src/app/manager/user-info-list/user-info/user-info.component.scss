@@ -37,6 +37,9 @@
     text-align: center;
     color: #fff;
     border-bottom: 2px solid #fff;
+    width: 150px;
+    &:last-of-type {
+    }
   }
 
   label {

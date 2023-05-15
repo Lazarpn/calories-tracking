@@ -13,7 +13,7 @@ import { MealsService } from '../../meals.service';
 import { Subject } from 'rxjs';
 
 @Component({
-  selector: 'app-meal',
+  selector: 'ct-meal',
   templateUrl: './meal.component.html',
   styleUrls: ['./meal.component.scss'],
 })

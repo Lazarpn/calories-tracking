@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-header',
+  selector: 'ct-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })

@@ -1,15 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-meals',
+  selector: 'ct-meals',
   templateUrl: './meals.component.html',
-  styleUrls: ['./meals.component.scss']
+  styleUrls: ['./meals.component.scss'],
 })
 export class MealsComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

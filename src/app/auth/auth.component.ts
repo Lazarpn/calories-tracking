@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Role } from '../shared/role';
 
 @Component({
-  selector: 'app-auth',
+  selector: 'ct-auth',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss'],
 })

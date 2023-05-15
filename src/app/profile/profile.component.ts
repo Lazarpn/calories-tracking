@@ -4,6 +4,7 @@ import {
   ViewChild,
   OnDestroy,
   ElementRef,
+  HostListener,
 } from '@angular/core';
 import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
@@ -11,16 +12,33 @@ import { UserSettingsService } from './user-settings.service';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-profile',
+  selector: 'ct-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit, OnDestroy {
+  @HostListener('document:keydown.escape', ['$event']) onEscape(
+    event: KeyboardEvent
+  ) {
+    if (this.isEditMode) {
+      const answer = confirm('Do you want to discard changes?');
+      if (answer) {
+        this.isEditMode = false;
+        this.form.get('firstName').disable();
+        this.form.controls['firstName'].setValue(this.beforeEditName);
+        this.form.get('lastName').disable();
+        this.form.controls['lastName'].setValue(this.beforeEditSurname);
+      }
+    }
+  }
+
   form: FormGroup;
   imageSrc: any = '';
   isPhotoUploaded: boolean;
   isEditMode: boolean = false;
   userInfoSub: Subscription;
+  beforeEditName: string;
+  beforeEditSurname: string;
   constructor(
     private sanitizer: DomSanitizer,
     private userSettingsService: UserSettingsService
@@ -68,6 +86,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.isEditMode = true;
     this.form.get('firstName').enable();
     this.form.get('lastName').enable();
+    this.beforeEditName = this.form.get('firstName').value;
+    this.beforeEditSurname = this.form.get('lastName').value;
   }
 
   onSubmit() {}
