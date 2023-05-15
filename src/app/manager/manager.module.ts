@@ -5,9 +5,15 @@ import { UserInfoListComponent } from './user-info-list/user-info-list.component
 import { UserInfoComponent } from './user-info-list/user-info/user-info.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ManagerRoutingModule } from './manager-routing.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [ManagerComponent, UserInfoListComponent, UserInfoComponent],
-  imports: [CommonModule, ReactiveFormsModule, ManagerRoutingModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    ManagerRoutingModule,
+    SharedModule,
+  ],
 })
 export class ManagerModule {}

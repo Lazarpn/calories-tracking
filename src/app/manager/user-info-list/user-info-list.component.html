@@ -1,9 +1,4 @@
-<div class="lds-ring" *ngIf="isLoading">
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-</div>
+<ct-loading-spinner *ngIf="isLoading"></ct-loading-spinner>
 <div class="users-box">
   <ct-user-info *ngFor="let user of usersList" [user]="user"></ct-user-info>
 </div>
