@@ -69,17 +69,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
       const binaryString = reader.result as string;
       this.imageSrc = binaryString;
 
+      this.imageEl.nativeElement.onload = () => {
+        const base64 = btoa(binaryString);
+        this.userSettingsService.uploadPhoto(base64);
+      };
+
       this.imageEl.nativeElement.onerror = (error) => {
         this.imageError = true;
         alert("We couldn't upload this photo, try another one!");
       };
-      const base64 = btoa(binaryString);
-
-      this.userSettingsService.uploadPhoto(base64);
-    };
-
-    reader.onerror = () => {
-      alert('error');
     };
   }
 
