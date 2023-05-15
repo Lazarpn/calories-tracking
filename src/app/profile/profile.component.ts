@@ -66,7 +66,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
     reader.readAsDataURL(file);
     reader.onload = () => {
       const binaryString = reader.result as string;
+      alert('Done');
       this.imageSrc = binaryString;
+      console.log(this.imageSrc);
       const base64 = btoa(binaryString);
 
       this.userSettingsService.uploadPhoto(base64);
