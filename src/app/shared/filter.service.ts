@@ -38,29 +38,72 @@ export class FilterService {
     filteredMeals = meals.filter((meal: Meal) => {
       const mealHours = meal.date.getHours();
       const mealMinutes = meal.date.getMinutes();
-      const mealTime = `${mealHours}:${mealMinutes}`;
+      const mealTime = `${mealHours.toString().padStart(2, '0')}:${mealMinutes
+        .toString()
+        .padStart(2, '0')}`;
       if (filter.dateStart && filter.dateEnd) {
-        return meal.date >= filter.dateStart && meal.date <= filter.dateEnd;
+        if (!filter.timeEnd) {
+          return (
+            meal.date >= filter.dateStart &&
+            meal.date <= filter.dateEnd &&
+            mealTime >= filter.timeStart
+          );
+        }
+
+        if (filter.timeEnd < filter.timeStart) {
+          return (
+            meal.date >= filter.dateStart &&
+            meal.date <= filter.dateEnd &&
+            mealTime >= filter.timeStart &&
+            mealTime >= filter.timeEnd
+          );
+        }
+
+        return (
+          meal.date >= filter.dateStart &&
+          meal.date <= filter.dateEnd &&
+          mealTime >= filter.timeStart &&
+          mealTime <= filter.timeEnd
+        );
       }
 
       if (filter.dateStart && !filter.dateEnd) {
         if (filter.timeEnd) {
+          if (filter.timeEnd < filter.timeStart) {
+            return (
+              meal.date >= filter.dateEnd &&
+              mealTime >= filter.timeEnd &&
+              mealTime >= filter.timeStart
+            );
+          }
           return (
             meal.date >= filter.dateEnd &&
             mealTime <= filter.timeEnd &&
             mealTime >= filter.timeStart
           );
         }
+
         return meal.date >= filter.dateStart && mealTime >= filter.timeStart;
       }
 
       if (filter.dateEnd && !filter.dateStart) {
         if (filter.timeStart) {
+          if (filter.timeEnd < filter.timeStart) {
+            return (
+              meal.date >= filter.dateEnd &&
+              mealTime >= filter.timeEnd &&
+              mealTime >= filter.timeStart
+            );
+          }
           return (
             meal.date <= filter.dateEnd &&
             mealTime >= filter.timeStart &&
             mealTime <= filter.timeEnd
           );
+        }
+
+        if (!filter.timeEnd) {
+          return meal.date <= filter.dateEnd;
         }
         return meal.date <= filter.dateEnd && mealTime <= filter.timeEnd;
       }

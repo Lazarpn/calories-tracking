@@ -45,7 +45,6 @@ export class MealsService {
   getMeals() {
     if (this.meals.length === 0) {
       this.mealsDataService.getMeals().subscribe((meals: Meal[]) => {
-        console.log(meals);
         if (meals) {
           this.meals = meals;
           this.mealCaloriesNumberUpdate();
@@ -69,7 +68,6 @@ export class MealsService {
     const meal = new Meal(null, '', 0, new Date());
 
     this.mealsDataService.addMeal(meal).subscribe((meal: Meal) => {
-      console.log(meal);
       this.meals.push(
         new Meal(meal.id, meal.name, meal.calories, new Date(meal.date))
       );

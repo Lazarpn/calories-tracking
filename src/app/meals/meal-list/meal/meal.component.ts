@@ -30,12 +30,23 @@ export class MealComponent implements OnInit {
   constructor(private mealsService: MealsService) {}
 
   ngOnInit(): void {
-    this.meal.date = new Date(this.meal.date);
-    console.log(this.meal.date);
-    this.date = this.meal.date.toISOString().split('T')[0];
-    const hours = this.meal.date.getHours();
-    const minutes = this.meal.date.getMinutes();
-    this.time = `${hours}:${minutes}`;
+    if (typeof this.meal.date === 'string') {
+      this.meal.date = new Date(this.meal.date + 'Z');
+      this.date = this.meal.date.toISOString().split('T')[0];
+      const hours = this.meal.date.getHours();
+      const minutes = this.meal.date.getMinutes();
+      this.time = `${hours.toString().padStart(2, '0')}:${minutes
+        .toString()
+        .padStart(2, '0')}`;
+    } else {
+      this.meal.date = new Date(this.meal.date);
+      this.date = this.meal.date.toISOString().split('T')[0];
+      const hours = this.meal.date.getHours();
+      const minutes = this.meal.date.getMinutes();
+      this.time = `${hours.toString().padStart(2, '0')}:${minutes
+        .toString()
+        .padStart(2, '0')}`;
+    }
   }
 
   onFormSubmit() {}
@@ -55,7 +66,6 @@ export class MealComponent implements OnInit {
     this.meal.calories = value.calories;
     const time = value.time.split(':');
     this.meal.date = new Date(new Date(value.date).setHours(time[0], time[1]));
-    console.log(this.meal.date);
 
     // const dateFormated = new Intl.DateTimeFormat(navigator.language, {
     //   day: '2-digit',
