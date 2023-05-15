@@ -1,7 +1,7 @@
 @import "/src/styles.scss";
 
 .auth {
-  background-color: #2ecc71;
+  background-color: var(--color-primary);
   position: absolute;
   padding: 20px;
   top: 55%;
@@ -63,7 +63,7 @@
     all: unset;
     cursor: pointer;
     background-color: #fff;
-    color: #2ecc71;
+    color: var(--color-primary);
     border-radius: 50px;
     width: 200px;
     height: 50px;
@@ -83,7 +83,7 @@
 
   &__message {
     text-align: center;
-    color: red;
+    color: rgb(247, 247, 247);
     font-size: 15px;
   }
 }

@@ -8,7 +8,7 @@
   justify-content: center;
   flex-wrap: wrap;
   gap: 20px;
-  background-color: #2ecc71;
+  background-color: var(--color-primary);
 
   @include respond(phone) {
     padding-top: 15px;
@@ -36,7 +36,7 @@
   &__link {
     text-decoration: none;
     cursor: pointer;
-    color: var(--color-green-primary);
+    color: var(--color-primary);
     background-color: #fff;
     padding: 15px;
     border-radius: 10px;
@@ -47,7 +47,7 @@
 
 .button {
   all: unset;
-  color: var(--color-green-primary);
+  color: var(--color-primary);
   background-color: #fff;
   padding: 15px;
   border-radius: 10px;

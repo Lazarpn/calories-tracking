@@ -4,7 +4,7 @@
   width: 820px;
   height: 100px;
   border-radius: 20px;
-  background-color: #2ecc71;
+  background-color: var(--color-primary);
   margin: 50px auto 0 auto;
   display: flex;
   justify-content: space-between;
@@ -93,8 +93,8 @@
   height: 25px;
   border-radius: 50%;
   margin-right: 20px;
-  fill: var(--color-green-primary);
-  outline: 1px solid #2ecc71;
+  fill: var(--color-primary);
+  outline: 1px solid var(--color-primary);
   outline-offset: 5px;
 }
 
@@ -112,7 +112,7 @@
   display: flex;
   justify-content: space-between;
   padding: 20px;
-  border: 1px solid #2ecc71;
+  border: 1px solid var(--color-primary);
 
   @include respond(tab-land) {
     width: 100%;
@@ -128,14 +128,14 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    color: #2ecc71;
+    color: var(--color-primary);
     @include respond(phone) {
       flex-direction: column;
       gap: 25px;
     }
     label {
       font-size: 18px;
-      color: #2ecc71;
+      color: var(--color-primary);
       font-size: 18px;
     }
     input {
@@ -145,8 +145,8 @@
       margin-right: 10px;
       width: 100px;
 
-      color: #2ecc71;
-      border-bottom: 2px solid #2ecc71;
+      color: var(--color-primary);
+      border-bottom: 2px solid var(--color-primary);
       @include respond(phone) {
         width: 150px;
       }

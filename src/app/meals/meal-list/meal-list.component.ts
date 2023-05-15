@@ -14,6 +14,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 export class MealListComponent
   implements OnInit, OnDestroy, CanComponentDeactivate
 {
+  filterApplied: boolean = false;
   meals: Meal[] = [];
   subscription: Subscription;
   userSub: Subscription;
@@ -76,6 +77,8 @@ export class MealListComponent
   }
 
   onFilterApplied(event) {
+    // console.log(event);
+    this.filterApplied = true;
     this.mealsService.filterMeals(event);
   }
 

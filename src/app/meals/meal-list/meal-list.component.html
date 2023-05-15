@@ -5,7 +5,12 @@
       [meal]="mealEl"
       (changesSavedInfo)="onChangesSaved($event)"
     ></app-meal>
-    <p *ngIf="!meals.length">Trenutno nemate nijedan obrok!</p>
+    <p *ngIf="!meals.length && !filterApplied">
+      You don't have any meals currently!
+    </p>
+    <p *ngIf="filterApplied && !meals.length">
+      You don't have meals for a given criteria!
+    </p>
   </div>
   <div class="meals-advanced">
     <app-meal-calendar
