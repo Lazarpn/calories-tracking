@@ -17,9 +17,9 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit, OnDestroy {
-  @HostListener('document:keydown.escape', ['$event']) onEscape(
-    event: KeyboardEvent
-  ) {
+  @ViewChild('image') imageEl: ElementRef;
+  @HostListener('document:keydown.escape', ['$event'])
+  onEscape(event: KeyboardEvent) {
     if (this.isEditMode) {
       const answer = confirm('Do you want to discard changes?');
       if (answer) {
@@ -67,7 +67,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
     reader.onload = () => {
       const binaryString = reader.result as string;
       this.imageSrc = binaryString;
-      console.log(this.imageSrc);
+
+      this.imageEl.nativeElement.onload = () => {
+        console.log('odradjeno');
+      };
+
+      this.imageEl.nativeElement.onerror = (error) => {
+        alert(error);
+      };
       const base64 = btoa(binaryString);
 
       this.userSettingsService.uploadPhoto(base64);
