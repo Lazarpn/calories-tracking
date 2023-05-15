@@ -33,7 +33,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   form: FormGroup;
-  imageSrc: any = '';
+  imageSrc: string;
   isPhotoUploaded: boolean;
   isEditMode: boolean = false;
   userInfoSub: Subscription;
@@ -56,17 +56,19 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   onUploadPhoto(event) {
-    const uploadedImage = URL.createObjectURL(event.target.files[0]);
-    const sanitizedUrl = this.sanitizer.bypassSecurityTrustUrl(uploadedImage);
-    this.imageSrc = sanitizedUrl;
-    this.isPhotoUploaded = true;
+    // const uploadedImage = URL.createObjectURL(event.target.files[0]);
+    // const sanitizedUrl = this.sanitizer.bypassSecurityTrustUrl(uploadedImage);
+    // this.imageSrc = sanitizedUrl;
+    // this.isPhotoUploaded = true;
 
     const file: File = event.target.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
       const binaryString = reader.result as string;
+      this.imageSrc = binaryString;
       const base64 = btoa(binaryString);
+
       this.userSettingsService.uploadPhoto(base64);
     };
   }
