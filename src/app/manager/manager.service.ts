@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { UsersService } from './users.service';
+import { Router } from '@angular/router';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +11,12 @@ import { UsersService } from './users.service';
 export class ManagerService {
   url: string = environment.url + '/api';
 
-  constructor(private http: HttpClient, private usersService: UsersService) {}
+  constructor(
+    private http: HttpClient,
+    private usersService: UsersService,
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   getUsers() {
     this.http
@@ -21,9 +28,17 @@ export class ManagerService {
         caloriesPreference?: number;
         userPhoto?: string;
       }>(this.url + '/UserAdministrator/all')
-      .subscribe((users) => {
-        this.usersService.setUsers(users);
-      });
+      .subscribe(
+        (users) => {
+          this.usersService.setUsers(users);
+        },
+        (error) => {
+          if (error.status === 403) {
+            alert('You are not authorized to access this!');
+            this.authService.signOut();
+          }
+        }
+      );
   }
 
   updateUser(id, firstName, lastName, email, caloriesPreference) {

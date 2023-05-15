@@ -51,7 +51,12 @@ export class UserSettingsService {
     const user: User = JSON.parse(localStorage.getItem('userData'));
     user.userPhoto = base64;
 
-    localStorage.setItem('userData', JSON.stringify(user));
+    try {
+      localStorage.setItem('userData', JSON.stringify(user));
+    } catch {
+      alert('Photo must be below 2.5MB, try another one!');
+    }
+
     this.http
       .put(this.url + `/User/photo/${user.id}`, {
         id: user.id,

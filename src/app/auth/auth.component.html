@@ -28,7 +28,8 @@
       *ngIf="
         !authForm.get('password').valid && authForm.get('password').touched
       "
-      >Please enter a valid password!</span
+      >Password must me at least 6 characters and include one non-alphanumeric
+      character!</span
     >
 
     <ng-container *ngIf="!isSignInMode">

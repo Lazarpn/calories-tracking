@@ -13,9 +13,10 @@ export class FilterService {
     // FINAL DATESTART
     if (filter.dateStart != '') {
       if (filter.timeStart != '') {
-        const time = filter.timeStart.split(':');
-        filter.dateStart = new Date(filter.dateStart.setHours(+time[0]));
-        filter.dateStart = new Date(filter.dateStart.setMinutes(+time[1]));
+        // const time = filter.timeStart.split(':');
+        // filter.dateStart = new Date(filter.dateStart.setHours(+time[0]));
+        // filter.dateStart = new Date(filter.dateStart.setMinutes(+time[1]));
+        filter.dateStart = new Date(filter.dateStart.setHours(0));
       } else {
         filter.dateStart = new Date(filter.dateStart.setHours(0));
       }
@@ -23,9 +24,10 @@ export class FilterService {
 
     if (filter.dateEnd != '') {
       if (filter.timeEnd != '') {
-        const time = filter.timeEnd.split(':');
-        filter.dateEnd = new Date(filter.dateEnd.setHours(+time[0]));
-        filter.dateEnd = new Date(filter.dateEnd.setMinutes(+time[1]));
+        // const time = filter.timeEnd.split(':');
+        // filter.dateEnd = new Date(filter.dateEnd.setHours(+time[0]));
+        // filter.dateEnd = new Date(filter.dateEnd.setMinutes(+time[1]));
+        filter.dateEnd = new Date(filter.dateEnd.setHours(0));
       } else {
         filter.dateEnd = new Date(filter.dateEnd.setHours(0));
       }

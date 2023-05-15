@@ -4,7 +4,7 @@
   background-color: #2ecc71;
   position: absolute;
   padding: 20px;
-  top: 50%;
+  top: 55%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 400px;
@@ -82,6 +82,7 @@
   }
 
   &__message {
+    text-align: center;
     color: red;
     font-size: 15px;
   }
