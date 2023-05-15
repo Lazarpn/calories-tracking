@@ -6,7 +6,12 @@
           <svg class="icon-camera">
             <use xlink:href="/assets/sprite.svg#icon-camera"></use>
           </svg>
-          <img *ngIf="imageSrc" [(src)]="imageSrc" class="image" id="image" />
+          <img
+            *ngIf="imageSrc != ''"
+            [(src)]="imageSrc"
+            class="image"
+            id="image"
+          />
         </label>
         <input
           (change)="onUploadPhoto($event)"
