@@ -28,9 +28,9 @@ export class AuthComponent implements OnInit {
       password: new FormControl(null, [
         Validators.required,
         Validators.minLength(6),
-        // Validators.pattern(
-        //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{6,}$/
-        // ),
+        Validators.pattern(
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{6,}$/
+        ),
       ]),
     });
   }
