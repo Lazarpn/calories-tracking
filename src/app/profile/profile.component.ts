@@ -31,7 +31,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       }
     }
   }
-
+  erorMessage;
   form: FormGroup;
   imageSrc: string;
   isPhotoUploaded: boolean;
@@ -73,6 +73,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       };
 
       this.imageEl.nativeElement.onerror = (error) => {
+        this.erorMessage = error;
         alert(error);
       };
       const base64 = btoa(binaryString);
