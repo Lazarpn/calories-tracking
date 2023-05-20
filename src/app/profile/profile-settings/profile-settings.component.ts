@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { UserSettingsService } from '../user-settings.service';
+import { ProfileService } from '../profile.service';
 import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
@@ -13,7 +13,7 @@ export class ProfileSettingsComponent implements OnInit {
   isEditMode: boolean = false;
   caloriesPreference: number;
   constructor(
-    private userSettingsService: UserSettingsService,
+    private profileService: ProfileService,
     private authService: AuthService
   ) {}
 
@@ -34,6 +34,6 @@ export class ProfileSettingsComponent implements OnInit {
     this.isEditMode = false;
     const userId = this.authService.userId;
     const caloriesPreference = this.form.value.caloriesPreference;
-    this.userSettingsService.changeCalories(userId, caloriesPreference);
+    this.profileService.changeCalories(userId, caloriesPreference);
   }
 }

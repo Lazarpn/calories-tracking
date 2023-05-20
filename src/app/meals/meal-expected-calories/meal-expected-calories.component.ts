@@ -1,8 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { UserSettingsService } from '../../../profile/user-settings.service';
+import { ProfileService } from '../../profile/profile.service';
 import { Subscription } from 'rxjs';
-import { MealsService } from '../../meals.service';
-import { Filter } from '../filter.model';
+import { MealsService } from '../meals.service';
 import { User } from 'src/app/auth/user.model';
 
 @Component({
@@ -12,29 +11,38 @@ import { User } from 'src/app/auth/user.model';
 })
 export class MealExpectedCaloriesComponent implements OnInit, OnDestroy {
   caloriesPreferenceApplied: boolean;
-  preferenceCalories: number;
+  caloriesPreference: number;
   subscription: Subscription;
   progressBar: number;
   caloriesHad: number;
   caloriesLeft: number;
+  numberOfCalories: number;
+  numberOfMeals: number;
   constructor(
-    private userSettings: UserSettingsService,
+    private profileService: ProfileService,
     private mealsService: MealsService
   ) {}
 
   ngOnInit(): void {
+    this.mealsService.numberOfCaloriesMealsChanged.subscribe((changes) => {
+      this.numberOfCalories = changes.numberOfCalories;
+      this.numberOfMeals = changes.numberOfMeals;
+    });
+    this.numberOfCalories = this.mealsService.numberOfCalories;
+    this.numberOfMeals = this.mealsService.numberOfMeals;
+    //////
     this.caloriesHad = this.mealsService.getTodaysCalories();
     const user: User = JSON.parse(localStorage.getItem('userData'));
     if (user.caloriesPreference) {
       this.caloriesPreferenceApplied = true;
-      this.preferenceCalories = user.caloriesPreference;
+      this.caloriesPreference = user.caloriesPreference;
       this.calculateCalories();
     }
 
-    this.userSettings.preferenceCaloriesChanged.subscribe(
+    this.profileService.preferenceCaloriesChanged.subscribe(
       (calories: number) => {
         this.caloriesPreferenceApplied = true;
-        this.preferenceCalories = calories;
+        this.caloriesPreference = calories;
         this.calculateCalories();
       }
     );
@@ -46,11 +54,11 @@ export class MealExpectedCaloriesComponent implements OnInit, OnDestroy {
   }
 
   calculateCalories() {
-    this.caloriesLeft = this.preferenceCalories - this.caloriesHad;
-    if (this.caloriesHad && this.preferenceCalories) {
+    this.caloriesLeft = this.caloriesPreference - this.caloriesHad;
+    if (this.caloriesHad && this.caloriesPreference) {
       this.progressBar = +(
         (this.caloriesHad * 100) /
-        this.preferenceCalories
+        this.caloriesPreference
       ).toFixed(0);
     }
   }

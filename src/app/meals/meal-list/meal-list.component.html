@@ -1,21 +1,5 @@
-<div class="meals">
-  <ct-meal
-    *ngFor="let mealEl of meals"
-    [meal]="mealEl"
-    (changesSavedInfo)="onChangesSaved($event)"
-  ></ct-meal>
-  <p *ngIf="!meals.length && !filterApplied">
-    You don't have any meals currently!
-  </p>
-  <p *ngIf="filterApplied && !meals.length">
-    You don't have meals for a given criteria!
-  </p>
-</div>
-<div class="meals-advanced">
-  <ct-meal-calendar
-    (filterApplied)="onFilterApplied($event)"
-  ></ct-meal-calendar>
-  <ct-meal-expected-calories></ct-meal-expected-calories>
-</div>
-
-<button (click)="onMealAdd()" class="button-add">+</button>
+<ct-meal
+  *ngFor="let mealEl of meals"
+  [meal]="mealEl"
+  (changesSavedInfo)="onChangesSaved($event)"
+></ct-meal>

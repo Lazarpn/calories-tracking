@@ -14,7 +14,6 @@ export class ManagerService {
   constructor(
     private http: HttpClient,
     private usersService: UsersService,
-    private router: Router,
     private authService: AuthService
   ) {}
 
@@ -42,7 +41,6 @@ export class ManagerService {
   }
 
   updateUser(id, firstName, lastName, email, caloriesPreference) {
-    console.log(id, firstName, lastName, email, caloriesPreference);
     this.http
       .put(this.url + `/UserAdministrator/${id}`, {
         id: id,

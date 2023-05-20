@@ -1,1 +1,17 @@
-<router-outlet></router-outlet>
+<div class="meals">
+  <ct-meal-list [meals]="meals" class="meals__list"></ct-meal-list>
+  <p *ngIf="!meals.length && !filterApplied">
+    You don't have any meals currently!
+  </p>
+  <p *ngIf="filterApplied && !meals.length">
+    You don't have meals for a given criteria!
+  </p>
+  <div class="meals__advanced">
+    <ct-meal-calendar
+      (filterApplied)="onFilterApplied($event)"
+    ></ct-meal-calendar>
+    <ct-meal-expected-calories></ct-meal-expected-calories>
+  </div>
+</div>
+
+<button (click)="onMealAdd()" class="button-add">+</button>

@@ -7,7 +7,7 @@ import { UsersGuard } from './users.guard';
 
 const routes: Routes = [
   {
-    path: 'manager',
+    path: '',
     component: ManagerComponent,
     canActivate: [UsersGuard],
     children: [

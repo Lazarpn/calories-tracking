@@ -11,6 +11,7 @@ import { Meal } from '../../meal.model';
 import { EventEmitter } from '@angular/core';
 import { MealsService } from '../../meals.service';
 import { Subject } from 'rxjs';
+import { MealsDataService } from '../../meals-data.service';
 
 @Component({
   selector: 'ct-meal',
@@ -27,7 +28,7 @@ export class MealComponent implements OnInit {
   changesSaved: boolean = true;
 
   @Output() changesSavedInfo = new Subject<boolean>();
-  constructor(private mealsService: MealsService) {}
+  constructor(private mealsDataService: MealsDataService) {}
 
   ngOnInit(): void {
     if (typeof this.meal.date === 'string') {
@@ -60,26 +61,17 @@ export class MealComponent implements OnInit {
     this.changesSaved = true;
     this.changesSavedInfo.next(this.changesSaved);
     const value = this.mealForm.value;
-    const mealId = this.mealsService.getMeal(this.meal);
     this.isDisabled = true;
     this.meal.name = value.mealName;
     this.meal.calories = value.calories;
     const time = value.time.split(':');
     this.meal.date = new Date(new Date(value.date).setHours(time[0], time[1]));
 
-    // const dateFormated = new Intl.DateTimeFormat(navigator.language, {
-    //   day: '2-digit',
-    //   month: 'short',
-    //   year: undefined,
-    // }).format(new Date(value.date));
-
-    // this.mealForm.controls['date'].setValue(dateFormated);
-
     if (!value.calories) {
       value.calories = this.meal.calories = 0;
     }
 
-    this.mealsService.mealUpdate(mealId, this.meal);
+    this.mealsDataService.updateMeal(this.meal);
   }
 
   onMealEdit() {
@@ -89,6 +81,6 @@ export class MealComponent implements OnInit {
   }
 
   onMealDelete() {
-    this.mealsService.mealDelete(this.meal);
+    this.mealsDataService.deleteMeal(this.meal);
   }
 }

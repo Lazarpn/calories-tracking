@@ -70,7 +70,6 @@ export class AuthService {
       firstName: string;
       lastName: string;
       caloriesPreference?: number;
-      userPhoto: any;
       _token: string;
       _tokenExpirationDate: Date;
     } = JSON.parse(localStorage.getItem('userData'));
@@ -85,7 +84,6 @@ export class AuthService {
       userData.id,
       userData.role,
       userData.caloriesPreference,
-      userData.userPhoto,
       userData._token,
       new Date(userData._tokenExpirationDate)
     );
@@ -142,7 +140,6 @@ export class AuthService {
       userId,
       parsedToken.role,
       null,
-      null,
       token,
       expirationTime
     );
@@ -161,7 +158,6 @@ export class AuthService {
       lastName: string;
       caloriesPreference?: number;
       userPhoto?: string;
-      userPhotoByte?: any;
     }
   ) {
     const parsedToken = this.parseJwt(token);
@@ -173,7 +169,6 @@ export class AuthService {
       userId,
       parsedToken.role,
       userInfo.caloriesPreference,
-      userInfo.userPhotoByte,
       token,
       expirationTime
     );

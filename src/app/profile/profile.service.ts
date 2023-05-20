@@ -8,15 +8,13 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root',
 })
-export class UserSettingsService {
+export class ProfileService {
   url: string = environment.url + '/api';
   preferenceCaloriesChanged = new Subject<number>();
-  userPhoto: any;
+  userPhotoChanged = new Subject<any>();
+  userPhoto: string;
 
-  constructor(
-    private mealsDataService: MealsDataService,
-    private http: HttpClient
-  ) {}
+  constructor(private http: HttpClient) {}
 
   changeUserInfo(firstName: string, lastName: string) {
     const user: User = JSON.parse(localStorage.getItem('userData'));
@@ -47,21 +45,32 @@ export class UserSettingsService {
       });
   }
 
+  getPhoto() {
+    return this.userPhoto;
+  }
+
+  fetchPhoto() {
+    const user: User = JSON.parse(localStorage.getItem('userData'));
+    this.http
+      .get(this.url + `/User/photo/${user.id}`)
+      .subscribe((res: { id: string; userPhoto: string }) => {
+        console.log(res);
+        this.userPhotoChanged.next(res.userPhoto);
+      });
+  }
+
   uploadPhoto(base64) {
     const user: User = JSON.parse(localStorage.getItem('userData'));
-    user.userPhoto = base64;
-
-    try {
-      localStorage.setItem('userData', JSON.stringify(user));
-    } catch {
-      alert('Photo must be below 2.5MB, try another one!');
-    }
-
     this.http
       .put(this.url + `/User/photo/${user.id}`, {
         id: user.id,
         userPhoto: base64,
       })
-      .subscribe((res) => {});
+      .subscribe((res) => {
+        console.log(res);
+        // console.log(res.userPhoto);
+        // this.userPhoto = res.userPhoto;
+        // this.userPhotoChanged.next(this.userPhoto);
+      });
   }
 }

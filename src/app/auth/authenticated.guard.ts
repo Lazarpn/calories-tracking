@@ -30,7 +30,7 @@ export class AuthenticatedGuard implements CanActivate {
       }
     });
     if (isAuth) {
-      return this.router.createUrlTree(['/meals/meal-list']);
+      return this.router.createUrlTree(['/meals']);
     }
     return true;
   }

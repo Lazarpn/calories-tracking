@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { UserSettingsService } from './user-settings.service';
+import { ProfileService } from './profile.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -41,7 +41,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   beforeEditSurname: string;
   constructor(
     private sanitizer: DomSanitizer,
-    private userSettingsService: UserSettingsService
+    private profileService: ProfileService
   ) {}
 
   ngOnInit(): void {
@@ -51,16 +51,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
       lastName: new FormControl({ value: userInfo.lastName, disabled: true }),
     });
 
-    const binaryString = atob(userInfo.userPhoto);
-    this.imageSrc = binaryString;
+    this.imageSrc = this.profileService.getPhoto();
+
+    if (!this.imageSrc) {
+      this.profileService.fetchPhoto();
+    }
+
+    this.profileService.userPhotoChanged.subscribe((photo: string) => {
+      this.imageSrc = atob(photo);
+    });
   }
 
   onUploadPhoto(event) {
-    // const uploadedImage = URL.createObjectURL(event.target.files[0]);
-    // const sanitizedUrl = this.sanitizer.bypassSecurityTrustUrl(uploadedImage);
-    // this.imageSrc = sanitizedUrl;
-    // this.isPhotoUploaded = true;
-
     const file: File = event.target.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -68,12 +70,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
       this.imageError = false;
       const binaryString = reader.result as string;
       this.imageSrc = binaryString;
-
       this.imageEl.nativeElement.onload = () => {
         const base64 = btoa(binaryString);
-        this.userSettingsService.uploadPhoto(base64);
+        this.profileService.uploadPhoto(base64);
       };
-
       this.imageEl.nativeElement.onerror = (error) => {
         this.imageError = true;
         alert("We couldn't upload this photo, try another one!");
@@ -89,7 +89,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     const lastName = this.form.get('lastName').value;
 
     // NEED LOGIC TO SAVE IT TO THE BACKEND
-    this.userSettingsService.changeUserInfo(firstName, lastName);
+    this.profileService.changeUserInfo(firstName, lastName);
   }
 
   onInfoEdit() {

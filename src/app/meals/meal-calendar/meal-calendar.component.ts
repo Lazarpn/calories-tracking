@@ -1,8 +1,8 @@
 import { Component, OnInit, Output, ViewChild, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Subject, Subscription } from 'rxjs';
-import { Filter } from '../filter.model';
-import { MealsService } from '../../meals.service';
+import { Filter } from '../meal-list/filter.model';
+import { MealsService } from '../meals.service';
 
 @Component({
   selector: 'ct-meal-calendar',
@@ -12,20 +12,9 @@ import { MealsService } from '../../meals.service';
 export class MealCalendarComponent implements OnInit, OnDestroy {
   @ViewChild('form', { static: true }) calendarForm: NgForm;
   @Output() filterApplied = new Subject<Filter>();
-  constructor(private mealsService: MealsService) {}
-  numberOfCalories: number;
-  numberOfMeals: number;
-  subscription: Subscription;
+  constructor() {}
 
-  ngOnInit(): void {
-    this.mealsService.numberOfCaloriesMealsChanged.subscribe((changes) => {
-      this.numberOfCalories = changes.numberOfCalories;
-      this.numberOfMeals = changes.numberOfMeals;
-    });
-
-    this.numberOfCalories = this.mealsService.numberOfCalories;
-    this.numberOfMeals = this.mealsService.numberOfMeals;
-  }
+  ngOnInit(): void {}
 
   onSubmit(form) {
     const dateStart = form.value.dateStart

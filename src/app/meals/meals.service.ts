@@ -1,27 +1,52 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Meal } from './meal.model';
-import { MealsDataService } from './meals-data.service';
 import { Filter } from './meal-list/filter.model';
 import { FilterService } from '../shared/filter.service';
 
 @Injectable({ providedIn: 'root' })
 export class MealsService {
+  private meals: Meal[] = [];
   mealsChanged = new Subject<Meal[]>();
+  numberOfCalories: number;
+  numberOfMeals: number;
   numberOfCaloriesMealsChanged = new Subject<{
     numberOfCalories: number;
     numberOfMeals: number;
   }>();
-  todaysCaloriesChanged = new Subject<number>();
-  private meals: Meal[] = [];
-  numberOfCalories: number;
-  numberOfMeals: number;
   todaysCalories: number;
+  todaysCaloriesChanged = new Subject<number>();
 
-  constructor(
-    private mealsDataService: MealsDataService,
-    private filterService: FilterService
-  ) {}
+  constructor(private filterService: FilterService) {}
+
+  getMeals() {
+    return this.meals.slice();
+  }
+
+  setMeals(meals: Meal[]) {
+    this.meals = meals;
+    this.updateAllComponents();
+  }
+
+  addMeal(meal: Meal) {
+    this.meals.push(
+      new Meal(meal.id, meal.name, meal.calories, new Date(meal.date))
+    );
+    this.updateAllComponents();
+  }
+
+  updateMeal(newMeal: Meal) {
+    const index = this.meals.indexOf(newMeal);
+    this.meals[index] = newMeal;
+
+    this.updateAllComponents();
+  }
+
+  deleteMeal(meal: Meal) {
+    const mealPosition = this.meals.indexOf(meal);
+    this.meals.splice(mealPosition, 1);
+    this.updateAllComponents();
+  }
 
   filterMeals(filter: Filter) {
     const filteredMeals: Meal[] = this.filterService.filterMeals(
@@ -42,64 +67,6 @@ export class MealsService {
     });
   }
 
-  getMeals() {
-    if (this.meals.length === 0) {
-      this.mealsDataService.getMeals().subscribe((meals: Meal[]) => {
-        if (meals) {
-          this.meals = meals;
-          this.mealCaloriesNumberUpdate();
-          this.getTodaysCalories();
-          this.todaysCaloriesChanged.next(this.todaysCalories);
-          this.mealsChanged.next(this.meals);
-        } else {
-          this.meals = [];
-        }
-      });
-    }
-
-    return this.meals.slice();
-  }
-
-  getMeal(meal: Meal) {
-    return this.meals.indexOf(meal);
-  }
-
-  mealAdd() {
-    const meal = new Meal(null, '', 0, new Date());
-
-    this.mealsDataService.addMeal(meal).subscribe((meal: Meal) => {
-      this.meals.push(
-        new Meal(meal.id, meal.name, meal.calories, new Date(meal.date))
-      );
-      this.mealsChanged.next(this.meals.slice());
-      this.mealCaloriesNumberUpdate();
-      this.getTodaysCalories();
-      this.todaysCaloriesChanged.next(this.todaysCalories);
-    });
-  }
-
-  mealUpdate(index: number, newMeal: Meal) {
-    this.meals[index] = newMeal;
-    this.mealsChanged.next(this.meals.slice());
-    this.mealCaloriesNumberUpdate();
-
-    this.mealsDataService.changeMeal(newMeal).subscribe((meals: Meal[]) => {});
-    this.getTodaysCalories();
-    this.todaysCaloriesChanged.next(this.todaysCalories);
-  }
-
-  mealDelete(meal: Meal) {
-    const mealPosition = this.meals.indexOf(meal);
-    this.meals.splice(mealPosition, 1);
-
-    this.mealCaloriesNumberUpdate();
-
-    this.mealsChanged.next(this.meals.slice());
-    this.mealsDataService.deleteMeal(meal.id).subscribe((meals: Meal[]) => {});
-    this.getTodaysCalories();
-    this.todaysCaloriesChanged.next(this.todaysCalories);
-  }
-
   getTodaysCalories() {
     const date = new Date();
     // FIX
@@ -116,5 +83,12 @@ export class MealsService {
         return acc + meal.calories;
       }, 0);
     return this.todaysCalories;
+  }
+
+  private updateAllComponents() {
+    this.mealCaloriesNumberUpdate();
+    this.mealsChanged.next(this.meals.slice());
+    this.getTodaysCalories();
+    this.todaysCaloriesChanged.next(this.todaysCalories);
   }
 }

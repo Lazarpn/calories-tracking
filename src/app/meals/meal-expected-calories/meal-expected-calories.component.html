@@ -1,3 +1,12 @@
+<div class="calories-output">
+  <p>
+    You had <span>{{ numberOfMeals }}</span>
+    {{ numberOfMeals > 1 || numberOfMeals === 0 ? "meals" : "meal" }} with total
+    of <span>{{ numberOfCalories }}</span>
+    {{ numberOfCalories > 1 || numberOfCalories === 0 ? "calories" : "calory" }}
+  </p>
+</div>
+
 <div class="calories" *ngIf="caloriesPreferenceApplied">
   <ng-container *ngIf="caloriesLeft > 0">
     <p class="calories__info">

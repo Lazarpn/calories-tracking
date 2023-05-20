@@ -1,6 +1,5 @@
 export class User {
   caloriesPreference: number = 0;
-  userPhoto: any = null;
   constructor(
     public email: string,
     public firstName: string,
@@ -8,12 +7,10 @@ export class User {
     public id: string,
     public role: string,
     caloriesPreference: number,
-    userPhoto: any,
     private _token: string,
     public _tokenExpirationDate: Date
   ) {
     this.caloriesPreference = caloriesPreference;
-    this.userPhoto = userPhoto;
   }
 
   get token() {

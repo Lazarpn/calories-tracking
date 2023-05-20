@@ -8,14 +8,14 @@
         <a class="header__link" routerLink="/manager/user-list">All Users</a>
       </li>
       <li class="header__item" *ngIf="isAuthenticated">
-        <a class="header__link" routerLink="/meals/meal-list">Meals</a>
+        <a class="header__link" routerLink="/meals">Meals</a>
       </li>
 
       <li class="header__item" *ngIf="!isAuthenticated">
         <a class="header__link" routerLink="/auth">Authentication</a>
       </li>
       <li class="header__item" *ngIf="isAuthenticated">
-        <a class="header__link" routerLink="/profile">Profile</a>
+        <a class="header__link" routerLink="/profile/settings">Profile</a>
       </li>
     </ul>
   </nav>

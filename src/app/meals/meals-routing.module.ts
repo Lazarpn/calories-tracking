@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { MealsComponent } from './meals.component';
 import { MealListComponent } from './meal-list/meal-list.component';
@@ -8,16 +7,9 @@ import { AuthGuard } from '../auth/auth.guard';
 
 const routes: Routes = [
   {
-    path: 'meals',
+    path: '',
     component: MealsComponent,
     canActivate: [AuthGuard],
-    children: [
-      {
-        path: 'meal-list',
-        component: MealListComponent,
-        canDeactivate: [CanDeactivateGuard],
-      },
-    ],
   },
 ];
 
