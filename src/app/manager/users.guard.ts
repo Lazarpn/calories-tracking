@@ -23,10 +23,10 @@ export class UsersGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return this.authService.user.pipe(
+    return this.authService.userRole.pipe(
       take(1),
-      map((user) => {
-        const canAccess = user.role === 'Administrator';
+      map(userRole => {
+        const canAccess = userRole === 'Administrator';
         if (canAccess) {
           return true;
         }

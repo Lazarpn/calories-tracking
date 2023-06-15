@@ -1,25 +1,19 @@
-<header class="header">
-  <nav class="header__nav">
-    <ul class="header__list">
-      <li
-        class="header__item"
-        *ngIf="isAuthenticated && role === 'Administrator'"
-      >
-        <a class="header__link" routerLink="/manager/user-list">All Users</a>
-      </li>
-      <li class="header__item" *ngIf="isAuthenticated">
-        <a class="header__link" routerLink="/meals">Meals</a>
-      </li>
-
-      <li class="header__item" *ngIf="!isAuthenticated">
-        <a class="header__link" routerLink="/auth">Authentication</a>
-      </li>
-      <li class="header__item" *ngIf="isAuthenticated">
-        <a class="header__link" routerLink="/profile/settings">Profile</a>
-      </li>
-    </ul>
-  </nav>
-  <button class="button" *ngIf="isAuthenticated" (click)="onSignOut()">
-    Sign Out
-  </button>
-</header>
+<nav class="header-nav">
+  <ul class="header-list">
+    <li class="header-item" *ngIf="isAuthenticated && role === 'Administrator'">
+      <a class="header-link" routerLink="/manager/user-list">All Users</a>
+    </li>
+    <li class="header-item" *ngIf="isAuthenticated">
+      <a class="header-link" routerLink="/meals">Meals</a>
+    </li>
+    <li class="header-item" *ngIf="!isAuthenticated">
+      <a class="header-link" routerLink="/auth">Authentication</a>
+    </li>
+    <li class="header-item" *ngIf="isAuthenticated">
+      <a class="header-link" routerLink="/profile/settings">Profile</a>
+    </li>
+  </ul>
+</nav>
+<button class="auth-button" *ngIf="isAuthenticated" (click)="onSignOut()">
+  Sign Out
+</button>

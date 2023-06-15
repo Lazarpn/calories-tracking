@@ -1,6 +1,6 @@
-@import "/src/styles.scss";
+@import '/src/styles.scss';
 
-.header {
+:host {
   height: 80px;
   padding: 10px 20px;
   display: flex;
@@ -19,38 +19,38 @@
     padding-top: 15px;
     height: auto;
   }
-
-  &__nav {
-    display: flex;
-  }
-
-  &__list {
-    display: flex;
-  }
-
-  &__item {
-    list-style: none;
-    margin-left: 15px;
-    transition: all 0.2s;
-  }
-
-  &__item:hover {
-    transform: translateY(-2px);
-  }
-
-  &__link {
-    text-decoration: none;
-    cursor: pointer;
-    color: var(--color-primary);
-    background-color: #fff;
-    padding: 15px;
-    border-radius: 10px;
-    font-size: 18px;
-    display: flex;
-  }
 }
 
-.button {
+.header-nav {
+  display: flex;
+}
+
+.header-list {
+  display: flex;
+}
+
+.header-item {
+  list-style: none;
+  margin-left: 15px;
+  transition: all 0.2s;
+}
+
+.header-item:hover {
+  transform: translateY(-2px);
+}
+
+.header-link {
+  text-decoration: none;
+  cursor: pointer;
+  color: var(--color-primary);
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  font-size: 18px;
+  display: flex;
+}
+
+.auth-button {
   all: unset;
   color: var(--color-primary);
   background-color: #fff;

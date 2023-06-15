@@ -1,12 +1,9 @@
-@import "/src/styles.scss";
+@import '/src/styles.scss';
 
-.auth {
+:host {
+  margin: 100px auto;
   background-color: var(--color-primary);
-  position: absolute;
   padding: 20px;
-  top: 55%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   width: 400px;
   min-height: 400px;
   display: flex;
@@ -18,77 +15,69 @@
     top: 55%;
     width: 280px;
   }
+}
 
-  &__form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: #fff;
-    margin-top: 50px;
-    label {
-      font-size: 18px;
-    }
-    input {
-      all: unset;
-      background-color: #fff;
-      border-radius: 10px;
-      height: 30px;
-      color: rgb(0, 0, 0);
-      padding: 0 10px;
-      margin: 10px 0;
-    }
-  }
-
-  &__input {
-  }
-
-  &__heading {
-    color: #fff;
-
-    font-size: 25px;
-    @include respond(phone) {
-      text-align: center;
-    }
-  }
-
-  &__error {
-    p {
-      color: #ff5252;
-    }
+.auth-heading {
+  color: #fff;
+  font-size: 25px;
+  @include respond(phone) {
+    text-align: center;
   }
 }
 
-.form {
-  &__button {
-    all: unset;
-    cursor: pointer;
-    background-color: #fff;
-    color: var(--color-primary);
-    border-radius: 50px;
-    width: 200px;
-    height: 50px;
-    text-align: center;
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+  margin-top: 50px;
+  label {
     font-size: 18px;
-    transition: all 0.2s;
-    margin-top: 50px;
   }
-
-  &__text {
+  input {
+    all: unset;
+    background-color: #fff;
+    border-radius: 10px;
+    height: 30px;
     color: rgb(0, 0, 0);
-    margin-top: 15px;
-    @include respond(phone) {
-      text-align: center;
-    }
-  }
-
-  &__message {
-    text-align: center;
-    color: #fff;
-    font-size: 15px;
+    padding: 0 10px;
+    margin: 10px 0;
   }
 }
 
-.btn-switch {
+.form-button {
+  all: unset;
+  cursor: pointer;
+  background-color: #fff;
+  color: var(--color-primary);
+  border-radius: 50px;
+  width: 200px;
+  height: 50px;
+  text-align: center;
+  font-size: 18px;
+  transition: all 0.2s;
+  margin-top: 50px;
+}
+
+.form-text {
+  color: rgb(0, 0, 0);
+  margin-top: 15px;
+  @include respond(phone) {
+    text-align: center;
+  }
+}
+
+.form-message {
+  text-align: center;
+  color: #fff;
+  font-size: 15px;
+}
+
+.auth-error {
+  color: #ff5252;
+}
+
+.auth-switch {
   all: unset;
   cursor: pointer;
   color: #fff;

@@ -1,74 +1,79 @@
-<div class="auth" *ngIf="!isLoading">
-  <h2 class="auth__heading">
-    {{ isSignInMode ? "Sign in" : "Sign up" }} to your account
-  </h2>
-  <form class="auth__form form" [formGroup]="authForm" (ngSubmit)="onSubmit()">
-    <label for="email">Email</label>
+<h2 class="auth-heading">
+  {{ isSignInMode ? 'Sign in' : 'Sign up' }} to your account
+</h2>
+<form class="auth-form" [formGroup]="authForm" (ngSubmit)="onSubmit()">
+  <label for="email">Email</label>
+  <input
+    type="email"
+    name="email"
+    placeholder="Enter your email"
+    formControlName="email" />
+  <span
+    class="form-message"
+    *ngIf="!authForm.get('email').valid && authForm.get('email').touched">
+    Please enter a valid email!
+  </span>
+
+  <label for="password">Password</label>
+  <input
+    type="password"
+    name="password"
+    placeholder="Enter your password"
+    formControlName="password" />
+  <span
+    class="form-message"
+    *ngIf="
+      !isSignInMode &&
+      !authForm.get('password').valid &&
+      authForm.get('password').touched
+    ">
+    Password must me at least 6 characters and include one non-alphanumeric
+    character!
+  </span>
+
+  <ng-container *ngIf="!isSignInMode">
     <input
-      type="email"
-      name="email"
-      placeholder="Enter your email"
-      formControlName="email"
-    />
-    <span
-      class="form__message"
-      *ngIf="!authForm.get('email').valid && authForm.get('email').touched"
-      >Please enter a valid email!</span
-    >
-
-    <label for="password">Password</label>
+      formControlName="firstName"
+      name="firstName"
+      type="text"
+      placeholder="FirstName" />
+    <label for="firstName">FirstName</label>
     <input
-      type="password"
-      name="password"
-      placeholder="Enter your password"
-      formControlName="password"
-    />
-    <span
-      class="form__message"
-      *ngIf="
-        !authForm.get('password').valid && authForm.get('password').touched
-      "
-      >Password must me at least 6 characters and include one non-alphanumeric
-      character!</span
-    >
+      formControlName="lastName"
+      type="text"
+      name="lastName"
+      placeholder="LastName" />
+    <label for="lastName">LastName</label>
+  </ng-container>
 
-    <ng-container *ngIf="!isSignInMode">
-      <input
-        formControlName="firstName"
-        name="firstName"
-        type="text"
-        placeholder="FirstName"
-      />
-      <label for="firstName">FirstName</label>
-      <input
-        formControlName="lastName"
-        type="text"
-        name="lastName"
-        placeholder="LastName"
-      />
-      <label for="lastName">LastName</label>
-    </ng-container>
+  <button type="submit" class="form-button" [disabled]="!authForm.valid">
+    {{ isSignInMode ? 'Sign in' : 'Sign up' }}
+  </button>
 
-    <button type="submit" class="form__button" [disabled]="!authForm.valid">
-      {{ isSignInMode ? "Sign in" : "Sign up" }}
-    </button>
-    <ng-container *ngIf="role != 'Administrator'">
-      <p class="form__text">
-        {{
-          isSignInMode
-            ? "Don't have an account? Switch to "
-            : "Already have an account? Switch to "
-        }}
-        <button class="btn-switch" type="button" (click)="onSwitchMode()">
-          {{ isSignInMode ? "Sign up" : "Sign in" }}
-        </button>
-      </p>
-    </ng-container>
-  </form>
+  <ng-container>
+    <p class="form-text">
+      {{
+        isSignInMode
+          ? "Don't have an account? Switch to "
+          : 'Already have an account? Switch to '
+      }}
+      <button class="auth-switch" type="button" (click)="onSwitchMode()">
+        {{ isSignInMode ? 'Sign up' : 'Sign in' }}
+      </button>
+    </p>
+    <p class="form-text" *ngIf="isSignInMode">
+      Or Sign in with
+      <button class="btn-google">Google</button>
+    </p>
+    <p class="form-text" *ngIf="!isSignInMode">
+      Or Sign up with
+      <button class="btn-google">Google</button>
+    </p>
+  </ng-container>
+</form>
 
-  <div class="auth__error" *ngIf="error">
-    <p>{{ error }}</p>
-  </div>
+<div class="auth-error" *ngIf="error">
+  <p>{{ error }}</p>
 </div>
 
 <ct-loading-spinner *ngIf="isLoading"></ct-loading-spinner>

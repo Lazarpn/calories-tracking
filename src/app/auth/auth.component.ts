@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthResponseData, AuthService } from './auth.service';
 import { Observable } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Role } from '../shared/role';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ct-auth',
@@ -16,11 +15,7 @@ export class AuthComponent implements OnInit {
   error: string = null;
   authForm: FormGroup;
 
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.authForm = new FormGroup({
@@ -54,6 +49,7 @@ export class AuthComponent implements OnInit {
     const email = this.authForm.value.email;
     const password = this.authForm.value.password;
     let firstName, lastName;
+
     if (!this.isSignInMode) {
       firstName = this.authForm.value.firstName;
       lastName = this.authForm.value.lastName;
@@ -69,12 +65,11 @@ export class AuthComponent implements OnInit {
     }
 
     authObs.subscribe(
-      (responseData) => {
+      responseData => {
         this.isLoading = false;
-
         this.router.navigate(['/meals']);
       },
-      (errorMessage) => {
+      errorMessage => {
         this.error = errorMessage;
         this.isLoading = false;
       }

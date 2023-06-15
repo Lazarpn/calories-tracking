@@ -26,7 +26,7 @@ export class ManagerService {
         lastName: string;
         caloriesPreference?: number;
         userPhoto?: string;
-      }>(this.url + '/UserAdministrator/all')
+      }>(this.url + '/users/admin/all')
       .subscribe(
         (users) => {
           this.usersService.setUsers(users);
@@ -42,7 +42,7 @@ export class ManagerService {
 
   updateUser(id, firstName, lastName, email, caloriesPreference) {
     this.http
-      .put(this.url + `/UserAdministrator/${id}`, {
+      .put(this.url + `/users/admin/${id}`, {
         id: id,
         firstName: firstName,
         lastName: lastName,
@@ -53,10 +53,8 @@ export class ManagerService {
   }
 
   deleteUser(email: string) {
-    this.http
-      .delete(this.url + `/UserAdministrator/${email}`)
-      .subscribe((res) => {
-        this.usersService.onUserDelete(email);
-      });
+    this.http.delete(this.url + `/users/admin/${email}`).subscribe((res) => {
+      this.usersService.onUserDelete(email);
+    });
   }
 }

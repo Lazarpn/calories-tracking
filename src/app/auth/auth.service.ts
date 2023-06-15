@@ -6,24 +6,24 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 
 export interface AuthResponseData {
-  token: string;
   userId: string;
-  userInfo: any;
+  token: string;
+  user: User;
 }
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   url: string = environment.url + '/api';
-  user = new BehaviorSubject<User>(null);
+  userRole = new BehaviorSubject<string>(null);
   userId: string;
 
-  private tokenExpirationTimer: any;
+  private tokenExpirationTimer;
 
   constructor(private http: HttpClient, private router: Router) {}
 
   signUp(email: string, password: string, firstName: string, lastName: string) {
     return this.http
-      .post<AuthResponseData>(this.url + '/Account/register', {
+      .post<AuthResponseData>(this.url + '/accounts/register', {
         email: email,
         password: password,
         firstName: firstName,
@@ -31,34 +31,19 @@ export class AuthService {
       })
       .pipe(
         catchError(this.handleError),
-        tap((resData) => {
-          this.handleRegistration(
-            email,
-            firstName,
-            lastName,
-            resData.userId,
-            resData.token
-          );
-        })
+        tap(resData => this.handleAuthentication(resData))
       );
   }
 
   signIn(email: string, password: string) {
     return this.http
-      .post<AuthResponseData>(this.url + '/Account/login', {
+      .post<AuthResponseData>(this.url + '/accounts/login', {
         email: email,
         password: password,
       })
       .pipe(
         catchError(this.handleError),
-        tap((resData) => {
-          this.handleLogin(
-            email,
-            resData.userId,
-            resData.token,
-            resData.userInfo
-          );
-        })
+        tap(resData => this.handleAuthentication(resData))
       );
   }
 
@@ -77,24 +62,24 @@ export class AuthService {
       return;
     }
 
-    const loadedUser = new User(
-      userData.email,
-      userData.firstName,
-      userData.lastName,
-      userData.id,
-      userData.role,
-      userData.caloriesPreference,
-      userData._token,
-      new Date(userData._tokenExpirationDate)
-    );
-    if (loadedUser.token) {
-      this.userId = loadedUser.id;
-      this.user.next(loadedUser);
-      const expirationDuration =
-        new Date(userData._tokenExpirationDate).getTime() -
-        new Date().getTime();
-      this.autoSignOut(expirationDuration);
-    }
+    // const loadedUser = new User(
+    //   userData.email,
+    //   userData.firstName,
+    //   userData.lastName,
+    //   userData.id,
+    //   userData.role,
+    //   userData.caloriesPreference,
+    //   userData._token,
+    //   new Date(userData._tokenExpirationDate)
+    // );
+    // if (loadedUser.token) {
+    //   this.userId = loadedUser.id;
+    //   this.user.next(loadedUser);
+    //   const expirationDuration =
+    //     new Date(userData._tokenExpirationDate).getTime() -
+    //     new Date().getTime();
+    //   this.autoSignOut(expirationDuration);
+    // }
   }
 
   autoSignOut(expirationDuration: number) {
@@ -104,8 +89,8 @@ export class AuthService {
   }
 
   signOut() {
-    this.user.next(null);
-    localStorage.removeItem('userData');
+    this.userRole.next(null);
+    localStorage.clear();
     this.router.navigate(['/auth']);
     if (this.tokenExpirationTimer) {
       clearTimeout(this.tokenExpirationTimer);
@@ -113,66 +98,29 @@ export class AuthService {
     this.tokenExpirationTimer = null;
   }
 
-  private handleAuthentication(user: User) {
-    this.userId = user.id;
-    localStorage.setItem('userData', JSON.stringify(user));
-    this.user.next(user);
-    const expirationDuration =
-      new Date(user._tokenExpirationDate).getTime() - new Date().getTime();
-    this.autoSignOut(expirationDuration);
-  }
+  private handleAuthentication(authResponse: AuthResponseData) {
+    const parsedToken = this.parseJwt(authResponse.token);
 
-  private handleRegistration(
-    email: string,
-    firstName: string,
-    lastName: string,
-    userId: string,
-    token: string
-  ) {
-    // CALCULATE TIMEOUT
-    const parsedToken = this.parseJwt(token);
+    // console.log(parsedToken);
+    // const user = new User(
+    //   authResponse.user.email,
+    //   authResponse.user.firstName,
+    //   authResponse.user.lastName,
+    //   authResponse.userId,
+    //   parsedToken.roles,
+    //   authResponse.user.caloriesPreference,
+    //   authResponse.token,
+    //   parsedToken.exp
+    // );
+    // console.log(user);
+    //fix
     const expirationTime = new Date(Date.now() + 10 * 60 * 1000);
-
-    const user = new User(
-      email,
-      firstName,
-      lastName,
-      userId,
-      parsedToken.role,
-      null,
-      token,
-      expirationTime
-    );
-
-    this.handleAuthentication(user);
-  }
-
-  private handleLogin(
-    email: string,
-    userId: string,
-    token: string,
-    userInfo: {
-      id: string;
-      email: string;
-      firstName: string;
-      lastName: string;
-      caloriesPreference?: number;
-      userPhoto?: string;
-    }
-  ) {
-    const parsedToken = this.parseJwt(token);
-    const expirationTime = new Date(Date.now() + 10 * 60 * 1000);
-    const newUser = new User(
-      email,
-      userInfo.firstName,
-      userInfo.lastName,
-      userId,
-      parsedToken.role,
-      userInfo.caloriesPreference,
-      token,
-      expirationTime
-    );
-    this.handleAuthentication(newUser);
+    localStorage.setItem('token', authResponse.token);
+    localStorage.setItem('roles', parsedToken.roles);
+    // this.userRole.next(parsedToken.roles);
+    // const expirationDuration =
+    // new Date(parsedToken.exp).getTime() - new Date().getTime();
+    // this.autoSignOut(expirationDuration);
   }
 
   private handleError(errorRes: HttpErrorResponse) {

@@ -24,8 +24,8 @@ export class AuthenticatedGuard implements CanActivate {
     | boolean
     | UrlTree {
     let isAuth = false;
-    this.authService.user.subscribe((user: User) => {
-      if (user) {
+    this.authService.userRole.subscribe((userRole: string) => {
+      if (userRole) {
         isAuth = true;
       }
     });

@@ -12,7 +12,7 @@ import { MealsService } from './meals.service';
 
 @Injectable({ providedIn: 'root' })
 export class MealsDataService {
-  url: string = environment.url;
+  url: string = environment.url + '/api';
   constructor(
     private http: HttpClient,
     private authService: AuthService,
@@ -21,9 +21,8 @@ export class MealsDataService {
 
   updateMeal(meal: Meal) {
     this.http
-      .put<Meal[]>(this.url + `/Meals/${meal.id}`, {
+      .put<Meal[]>(this.url + `/meals/${meal.id}`, {
         name: meal.name,
-        id: meal.id,
         calories: meal.calories,
         date: meal.date,
       })
@@ -36,10 +35,9 @@ export class MealsDataService {
     const meal = new Meal(null, '', 0, new Date());
     const userId = this.authService.userId;
     this.http
-      .post<Meal>(this.url + `/Meals`, {
+      .post<Meal>(this.url + `/meals`, {
         name: 'Obrok',
         calories: meal.calories,
-        mealsUserId: userId,
         date: meal.date,
       })
       .subscribe((meal: Meal) => {
@@ -49,7 +47,7 @@ export class MealsDataService {
 
   deleteMeal(meal: Meal) {
     this.http
-      .delete<HttpResponse<200 | 404>>(this.url + `/Meals/${meal.id}`)
+      .delete<HttpResponse<200 | 404>>(this.url + `/meals/${meal.id}`)
       .subscribe(
         (res: HttpResponse<200>) => {
           this.mealsService.deleteMeal(meal);
@@ -61,10 +59,8 @@ export class MealsDataService {
   }
   getMeals() {
     const userId = this.authService.userId;
-    this.http
-      .get<Meal[]>(this.url + `/Meals/user/${userId}`)
-      .subscribe((meals: Meal[]) => {
-        this.mealsService.setMeals(meals);
-      });
+    this.http.get<Meal[]>(this.url + `/meals/me`).subscribe((meals: Meal[]) => {
+      this.mealsService.setMeals(meals);
+    });
   }
 }
