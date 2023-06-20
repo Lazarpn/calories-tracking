@@ -3,40 +3,81 @@ import { Subject } from 'rxjs';
 import { User } from '../auth/user.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { PreloadAllModules } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProfileService {
   url: string = environment.url + '/api';
+  user: User = null;
   preferenceCaloriesChanged = new Subject<number>();
   userPhotoChanged = new Subject<any>();
   userPhoto: string;
 
   constructor(private http: HttpClient) {}
 
-  changeUserInfo(firstName: string, lastName: string) {
+  // FIXME: 'Na koji nacin treba da vrsim cuvanje i prosledjivanje podataka iz servisa drugim komponentama i obrnuto';
+
+  getUser(): User {
+    return this.user;
+  }
+
+  setUser(user: User) {
+    this.user = user;
+  }
+
+  getUserInfo() {
+    return {
+      firstName: this.user.firstName,
+      lastName: this.user.lastName,
+    };
+  }
+
+  setUserInfo(firstName: string, lastName: string) {
     this.http
       .put(this.url + `/users/me`, {
         firstName: firstName,
         lastName: lastName,
       })
-      .subscribe(res => {});
+      .subscribe(() => {
+        this.user.firstName = firstName;
+        this.user.lastName = lastName;
+      });
   }
 
-  changeCalories(id: string, caloriesPreference: number) {
+  getUserCalories(): number {
+    return this.user.caloriesPreference;
+  }
+
+  setUserCalories(caloriesPreference: number) {
+    this.http
+      .put(this.url + '/users/me/calories', {
+        caloriesPreference: caloriesPreference,
+      })
+      .subscribe(() => {
+        this.user.caloriesPreference = caloriesPreference;
+      });
+  }
+
+  getUserPhoto() {}
+
+  setUserPhoto() {}
+
+  changeCalories(caloriesPreference: number) {
     const user: User = JSON.parse(localStorage.getItem('userData'));
     user.caloriesPreference = caloriesPreference;
     localStorage.setItem('userData', JSON.stringify(user));
     this.http
       .put(this.url + `/users/me/calories`, {
-        id: id,
         caloriesPreference: caloriesPreference,
       })
       .subscribe(res => {
         this.preferenceCaloriesChanged.next(caloriesPreference);
       });
   }
+
+  // FIXME: 'Menjanje nacina cuvanje slika';
 
   getPhoto() {
     return this.userPhoto;

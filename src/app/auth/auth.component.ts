@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthResponseData, AuthService } from './auth.service';
+import { AuthResponseModel, AuthService } from './auth.service';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -55,7 +55,7 @@ export class AuthComponent implements OnInit {
       lastName = this.authForm.value.lastName;
     }
 
-    let authObs: Observable<AuthResponseData>;
+    let authObs: Observable<AuthResponseModel>;
     this.isLoading = true;
 
     if (this.isSignInMode) {

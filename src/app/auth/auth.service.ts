@@ -1,29 +1,25 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, catchError, tap, throwError } from 'rxjs';
-import { User } from './user.model';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { User } from './user.model';
 
-export interface AuthResponseData {
-  userId: string;
+export interface AuthResponseModel {
   token: string;
-  user: User;
 }
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  private tokenExpirationTimer;
   url: string = environment.url + '/api';
   userRole = new BehaviorSubject<string>(null);
-  userId: string;
-
-  private tokenExpirationTimer;
 
   constructor(private http: HttpClient, private router: Router) {}
 
   signUp(email: string, password: string, firstName: string, lastName: string) {
     return this.http
-      .post<AuthResponseData>(this.url + '/accounts/register', {
+      .post<AuthResponseModel>(this.url + '/accounts/register', {
         email: email,
         password: password,
         firstName: firstName,
@@ -37,7 +33,7 @@ export class AuthService {
 
   signIn(email: string, password: string) {
     return this.http
-      .post<AuthResponseData>(this.url + '/accounts/login', {
+      .post<AuthResponseModel>(this.url + '/accounts/login', {
         email: email,
         password: password,
       })
@@ -48,38 +44,15 @@ export class AuthService {
   }
 
   autoSignIn() {
-    const userData: {
-      email: string;
-      id: string;
-      role: string;
-      firstName: string;
-      lastName: string;
-      caloriesPreference?: number;
-      _token: string;
-      _tokenExpirationDate: Date;
-    } = JSON.parse(localStorage.getItem('userData'));
-    if (!userData) {
+    const token = localStorage.getItem('token');
+    if (!token) {
       return;
     }
-
-    // const loadedUser = new User(
-    //   userData.email,
-    //   userData.firstName,
-    //   userData.lastName,
-    //   userData.id,
-    //   userData.role,
-    //   userData.caloriesPreference,
-    //   userData._token,
-    //   new Date(userData._tokenExpirationDate)
-    // );
-    // if (loadedUser.token) {
-    //   this.userId = loadedUser.id;
-    //   this.user.next(loadedUser);
-    //   const expirationDuration =
-    //     new Date(userData._tokenExpirationDate).getTime() -
-    //     new Date().getTime();
-    //   this.autoSignOut(expirationDuration);
-    // }
+    const parsedToken = this.parseJwt(token);
+    const expirationTime = new Date(parsedToken.exp * 1000);
+    const expirationDuration = expirationTime.getTime() - new Date().getTime();
+    this.userRole.next(parsedToken.roles);
+    this.autoSignOut(expirationDuration);
   }
 
   autoSignOut(expirationDuration: number) {
@@ -98,30 +71,17 @@ export class AuthService {
     this.tokenExpirationTimer = null;
   }
 
-  private handleAuthentication(authResponse: AuthResponseData) {
+  private handleAuthentication(authResponse: AuthResponseModel) {
     const parsedToken = this.parseJwt(authResponse.token);
-
-    // console.log(parsedToken);
-    // const user = new User(
-    //   authResponse.user.email,
-    //   authResponse.user.firstName,
-    //   authResponse.user.lastName,
-    //   authResponse.userId,
-    //   parsedToken.roles,
-    //   authResponse.user.caloriesPreference,
-    //   authResponse.token,
-    //   parsedToken.exp
-    // );
-    // console.log(user);
-    //fix
-    const expirationTime = new Date(Date.now() + 10 * 60 * 1000);
+    const expirationTime = new Date(parsedToken.exp * 1000);
+    const expirationDuration = expirationTime.getTime() - new Date().getTime();
     localStorage.setItem('token', authResponse.token);
     localStorage.setItem('roles', parsedToken.roles);
-    // this.userRole.next(parsedToken.roles);
-    // const expirationDuration =
-    // new Date(parsedToken.exp).getTime() - new Date().getTime();
-    // this.autoSignOut(expirationDuration);
+    this.userRole.next(parsedToken.roles);
+    this.autoSignOut(expirationDuration);
   }
+
+  FIXME: 'Jel mi ovaj error handlig vise ne treba, jel je ono u interceptoru na globalnom nivou?';
 
   private handleError(errorRes: HttpErrorResponse) {
     let errorMessage = 'An unknown error occured';

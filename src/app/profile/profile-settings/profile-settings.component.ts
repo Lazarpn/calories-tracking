@@ -32,8 +32,7 @@ export class ProfileSettingsComponent implements OnInit {
 
   onCaloriesConfirm() {
     this.isEditMode = false;
-    const userId = this.authService.userId;
     const caloriesPreference = this.form.value.caloriesPreference;
-    this.profileService.changeCalories(userId, caloriesPreference);
+    this.profileService.changeCalories(caloriesPreference);
   }
 }

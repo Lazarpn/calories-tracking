@@ -33,7 +33,6 @@ export class MealsDataService {
 
   addMeal() {
     const meal = new Meal(null, '', 0, new Date());
-    const userId = this.authService.userId;
     this.http
       .post<Meal>(this.url + `/meals`, {
         name: 'Obrok',
@@ -58,7 +57,6 @@ export class MealsDataService {
       );
   }
   getMeals() {
-    const userId = this.authService.userId;
     this.http.get<Meal[]>(this.url + `/meals/me`).subscribe((meals: Meal[]) => {
       this.mealsService.setMeals(meals);
     });

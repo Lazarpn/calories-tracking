@@ -27,11 +27,11 @@
 
 .header-list {
   display: flex;
+  gap: 15px;
 }
 
 .header-item {
   list-style: none;
-  margin-left: 15px;
   transition: all 0.2s;
 }
 
@@ -52,10 +52,10 @@
 
 .auth-button {
   all: unset;
+  cursor: pointer;
   color: var(--color-primary);
   background-color: #fff;
   padding: 15px;
   border-radius: 10px;
-  cursor: pointer;
   font-size: 18px;
 }

@@ -69,9 +69,9 @@ export class MealsService {
 
   getTodaysCalories() {
     const date = new Date();
-    // FIX
+    FIXME: 'Popraviti datume';
     this.todaysCalories = this.meals
-      .filter((meal) => {
+      .filter(meal => {
         const mealDate = new Date(meal.date);
         return (
           mealDate.getDate() === date.getDate() &&

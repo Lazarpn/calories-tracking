@@ -74,7 +74,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         const base64 = btoa(binaryString);
         this.profileService.uploadPhoto(base64);
       };
-      this.imageEl.nativeElement.onerror = (error) => {
+      this.imageEl.nativeElement.onerror = error => {
         this.imageError = true;
         alert("We couldn't upload this photo, try another one!");
       };
@@ -89,7 +89,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     const lastName = this.form.get('lastName').value;
 
     // NEED LOGIC TO SAVE IT TO THE BACKEND
-    this.profileService.changeUserInfo(firstName, lastName);
+    this.profileService.setUserInfo(firstName, lastName);
   }
 
   onInfoEdit() {

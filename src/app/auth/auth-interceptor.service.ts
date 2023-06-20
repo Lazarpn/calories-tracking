@@ -15,7 +15,7 @@ import { ExceptionDetail } from '../shared/models/exception-detail';
 
 @Injectable()
 export class AuthInterceptorService implements HttpInterceptor {
-  constructor(private accountService: AuthService) {}
+  constructor(private authService: AuthService) {}
 
   intercept(
     request: HttpRequest<any>,
@@ -83,6 +83,6 @@ export class AuthInterceptorService implements HttpInterceptor {
       return;
     }
 
-    this.accountService.signOut();
+    this.authService.signOut();
   }
 }

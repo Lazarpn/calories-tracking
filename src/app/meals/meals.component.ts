@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MealsService } from './meals.service';
 import { Meal } from './meal.model';
 import { MealsDataService } from './meals-data.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'ct-meals',
@@ -14,7 +15,8 @@ export class MealsComponent implements OnInit {
 
   constructor(
     private mealsService: MealsService,
-    private mealsDataService: MealsDataService
+    private mealsDataService: MealsDataService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -37,7 +39,7 @@ export class MealsComponent implements OnInit {
   }
 
   onFilterApplied(event) {
-    const isFilterEmpty = Object.values(event).every((value) => value === '');
+    const isFilterEmpty = Object.values(event).every(value => value === '');
     this.filterApplied = !isFilterEmpty;
     this.mealsService.filterMeals(event);
   }
