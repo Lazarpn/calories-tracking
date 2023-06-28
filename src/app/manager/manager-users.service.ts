@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root',
 })
-export class UsersService {
+export class ManagerUsersService {
   users: any;
   usersChanged = new Subject<any>();
 
@@ -23,7 +23,7 @@ export class UsersService {
   }
 
   onUserDelete(email) {
-    const user = this.users.find((u) => u.email == email);
+    const user = this.users.find(u => u.email == email);
     const userPosition = this.users.indexOf(user);
     this.users.splice(userPosition, 1);
     this.usersChanged.next(this.users);

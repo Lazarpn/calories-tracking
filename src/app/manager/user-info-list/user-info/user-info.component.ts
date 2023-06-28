@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ManagerService } from '../../manager.service';
-import { UsersService } from '../../users.service';
+import { ManagerUsersService } from '../../manager-users.service';
 
 @Component({
   selector: 'ct-user-info',
@@ -16,7 +16,7 @@ export class UserInfoComponent implements OnInit {
   changesSaved: boolean = true;
   constructor(
     private managerService: ManagerService,
-    private usersService: UsersService
+    private ManagerUsersService: ManagerUsersService
   ) {}
 
   ngOnInit(): void {

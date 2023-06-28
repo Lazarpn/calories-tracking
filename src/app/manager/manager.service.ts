@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { UsersService } from './users.service';
+import { ManagerUsersService } from './manager-users.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 
@@ -13,7 +13,7 @@ export class ManagerService {
 
   constructor(
     private http: HttpClient,
-    private usersService: UsersService,
+    private managerUsersService: ManagerUsersService,
     private authService: AuthService
   ) {}
 
@@ -28,10 +28,10 @@ export class ManagerService {
         userPhoto?: string;
       }>(this.url + '/users/admin/all')
       .subscribe(
-        (users) => {
-          this.usersService.setUsers(users);
+        users => {
+          this.managerUsersService.setUsers(users);
         },
-        (error) => {
+        error => {
           if (error.status === 403) {
             alert('You are not authorized to access this!');
             this.authService.signOut();
@@ -49,12 +49,12 @@ export class ManagerService {
         email: email,
         caloriesPreference: caloriesPreference,
       })
-      .subscribe((data) => {});
+      .subscribe(data => {});
   }
 
   deleteUser(email: string) {
-    this.http.delete(this.url + `/users/admin/${email}`).subscribe((res) => {
-      this.usersService.onUserDelete(email);
+    this.http.delete(this.url + `/users/admin/${email}`).subscribe(res => {
+      this.managerUsersService.onUserDelete(email);
     });
   }
 }

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { UsersService } from '../users.service';
+import { ManagerUsersService } from '../manager-users.service';
 import { ManagerService } from '../manager.service';
 
 @Component({
@@ -11,12 +11,12 @@ export class UserInfoListComponent implements OnInit {
   isLoading: boolean = true;
   @Input() usersList: any[];
   constructor(
-    private usersService: UsersService,
+    private managerUsersService: ManagerUsersService,
     private managerService: ManagerService
   ) {}
 
   ngOnInit(): void {
-    this.usersList = this.usersService.getUsers();
+    this.usersList = this.managerUsersService.getUsers();
 
     if (!this.usersList) {
       this.managerService.getUsers();
@@ -26,7 +26,7 @@ export class UserInfoListComponent implements OnInit {
       this.isLoading = false;
     }
 
-    this.usersService.usersChanged.subscribe((users) => {
+    this.managerUsersService.usersChanged.subscribe(users => {
       this.usersList = users;
       this.isLoading = false;
     });

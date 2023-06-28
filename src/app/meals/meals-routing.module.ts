@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MealsComponent } from './meals.component';
-import { AuthGuard } from '../auth/auth.guard';
+import { UnauthenticatedGuard } from '../auth/unauthenticated.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: MealsComponent,
-    canActivate: [AuthGuard],
+    canActivate: [UnauthenticatedGuard],
   },
 ];
 
