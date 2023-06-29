@@ -1,18 +1,34 @@
-<form class="form" (ngSubmit)="onSubmit(form)" #form="ngForm">
+<form class="calendar-form" #calendarForm="ngForm">
   <!-- DATE -->
-  <div class="form__dates">
+  <div class="calendar-dates">
     <label for="dateStart">Date Start</label>
-    <input type="date" id="dateStart" name="dateStart" ngModel />
+    <input
+      type="date"
+      id="dateStart"
+      name="dateStart"
+      [(ngModel)]="model.dateStart" />
     <label for="dateEnd">Date End</label>
-    <input type="date" id="dateEnd" name="dateEnd" ngModel />
+    <input
+      type="date"
+      id="dateEnd"
+      name="dateEnd"
+      [(ngModel)]="model.dateEnd" />
   </div>
 
-  <div class="form__time">
+  <div class="calendar-time">
     <label for="timeStart">Time start</label>
-    <input type="time" id="timeStart" name="timeStart" ngModel />
+    <input
+      type="time"
+      id="timeStart"
+      name="timeStart"
+      [(ngModel)]="model.timeStart" />
     <label for="timeEnd">Time end</label>
-    <input type="time" id="timeEnd" name="timeEnd" ngModel />
+    <input
+      type="time"
+      id="timeEnd"
+      name="timeEnd"
+      [(ngModel)]="model.timeEnd" />
   </div>
 
-  <button class="form__btn" type="submit">Search</button>
+  <button class="btn-search" type="submit">Search</button>
 </form>

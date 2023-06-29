@@ -1,85 +1,75 @@
-<div [ngClass]="{ 'meal-edit': !changesSaved, meal: changesSaved }">
-  <form
-    class="form"
-    [ngClass]="{ meal__form: changesSaved, 'meal-edit__form': !changesSaved }"
-    (ngSubmit)="onFormSubmit()"
-    #form="ngForm"
-  >
-    <div class="form__inputs">
-      <label for="mealName">Meal:</label>
+<form
+  class="meal-form"
+  [ngClass]="{ 'meal-form-edit': isEditMode }"
+  #form="ngForm">
+  <div class="form-inputs">
+    <label for="mealName">Meal:</label>
+    <input
+      [disabled]="isDisabled"
+      type="text"
+      id="mealName"
+      name="mealName"
+      ctNullToEmpty
+      [(ngModel)]="meal.name" />
 
-      <input
-        [disabled]="isDisabled"
-        type="text"
-        id="mealName"
-        name="mealName"
-        ctNullToEmpty
-        [ngModel]="meal.name"
-      />
-      <label for="calories">Calories:</label>
-      <input
-        [disabled]="isDisabled"
-        type="number"
-        (input)="onInput($event)"
-        id="calories"
-        name="calories"
-        [ngModel]="meal.calories"
-      />
-      <label for="date">Date:</label>
-      <input
-        [disabled]="isDisabled"
-        type="date"
-        id="date"
-        name="date"
-        ctNullToEmpty
-        [ngModel]="date"
-      />
+    <label for="calories">Calories:</label>
+    <input
+      [disabled]="isDisabled"
+      type="number"
+      (input)="onInput($event)"
+      id="calories"
+      name="calories"
+      [(ngModel)]="meal.calories" />
 
-      <label for="date">Time:</label>
-      <input
-        type="time"
-        [disabled]="isDisabled"
-        id="time"
-        ctNullToEmpty
-        name="time"
-        [ngModel]="time"
-      />
-    </div>
+    <label for="date">Date:</label>
+    <input
+      [disabled]="isDisabled"
+      type="date"
+      id="date"
+      name="date"
+      ctNullToEmpty
+      [(ngModel)]="mealDate" />
 
-    <div class="form__icons">
-      <button class="btn-submit btn" type="submit" (click)="onMealConfirm()">
-        <svg
-          class="icon-confirm"
-          [ngClass]="{
-            'display-none': changesSaved,
-            icon: changesSaved,
-            'icon-edit-mode': !changesSaved
-          }"
-        >
-          <use xlink:href="/assets/sprite.svg#icon-checkmark"></use>
-        </svg>
-      </button>
-      <button class="btn-edit btn" (click)="onMealEdit()">
-        <svg
-          class="icon-edit"
-          [ngClass]="{
-            'display-none': !changesSaved,
-            icon: changesSaved,
-            'icon-edit-mode': !changesSaved
-          }"
-        >
-          <use xlink:href="/assets/sprite.svg#icon-pencil"></use>
-        </svg>
-      </button>
+    <label for="date">Time:</label>
+    <input
+      type="time"
+      [disabled]="isDisabled"
+      id="time"
+      ctNullToEmpty
+      name="time"
+      [(ngModel)]="mealTime" />
+  </div>
 
-      <button class="btn-delete btn" (click)="onMealDelete()">
-        <svg
-          class="icon-delete"
-          [ngClass]="{ icon: changesSaved, 'icon-edit-mode': !changesSaved }"
-        >
-          <use xlink:href="/assets/sprite.svg#icon-bin"></use>
-        </svg>
-      </button>
-    </div>
-  </form>
-</div>
+  <div class="form-icons">
+    <button class="btn-submit btn" type="submit" (click)="onMealConfirm()">
+      <svg
+        class="icon-confirm"
+        [ngClass]="{
+          'display-none': !isEditMode,
+          icon: !isEditMode,
+          'icon-edit-mode': isEditMode
+        }">
+        <use xlink:href="/assets/sprite.svg#icon-checkmark"></use>
+      </svg>
+    </button>
+    <button class="btn-edit btn" (click)="onMealEdit()">
+      <svg
+        class="icon-edit"
+        [ngClass]="{
+          'display-none': isEditMode,
+          icon: !isEditMode,
+          'icon-edit-mode': isEditMode
+        }">
+        <use xlink:href="/assets/sprite.svg#icon-pencil"></use>
+      </svg>
+    </button>
+
+    <button class="btn-delete btn" (click)="onMealDelete()">
+      <svg
+        class="icon-delete"
+        [ngClass]="{ icon: !isEditMode, 'icon-edit-mode': isEditMode }">
+        <use xlink:href="/assets/sprite.svg#icon-bin"></use>
+      </svg>
+    </button>
+  </div>
+</form>

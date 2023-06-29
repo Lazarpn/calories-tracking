@@ -1,30 +1,40 @@
-<div class="calories-output">
+<div class="calories-total">
   <p>
-    You had <span>{{ numberOfMeals }}</span>
-    {{ numberOfMeals > 1 || numberOfMeals === 0 ? "meals" : "meal" }} with total
-    of <span>{{ numberOfCalories }}</span>
-    {{ numberOfCalories > 1 || numberOfCalories === 0 ? "calories" : "calory" }}
+    You had <span>{{ totalMeals }}</span>
+    {{ totalMeals > 1 || totalMeals === 0 ? 'meals' : 'meal' }} with total of
+    <span>{{ totalCalories }}</span>
+    {{ totalCalories > 1 || totalCalories === 0 ? 'calories' : 'calory' }}
   </p>
 </div>
 
-<div class="calories" *ngIf="caloriesPreferenceApplied">
+<div class="calories-preference" *ngIf="caloriesPreferenceApplied">
   <ng-container *ngIf="caloriesLeft > 0">
-    <p class="calories__info">
-      Today you had <span>{{ caloriesHad }}</span> calories out of
-      <span>{{ preferenceCalories }}</span
-      >. You have <span>{{ caloriesLeft }}</span> more to go
+    <p class="calories-goal">
+      Today you had <span>{{ todaysMeals }}</span>
+      {{ todaysMeals > 1 || todaysMeals === 0 ? 'meals' : 'meal' }} with the
+      total of <span>{{ todaysCalories }}</span>
+      {{ todaysCalories > 1 || todaysCalories === 0 ? 'calories' : 'calory' }}
+      out of
+      <span>{{ caloriesPreference }}</span
+      >. You have <span>{{ todaysCaloriesLeft }}</span>
+      {{
+        todaysCaloriesLeft > 1 || todaysCaloriesLeft === 0
+          ? 'calories'
+          : 'calory'
+      }}
+      more to go
     </p>
   </ng-container>
 
   <ng-container *ngIf="caloriesLeft <= 0">
-    <p class="calories__info">
+    <p class="calories-goal">
       Congratulations! You've reached your goal for today! You had
-      <span>{{ caloriesHad }}</span> out of
-      <span>{{ preferenceCalories }}</span> calories
+      <span>{{ todaysCalories }}</span> out of
+      <span>{{ caloriesPreference }}</span> calories
     </p>
   </ng-container>
 
-  <form class="calories__form form" #form="ngForm">
+  <form class="calories-progress" #form="ngForm">
     <label for="progress">Your progress</label>
     <progress id="progress" max="100" value="{{ progressBar }}"></progress>
   </form>

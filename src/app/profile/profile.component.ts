@@ -89,7 +89,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     const lastName = this.form.get('lastName').value;
 
     // NEED LOGIC TO SAVE IT TO THE BACKEND
-    this.profileService.setUserInfo(firstName, lastName);
+    this.profileService.updateUserInfo(firstName, lastName);
   }
 
   onInfoEdit() {

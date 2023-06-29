@@ -1,9 +1,10 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from '../header/header.component';
-import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner/loading-spinner.component';
+import { NgModule } from '@angular/core';
+
 import { MealsRoutingModule } from '../meals/meals-routing.module';
 import { ProfileRoutingModule } from '../profile/profile-routing.module';
+import { HeaderComponent } from './header/header.component';
+import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner/loading-spinner.component';
 import { NullToEmptyDirective } from './null-to-empty.directive';
 
 @NgModule({

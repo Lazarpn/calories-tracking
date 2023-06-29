@@ -1,6 +1,6 @@
-@import "/src/styles.scss";
+@import '/src/styles.scss';
 
-.meal {
+:host {
   width: 820px;
   height: 100px;
   border-radius: 20px;
@@ -16,63 +16,78 @@
   @include respond(phone) {
     height: auto;
   }
+}
 
-  &__form {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+:host.meal-edit {
+  background-color: #fff;
+  border: 1px solid var(--color-primary);
+}
+
+.meal-form {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  @include respond(phone) {
+    flex-direction: column;
+    gap: 25px;
+  }
+
+  label {
+    color: #fff;
+    font-size: 18px;
+  }
+  input {
+    all: unset;
+    text-align: center;
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 100px;
+    color: #fff;
+    border-bottom: 1px solid #fff;
 
     @include respond(phone) {
-      flex-direction: column;
-      gap: 25px;
+      width: 150px;
+    }
+  }
+  input:first-child {
+    width: 180px;
+  }
+  input:last-child {
+    width: 110px;
+
+    @include respond(tab-land) {
+      width: 130px;
     }
 
-    label {
-      color: #fff;
-      font-size: 18px;
+    @include respond(phone) {
+      width: 150px;
     }
-    input {
-      all: unset;
-      text-align: center;
-      margin-left: 10px;
-      margin-right: 10px;
-      width: 100px;
-      color: #fff;
-      border-bottom: 1px solid #fff;
+  }
 
-      @include respond(phone) {
-        width: 150px;
-      }
-    }
-    input:first-child {
-      width: 180px;
-    }
-    input:last-child {
-      width: 110px;
-
-      @include respond(tab-land) {
-        width: 130px;
-      }
-
-      @include respond(phone) {
-        width: 150px;
-      }
-    }
-
-    input:focus {
-      border-bottom: 2px solid #fff;
-    }
+  input:focus {
+    border-bottom: 2px solid #fff;
   }
 }
 
-.form {
-  &__icons {
-    height: 100%;
-    display: flex;
-    align-items: center;
+.meal-form-edit {
+  label {
+    color: var(--color-primary);
   }
+
+  input,
+  input:focus {
+    color: var(--color-primary);
+    border-bottom: 1px solid var(--color-primary);
+  }
+}
+
+.form-icons {
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .icon {
@@ -101,80 +116,6 @@
   all: unset;
 }
 
-.meal-edit {
-  width: 820px;
-
-  height: 100px;
-  border-radius: 20px;
-  background-color: #fff;
-  display: flex;
-  justify-content: spacse-between;
-  padding: 20px;
-  border: 1px solid var(--color-primary);
-
-  @include respond(tab-land) {
-    width: 100%;
-  }
-
-  @include respond(phone) {
-    height: auto;
-  }
-
-  &__form {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    color: var(--color-primary);
-    @include respond(phone) {
-      flex-direction: column;
-      gap: 25px;
-    }
-    label {
-      font-size: 18px;
-      color: var(--color-primary);
-      font-size: 18px;
-    }
-    input {
-      all: unset;
-      text-align: center;
-      margin-left: 10px;
-      margin-right: 10px;
-      width: 100px;
-
-      color: var(--color-primary);
-      border-bottom: 2px solid var(--color-primary);
-      @include respond(phone) {
-        width: 150px;
-      }
-    }
-    input:first-child {
-      width: 180px;
-    }
-    input:last-child {
-      width: 110px;
-
-      @include respond(tab-land) {
-        width: 130px;
-      }
-
-      @include respond(phone) {
-        width: 150px;
-      }
-    }
-  }
-}
-
 .display-none {
   display: none;
-}
-
-.form__inputs {
-  @include respond(phone) {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
-  }
 }

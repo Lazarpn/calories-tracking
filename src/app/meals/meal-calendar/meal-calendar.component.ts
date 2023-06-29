@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Subject, Subscription } from 'rxjs';
 import { Filter } from '../meal-list/filter.model';
 import { MealsService } from '../meals.service';
+import { MealCalendar } from 'src/app/shared/models/meal-calendar.model';
 
 @Component({
   selector: 'ct-meal-calendar',
@@ -10,17 +11,25 @@ import { MealsService } from '../meals.service';
   styleUrls: ['./meal-calendar.component.scss'],
 })
 export class MealCalendarComponent implements OnInit, OnDestroy {
-  @ViewChild('form', { static: true }) calendarForm: NgForm;
+  // @ViewChild('calendarForm', { static: true }) calendarForm: NgForm;
   @Output() filterApplied = new Subject<Filter>();
+
+  model: MealCalendar = {
+    dateStart: null,
+    dateEnd: null,
+    timeStart: null,
+    timeEnd: null,
+  };
+
   constructor() {}
 
   ngOnInit(): void {}
 
-  onSubmit(form) {
-    const dateStart = form.value.dateStart
-      ? new Date(form.value.dateStart)
+  onSubmit() {
+    const dateStart = this.model.dateStart
+      ? new Date(this.model.dateStart)
       : '';
-    const dateEnd = form.value.dateEnd ? new Date(form.value.dateEnd) : '';
+    const dateEnd = this.model.dateEnd ? new Date(this.model.dateEnd) : '';
 
     if (dateEnd < dateStart) {
       if (dateEnd != '') {
@@ -32,8 +41,8 @@ export class MealCalendarComponent implements OnInit, OnDestroy {
     const filter: Filter = new Filter(
       dateStart,
       dateEnd,
-      form.value.timeStart,
-      form.value.timeEnd
+      this.model.timeStart,
+      this.model.timeEnd
     );
 
     this.filterApplied.next(filter);

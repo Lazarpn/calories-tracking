@@ -8,14 +8,10 @@ import { FilterService } from '../shared/filter.service';
 export class MealsService {
   private meals: Meal[] = [];
   mealsChanged = new Subject<Meal[]>();
-  numberOfCalories: number;
-  numberOfMeals: number;
-  numberOfCaloriesMealsChanged = new Subject<{
-    numberOfCalories: number;
-    numberOfMeals: number;
-  }>();
-  todaysCalories: number;
   todaysCaloriesChanged = new Subject<number>();
+  todaysMealsChanged = new Subject<number>();
+  totalMealsChanged = new Subject<number>();
+  totalCaloriesChanged = new Subject<number>();
 
   constructor(private filterService: FilterService) {}
 
@@ -25,24 +21,25 @@ export class MealsService {
 
   setMeals(meals: Meal[]) {
     this.meals = meals;
+    this.meals.map(meal => (meal.date = new Date(meal.date)));
     this.updateAllComponents();
   }
 
-  addMeal(meal: Meal) {
-    this.meals.push(
-      new Meal(meal.id, meal.name, meal.calories, new Date(meal.date))
-    );
+  createMeal(meal: Meal) {
+    meal.date = new Date(meal.date);
+    this.meals.push(meal);
     this.updateAllComponents();
   }
 
   updateMeal(newMeal: Meal) {
     const index = this.meals.indexOf(newMeal);
     this.meals[index] = newMeal;
-
+    // FIXME: mozda treba ovde da se proveri za datum da li je danasnji
     this.updateAllComponents();
   }
 
   deleteMeal(meal: Meal) {
+    // FIXME: mogu da vrsim promenu da li je izbrisani meal danasnjeg datuma i tek onda da odredim koja vrsta update-a treba itd..
     const mealPosition = this.meals.indexOf(meal);
     this.meals.splice(mealPosition, 1);
     this.updateAllComponents();
@@ -56,22 +53,32 @@ export class MealsService {
     this.mealsChanged.next(filteredMeals);
   }
 
-  mealCaloriesNumberUpdate() {
-    this.numberOfCalories = this.meals.reduce((accumulator, meal) => {
+  getTotalMeals() {
+    return this.meals.length;
+  }
+
+  getTodaysMeals() {
+    return this.meals.filter(meal => {
+      const date = new Date();
+      const mealDate = new Date(meal.date);
+      return (
+        mealDate.getDate() === date.getDate() &&
+        mealDate.getMonth() === date.getMonth() &&
+        mealDate.getFullYear() === date.getFullYear()
+      );
+    }).length;
+  }
+
+  getTotalCalories() {
+    return this.meals.reduce((accumulator, meal) => {
       return accumulator + meal.calories;
     }, 0);
-    this.numberOfMeals = this.meals.length;
-    this.numberOfCaloriesMealsChanged.next({
-      numberOfCalories: this.numberOfCalories,
-      numberOfMeals: this.numberOfMeals,
-    });
   }
 
   getTodaysCalories() {
-    const date = new Date();
-    FIXME: 'Popraviti datume';
-    this.todaysCalories = this.meals
+    return this.meals
       .filter(meal => {
+        const date = new Date();
         const mealDate = new Date(meal.date);
         return (
           mealDate.getDate() === date.getDate() &&
@@ -82,13 +89,14 @@ export class MealsService {
       .reduce((acc, meal) => {
         return acc + meal.calories;
       }, 0);
-    return this.todaysCalories;
   }
 
   private updateAllComponents() {
-    this.mealCaloriesNumberUpdate();
+    //FIXME: Ovo moze da se popakuje po funkcijama gde sta treba a ne uvek sve
     this.mealsChanged.next(this.meals.slice());
-    this.getTodaysCalories();
-    this.todaysCaloriesChanged.next(this.todaysCalories);
+    this.totalCaloriesChanged.next(this.getTotalCalories());
+    this.totalMealsChanged.next(this.getTotalMeals());
+    this.todaysMealsChanged.next(this.getTodaysMeals());
+    this.todaysCaloriesChanged.next(this.getTodaysCalories());
   }
 }

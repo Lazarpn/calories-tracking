@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ProfileService } from '../../profile/profile.service';
 import { Subscription } from 'rxjs';
 import { MealsService } from '../meals.service';
-import { User } from 'src/app/auth/user.model';
+import { User } from 'src/app/shared/models/user.model';
 
 @Component({
   selector: 'ct-meal-expected-calories',
@@ -14,50 +14,61 @@ export class MealExpectedCaloriesComponent implements OnInit, OnDestroy {
   caloriesPreference: number;
   subscription: Subscription;
   progressBar: number;
-  caloriesHad: number;
-  caloriesLeft: number;
-  numberOfCalories: number;
-  numberOfMeals: number;
+  totalCalories: number;
+  totalMeals: number;
+  todaysCalories: number;
+  todaysCaloriesLeft: number;
+  todaysMeals: number;
   constructor(
     private profileService: ProfileService,
     private mealsService: MealsService
   ) {}
 
   ngOnInit(): void {
-    this.mealsService.numberOfCaloriesMealsChanged.subscribe((changes) => {
-      this.numberOfCalories = changes.numberOfCalories;
-      this.numberOfMeals = changes.numberOfMeals;
+    this.mealsService.todaysCaloriesChanged.subscribe(calories => {
+      this.todaysCalories = calories;
+      this.calculateCalories();
     });
-    this.numberOfCalories = this.mealsService.numberOfCalories;
-    this.numberOfMeals = this.mealsService.numberOfMeals;
+
+    this.mealsService.todaysMealsChanged.subscribe(meals => {
+      this.todaysMeals = meals;
+    });
+
+    this.mealsService.totalMealsChanged.subscribe(meals => {
+      this.totalMeals = meals;
+    });
+
+    this.mealsService.totalCaloriesChanged.subscribe(calories => {
+      this.totalCalories = calories;
+    });
+
+    this.todaysCalories = this.mealsService.getTodaysCalories();
+    this.todaysMeals = this.mealsService.getTodaysMeals();
+    this.totalCalories = this.mealsService.getTotalCalories();
+    this.totalMeals = this.mealsService.getTotalMeals();
     //////
-    this.caloriesHad = this.mealsService.getTodaysCalories();
-    const user: User = JSON.parse(localStorage.getItem('userData'));
-    if (user.caloriesPreference) {
+    this.todaysCalories = this.mealsService.getTodaysCalories();
+    this.caloriesPreference = this.profileService.getUserCalories();
+    if (this.caloriesPreference && this.caloriesPreference > 0) {
       this.caloriesPreferenceApplied = true;
-      this.caloriesPreference = user.caloriesPreference;
       this.calculateCalories();
     }
 
     this.profileService.preferenceCaloriesChanged.subscribe(
       (calories: number) => {
+        //FIXME: mozda treba da proverim za ovo caloriesPreferenceApplied za true
         this.caloriesPreferenceApplied = true;
         this.caloriesPreference = calories;
         this.calculateCalories();
       }
     );
-
-    this.mealsService.todaysCaloriesChanged.subscribe((calories: number) => {
-      this.caloriesHad = calories;
-      this.calculateCalories();
-    });
   }
 
   calculateCalories() {
-    this.caloriesLeft = this.caloriesPreference - this.caloriesHad;
-    if (this.caloriesHad && this.caloriesPreference) {
+    this.todaysCaloriesLeft = this.caloriesPreference - this.todaysCalories;
+    if (this.todaysCalories && this.caloriesPreference) {
       this.progressBar = +(
-        (this.caloriesHad * 100) /
+        (this.todaysCalories * 100) /
         this.caloriesPreference
       ).toFixed(0);
     }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { User } from '../auth/user.model';
+import { User } from '../shared/models/user.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { PreloadAllModules } from '@angular/router';
@@ -34,7 +34,7 @@ export class ProfileService {
     };
   }
 
-  setUserInfo(firstName: string, lastName: string) {
+  updateUserInfo(firstName: string, lastName: string) {
     this.http
       .put(this.url + `/users/me`, {
         firstName: firstName,
@@ -50,7 +50,7 @@ export class ProfileService {
     return this.user.caloriesPreference;
   }
 
-  setUserCalories(caloriesPreference: number) {
+  updateUserCalories(caloriesPreference: number) {
     this.http
       .put(this.url + '/users/me/calories', {
         caloriesPreference: caloriesPreference,
@@ -62,20 +62,7 @@ export class ProfileService {
 
   getUserPhoto() {}
 
-  setUserPhoto() {}
-
-  changeCalories(caloriesPreference: number) {
-    const user: User = JSON.parse(localStorage.getItem('userData'));
-    user.caloriesPreference = caloriesPreference;
-    localStorage.setItem('userData', JSON.stringify(user));
-    this.http
-      .put(this.url + `/users/me/calories`, {
-        caloriesPreference: caloriesPreference,
-      })
-      .subscribe(res => {
-        this.preferenceCaloriesChanged.next(caloriesPreference);
-      });
-  }
+  updateUserPhoto() {}
 
   // FIXME: 'Menjanje nacina cuvanje slika';
 

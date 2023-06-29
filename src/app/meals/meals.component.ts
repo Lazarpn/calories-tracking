@@ -1,8 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { MealsService } from './meals.service';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+import { Filter } from './meal-list/filter.model';
 import { Meal } from './meal.model';
 import { MealsDataService } from './meals-data.service';
-import { ActivatedRoute } from '@angular/router';
+import { MealsService } from './meals.service';
 
 @Component({
   selector: 'ct-meals',
@@ -21,9 +23,7 @@ export class MealsComponent implements OnInit {
 
   ngOnInit(): void {
     this.meals = this.mealsService.getMeals();
-    this.mealsService.mealsChanged.subscribe((meals: Meal[]) => {
-      this.meals = meals;
-    });
+    this.mealsService.mealsChanged.subscribe(meals => (this.meals = meals));
 
     if (this.meals.length === 0) {
       this.mealsDataService.getMeals();
@@ -31,17 +31,17 @@ export class MealsComponent implements OnInit {
   }
 
   onMealAdd() {
-    this.mealsDataService.addMeal();
+    this.mealsDataService.createMeal();
     window.scrollTo({
       top: document.documentElement.scrollHeight,
       behavior: 'smooth',
     });
   }
 
-  onFilterApplied(event) {
-    const isFilterEmpty = Object.values(event).every(value => value === '');
+  onFilterApplied(filter: Filter) {
+    const isFilterEmpty = Object.values(filter).every(value => value === '');
     this.filterApplied = !isFilterEmpty;
-    this.mealsService.filterMeals(event);
+    this.mealsService.filterMeals(filter);
   }
 
   ngOnDestroy(): void {}

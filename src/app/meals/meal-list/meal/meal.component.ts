@@ -1,16 +1,12 @@
 import {
-  AfterViewChecked,
   Component,
+  HostBinding,
   Input,
   OnInit,
-  Output,
   ViewChild,
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Meal } from '../../meal.model';
-import { EventEmitter } from '@angular/core';
-import { MealsService } from '../../meals.service';
-import { Subject } from 'rxjs';
 import { MealsDataService } from '../../meals-data.service';
 
 @Component({
@@ -20,37 +16,40 @@ import { MealsDataService } from '../../meals-data.service';
 })
 export class MealComponent implements OnInit {
   @ViewChild('form', { static: true }) mealForm: NgForm;
-
+  @HostBinding('class.meal-edit') isEditMode = false;
   @Input() meal: Meal;
-  date: string;
-  time: string;
   isDisabled: boolean = true;
-  changesSaved: boolean = true;
 
-  @Output() changesSavedInfo = new Subject<boolean>();
-  constructor(private mealsDataService: MealsDataService) {}
-
-  ngOnInit(): void {
-    if (typeof this.meal.date === 'string') {
-      this.meal.date = new Date(this.meal.date + 'Z');
-      this.date = this.meal.date.toISOString().split('T')[0];
-      const hours = this.meal.date.getHours();
-      const minutes = this.meal.date.getMinutes();
-      this.time = `${hours.toString().padStart(2, '0')}:${minutes
-        .toString()
-        .padStart(2, '0')}`;
-    } else {
-      this.meal.date = new Date(this.meal.date);
-      this.date = this.meal.date.toISOString().split('T')[0];
-      const hours = this.meal.date.getHours();
-      const minutes = this.meal.date.getMinutes();
-      this.time = `${hours.toString().padStart(2, '0')}:${minutes
-        .toString()
-        .padStart(2, '0')}`;
-    }
+  get mealTime(): string {
+    return `${this.meal.date.getHours()}:${this.meal.date.getMinutes()}`;
   }
 
-  onFormSubmit() {}
+  set mealTime(value: string) {
+    const [hours, minutes] = value.split(':');
+    this.meal.date.setHours(+hours);
+    this.meal.date.setMinutes(+minutes);
+  }
+
+  get mealDate(): string {
+    return `${this.meal.date.getFullYear()}-${(this.meal.date.getMonth() + 1)
+      .toString()
+      .padStart(2, '0')}-${this.meal.date
+      .getDate()
+      .toString()
+      .padStart(2, '0')}`;
+  }
+
+  set mealDate(value: string) {
+    const hours = this.meal.date.getHours();
+    const minutes = this.meal.date.getMinutes();
+    this.meal.date = new Date(value);
+    this.meal.date.setHours(hours);
+    this.meal.date.setMinutes(minutes);
+  }
+
+  constructor(private mealsDataService: MealsDataService) {}
+
+  ngOnInit(): void {}
 
   onInput(event: any) {
     const input = event.target.value;
@@ -58,26 +57,14 @@ export class MealComponent implements OnInit {
   }
 
   onMealConfirm() {
-    this.changesSaved = true;
-    this.changesSavedInfo.next(this.changesSaved);
-    const value = this.mealForm.value;
+    this.isEditMode = false;
     this.isDisabled = true;
-    this.meal.name = value.mealName;
-    this.meal.calories = value.calories;
-    const time = value.time.split(':');
-    this.meal.date = new Date(new Date(value.date).setHours(time[0], time[1]));
-
-    if (!value.calories) {
-      value.calories = this.meal.calories = 0;
-    }
-
     this.mealsDataService.updateMeal(this.meal);
   }
 
   onMealEdit() {
     this.isDisabled = false;
-    this.changesSaved = false;
-    this.changesSavedInfo.next(this.changesSaved);
+    this.isEditMode = true;
   }
 
   onMealDelete() {

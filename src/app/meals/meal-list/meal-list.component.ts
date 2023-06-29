@@ -13,12 +13,8 @@ export class MealListComponent
 {
   @Input() meals: Meal[] = [];
   changesSaved: boolean = true;
-
+  //FIXME:mozda ovo ne radi kako treba
   constructor() {}
-
-  onChangesSaved(event: boolean) {
-    this.changesSaved = event;
-  }
 
   canDeactivate(): boolean | Observable<boolean> | Promise<boolean> {
     if (!this.changesSaved) {

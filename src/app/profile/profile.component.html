@@ -1,74 +1,67 @@
-<div class="profile">
-  <div class="info">
-    <form class="info__form form" [formGroup]="form" (ngSubmit)="onSubmit()">
-      <div class="form__photo">
-        <label for="photo">
-          <svg class="icon-camera">
-            <use xlink:href="/assets/sprite.svg#icon-camera"></use>
-          </svg>
-          <img
-            *ngIf="!imageError"
-            #image
-            [(src)]="imageSrc"
-            class="image"
-            id="image"
-          />
-        </label>
-        <input
-          (change)="onUploadPhoto($event)"
-          type="file"
-          name="photo"
-          id="photo"
-        />
-      </div>
-
-      <div class="form__user-info">
-        <label for="firstName">Name</label>
-        <input
-          formControlName="firstName"
-          type="text"
-          name="firstName"
-          id="firstName"
-        />
-        <label for="lastName">Surname</label>
-        <input
-          formControlName="lastName"
-          type="text"
-          name="lastName"
-          id="lastName"
-        />
-      </div>
-
-      <button
-        *ngIf="isEditMode"
-        class="btn-submit btn"
-        type="submit"
-        (click)="onInfoConfirm()"
-      >
-        <svg class="icon icon-confirm">
-          <use xlink:href="/assets/sprite.svg#icon-checkmark"></use>
+<div class="profile-info">
+  <form class="profile-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="profile-photo">
+      <label for="photo">
+        <svg class="icon-camera">
+          <use xlink:href="/assets/sprite.svg#icon-camera"></use>
         </svg>
-      </button>
-      <button *ngIf="!isEditMode" class="btn-edit btn" (click)="onInfoEdit()">
-        <svg class="icon icon-edit">
-          <use xlink:href="/assets/sprite.svg#icon-pencil"></use>
-        </svg>
-      </button>
-    </form>
-  </div>
-  <div class="settings">
-    <nav class="settings__nav">
-      <ul class="settings__list">
-        <li class="settings__item">
-          <a
-            routerLinkActive="settings__link-active"
-            class="settings__link"
-            routerLink="settings"
-            >Settings</a
-          >
-        </li>
-      </ul>
-    </nav>
-    <router-outlet></router-outlet>
-  </div>
+        <img
+          *ngIf="!imageError"
+          #image
+          [(src)]="imageSrc"
+          class="image"
+          id="image" />
+      </label>
+      <input
+        (change)="onUploadPhoto($event)"
+        type="file"
+        name="photo"
+        id="photo" />
+    </div>
+
+    <div class="profile-user-info">
+      <label for="firstName">Name</label>
+      <input
+        formControlName="firstName"
+        type="text"
+        name="firstName"
+        id="firstName" />
+      <label for="lastName">Surname</label>
+      <input
+        formControlName="lastName"
+        type="text"
+        name="lastName"
+        id="lastName" />
+    </div>
+
+    <button
+      *ngIf="isEditMode"
+      class="btn-submit btn"
+      type="submit"
+      (click)="onInfoConfirm()">
+      <svg class="icon icon-confirm">
+        <use xlink:href="/assets/sprite.svg#icon-checkmark"></use>
+      </svg>
+    </button>
+    <button *ngIf="!isEditMode" class="btn-edit btn" (click)="onInfoEdit()">
+      <svg class="icon icon-edit">
+        <use xlink:href="/assets/sprite.svg#icon-pencil"></use>
+      </svg>
+    </button>
+  </form>
+</div>
+<div class="profile-settings">
+  <nav class="settings-nav">
+    <ul class="settings-list">
+      <li class="settings-item">
+        <a
+          routerLinkActive="settings-link-active"
+          class="settings-link"
+          routerLink="settings"
+          >Settings</a
+        >
+      </li>
+    </ul>
+  </nav>
+  <router-outlet></router-outlet>
 </div>

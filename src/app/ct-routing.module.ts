@@ -1,34 +1,20 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
-import { UnauthenticatedModule } from './unauthenticated/unauthenticated.module';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+
 import { AuthenticatedResolver } from './auth/authenticated.resolver';
-import { AuthenticatedGuard } from './auth/authenticated.guard';
 import { UnauthenticatedGuard } from './auth/unauthenticated.guard';
 
 const routes: Routes = [
   {
-    path: '',
-    // redirectTo: 'auth',
-    loadChildren: () =>
-      import('./unauthenticated/unauthenticated.module').then(
-        m => m.UnauthenticatedModule
-      ),
-    // pathMatch: 'full',
+    path: 'auth',
+    loadChildren: () => import('./auth/auth.module').then( m => m.AuthModule),
   },
   {
-    path: 'meals',
-    // redirectTo: 'meals',
-    loadChildren: () =>
-      import('./authenticated/authenticated.module').then(
-        m => m.AuthenticatedModule
-      ),
-    resolve: {
-      userData: AuthenticatedResolver,
-    },
-    canActivate: [UnauthenticatedGuard],
-    children: [],
+    path: '',  canActivate: [UnauthenticatedGuard],
+    resolve: { userData: AuthenticatedResolver },
+    loadChildren: () => import('./authenticated/authenticated.module').then(m => m.AuthenticatedModule),
   },
-  { path: '*', redirectTo: 'auth' },
+  { path: '**', redirectTo: 'auth' },
 ];
 
 @NgModule({

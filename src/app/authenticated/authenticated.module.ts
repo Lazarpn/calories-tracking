@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Routes } from '@angular/router';
+import { NgModule } from '@angular/core';
+
 import { SharedModule } from '../shared/shared.module';
 import { AuthenticatedRoutingModule } from './authenticated-routing.module';
 

@@ -1,9 +1,8 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { BehaviorSubject, catchError, tap, throwError } from 'rxjs';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { BehaviorSubject, catchError, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { User } from './user.model';
 
 export interface AuthResponseModel {
   token: string;
@@ -11,7 +10,7 @@ export interface AuthResponseModel {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private tokenExpirationTimer;
+  private tokenExpirationTimer: number;
   url: string = environment.url + '/api';
   userRole = new BehaviorSubject<string>(null);
 
@@ -56,19 +55,23 @@ export class AuthService {
   }
 
   autoSignOut(expirationDuration: number) {
-    this.tokenExpirationTimer = setTimeout(() => {
+    this.tokenExpirationTimer = window.setTimeout(() => {
       this.signOut();
     }, expirationDuration);
   }
 
   signOut() {
-    this.userRole.next(null);
     localStorage.clear();
+    this.userRole.next(null);
     this.router.navigate(['/auth']);
     if (this.tokenExpirationTimer) {
       clearTimeout(this.tokenExpirationTimer);
     }
     this.tokenExpirationTimer = null;
+  }
+
+  authenticated(): boolean {
+    return localStorage.getItem('token') != null;
   }
 
   private handleAuthentication(authResponse: AuthResponseModel) {

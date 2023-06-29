@@ -1,11 +1,10 @@
-@import "/src/styles.scss";
+@import '/src/styles.scss';
 
 .meals {
   display: flex;
   grid-template-columns: 0.6fr 0.4fr;
   // flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
   padding: 40px 40px;
   gap: 80px;
 
