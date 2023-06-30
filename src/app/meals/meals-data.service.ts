@@ -1,22 +1,23 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Meal } from './meal.model';
+import { Meal } from '../shared/models/meal/meal.model';
 import { MealsService } from './meals.service';
+import { MealUpdate } from '../shared/models/meal/meal-update.model';
 
 @Injectable({ providedIn: 'root' })
 export class MealsDataService {
   url: string = environment.url + '/api';
   constructor(private http: HttpClient, private mealsService: MealsService) {}
 
-  updateMeal(meal: Meal) {
+  updateMeal(id: string, model: MealUpdate) {
     this.http
-      .put<HttpResponse<204>>(this.url + `/meals/${meal.id}`, {
-        name: meal.name,
-        calories: meal.calories,
-        date: meal.date,
+      .put<HttpResponse<204>>(this.url + `/meals/${id}`, {
+        name: model.name,
+        calories: model.calories,
+        date: model.date,
       })
-      .subscribe(res => this.mealsService.updateMeal(meal));
+      .subscribe(res => this.mealsService.updateMeal(id, model));
   }
 
   createMeal() {
@@ -26,9 +27,7 @@ export class MealsDataService {
         calories: 0,
         date: new Date(),
       })
-      .subscribe((meal: Meal) => {
-        this.mealsService.createMeal(meal);
-      });
+      .subscribe(meal => this.mealsService.createMeal(meal));
   }
 
   deleteMeal(meal: Meal) {

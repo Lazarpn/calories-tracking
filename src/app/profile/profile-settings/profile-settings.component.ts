@@ -9,18 +9,15 @@ import { AuthService } from 'src/app/auth/auth.service';
   styleUrls: ['./profile-settings.component.scss'],
 })
 export class ProfileSettingsComponent implements OnInit {
-  @ViewChild('form', { static: true }) form: NgForm;
+  // @ViewChild('form', { static: true }) form: NgForm;
   isEditMode: boolean = false;
   caloriesPreference: number;
-  constructor(
-    private profileService: ProfileService,
-    private authService: AuthService
-  ) {}
+  constructor(private profileService: ProfileService) {}
 
   ngOnInit(): void {
-    const userInfo = JSON.parse(localStorage.getItem('userData'));
-    this.caloriesPreference = userInfo.caloriesPreference;
+    this.caloriesPreference = this.profileService.getUserCalories();
   }
+
   onInput(event: any) {
     const input = event.target.value;
     event.target.value = input.replace(/[^0-9]/g, '');
@@ -32,7 +29,6 @@ export class ProfileSettingsComponent implements OnInit {
 
   onCaloriesConfirm() {
     this.isEditMode = false;
-    const caloriesPreference = this.form.value.caloriesPreference;
-    this.profileService.updateUserCalories(caloriesPreference);
+    this.profileService.updateUserCalories(this.caloriesPreference);
   }
 }

@@ -6,7 +6,7 @@ import {
 } from '@angular/router';
 import { Observable, of, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { User } from '../shared/models/user.model';
+import { User } from '../shared/models/user/user.model';
 import { environment } from 'src/environments/environment';
 import { ProfileService } from '../profile/profile.service';
 

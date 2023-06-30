@@ -1,60 +1,42 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
-import { ManagerUsersService } from './manager-users.service';
-import { Router } from '@angular/router';
-import { AuthService } from '../auth/auth.service';
+import { Subject } from 'rxjs';
+import { User } from '../shared/models/user/user.model';
+import { UserAdminUpdate } from '../shared/models/user/user-admin-update.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ManagerService {
-  url: string = environment.url + '/api';
+  users: User[];
+  usersChanged = new Subject<User[]>();
 
-  constructor(
-    private http: HttpClient,
-    private managerUsersService: ManagerUsersService,
-    private authService: AuthService
-  ) {}
+  constructor() {}
 
-  getUsers() {
-    this.http
-      .get<{
-        id: string;
-        email: string;
-        firstName: string;
-        lastName: string;
-        caloriesPreference?: number;
-        userPhoto?: string;
-      }>(this.url + '/users/admin/all')
-      .subscribe(
-        users => {
-          this.managerUsersService.setUsers(users);
-        },
-        error => {
-          if (error.status === 403) {
-            alert('You are not authorized to access this!');
-            this.authService.signOut();
-          }
-        }
-      );
+  setUsers(users: User[]) {
+    this.users = users;
+    this.usersChanged.next(users);
   }
 
-  updateUser(id, firstName, lastName, email, caloriesPreference) {
-    this.http
-      .put(this.url + `/users/admin/${id}`, {
-        id: id,
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        caloriesPreference: caloriesPreference,
-      })
-      .subscribe(data => {});
+  getUsers(): User[] {
+    return this.users;
   }
 
   deleteUser(email: string) {
-    this.http.delete(this.url + `/users/admin/${email}`).subscribe(res => {
-      this.managerUsersService.onUserDelete(email);
-    });
+    const user = this.users.find(u => u.email == email);
+    const userPosition = this.users.indexOf(user);
+    this.users.splice(userPosition, 1);
+    this.usersChanged.next(this.users);
+  }
+
+  updateUser(model: UserAdminUpdate) {
+    const index = this.users.indexOf(
+      this.users.find(u => u.email === model.email)
+    );
+    this.users[index].email = model.email;
+    this.users[index].caloriesPreference = model.caloriesPreference;
+    this.users[index].firstName = model.firstName;
+    this.users[index].lastName = model.lastName;
+
+    this.usersChanged.next(this.users);
   }
 }

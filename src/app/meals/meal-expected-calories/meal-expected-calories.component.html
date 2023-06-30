@@ -8,7 +8,7 @@
 </div>
 
 <div class="calories-preference" *ngIf="caloriesPreferenceApplied">
-  <ng-container *ngIf="caloriesLeft > 0">
+  <ng-container *ngIf="todaysCaloriesLeft > 0">
     <p class="calories-goal">
       Today you had <span>{{ todaysMeals }}</span>
       {{ todaysMeals > 1 || todaysMeals === 0 ? 'meals' : 'meal' }} with the
@@ -16,17 +16,17 @@
       {{ todaysCalories > 1 || todaysCalories === 0 ? 'calories' : 'calory' }}
       out of
       <span>{{ caloriesPreference }}</span
-      >. You have <span>{{ todaysCaloriesLeft }}</span>
+      >. You have <span>{{ todaysCaloriesLeft }}</span> more
       {{
         todaysCaloriesLeft > 1 || todaysCaloriesLeft === 0
           ? 'calories'
           : 'calory'
       }}
-      more to go
+      to go
     </p>
   </ng-container>
 
-  <ng-container *ngIf="caloriesLeft <= 0">
+  <ng-container *ngIf="todaysCaloriesLeft <= 0">
     <p class="calories-goal">
       Congratulations! You've reached your goal for today! You had
       <span>{{ todaysCalories }}</span> out of

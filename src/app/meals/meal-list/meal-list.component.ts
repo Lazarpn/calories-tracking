@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { Meal } from '../meal.model';
+import { Meal } from '../../shared/models/meal/meal.model';
 import { CanComponentDeactivate } from './meal/can-deactivate-guard.service';
 
 @Component({

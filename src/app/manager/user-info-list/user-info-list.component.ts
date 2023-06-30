@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ManagerUsersService } from '../manager-users.service';
 import { ManagerService } from '../manager.service';
+import { ManagerDataService } from '../manager-data.service';
 
 @Component({
   selector: 'ct-user-info-list',
@@ -11,22 +11,22 @@ export class UserInfoListComponent implements OnInit {
   isLoading: boolean = true;
   @Input() usersList: any[];
   constructor(
-    private managerUsersService: ManagerUsersService,
+    private managerDataService: ManagerDataService,
     private managerService: ManagerService
   ) {}
 
   ngOnInit(): void {
-    this.usersList = this.managerUsersService.getUsers();
+    this.usersList = this.managerService.getUsers();
 
     if (!this.usersList) {
-      this.managerService.getUsers();
+      this.managerDataService.getUsers();
     }
 
     if (this.usersList) {
       this.isLoading = false;
     }
 
-    this.managerUsersService.usersChanged.subscribe(users => {
+    this.managerService.usersChanged.subscribe(users => {
       this.usersList = users;
       this.isLoading = false;
     });

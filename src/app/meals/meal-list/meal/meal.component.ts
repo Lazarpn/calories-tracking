@@ -6,7 +6,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Meal } from '../../meal.model';
+import { Meal } from '../../../shared/models/meal/meal.model';
 import { MealsDataService } from '../../meals-data.service';
 
 @Component({
@@ -21,7 +21,10 @@ export class MealComponent implements OnInit {
   isDisabled: boolean = true;
 
   get mealTime(): string {
-    return `${this.meal.date.getHours()}:${this.meal.date.getMinutes()}`;
+    return `${this.meal.date.getHours()}:${this.meal.date
+      .getMinutes()
+      .toString()
+      .padStart(2, '0')}`;
   }
 
   set mealTime(value: string) {
@@ -59,7 +62,7 @@ export class MealComponent implements OnInit {
   onMealConfirm() {
     this.isEditMode = false;
     this.isDisabled = true;
-    this.mealsDataService.updateMeal(this.meal);
+    this.mealsDataService.updateMeal(this.meal.id, this.meal);
   }
 
   onMealEdit() {

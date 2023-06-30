@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { ManagerDataService } from '../../manager-data.service';
 import { ManagerService } from '../../manager.service';
-import { ManagerUsersService } from '../../manager-users.service';
+import { User } from 'src/app/shared/models/user/user.model';
 
 @Component({
   selector: 'ct-user-info',
@@ -9,24 +10,26 @@ import { ManagerUsersService } from '../../manager-users.service';
   styleUrls: ['./user-info.component.scss'],
 })
 export class UserInfoComponent implements OnInit {
-  @Input() user: any;
+  @Input() user: User;
   userImage: any;
   userForm: FormGroup;
-  isDisabled: boolean = true;
   changesSaved: boolean = true;
-  constructor(
-    private managerService: ManagerService,
-    private ManagerUsersService: ManagerUsersService
-  ) {}
+  constructor(private managerDataService: ManagerDataService) {}
 
   ngOnInit(): void {
     this.userForm = new FormGroup({
-      email: new FormControl({ value: this.user.email, disabled: true }),
+      email: new FormControl({
+        value: this.user.email,
+        disabled: true,
+      }),
       firstName: new FormControl({
         value: this.user.firstName,
         disabled: true,
       }),
-      lastName: new FormControl({ value: this.user.lastName, disabled: true }),
+      lastName: new FormControl({
+        value: this.user.lastName,
+        disabled: true,
+      }),
       caloriesPreference: new FormControl({
         value: this.user.caloriesPreference,
         disabled: true,
@@ -40,14 +43,11 @@ export class UserInfoComponent implements OnInit {
 
   onUserEdit() {
     this.changesSaved = false;
-    this.userForm.get('firstName').enable();
-    this.userForm.get('lastName').enable();
-    this.userForm.get('email').enable();
-    this.userForm.get('caloriesPreference').enable();
+    this.userForm.enable();
   }
 
   onUserDelete() {
-    this.managerService.deleteUser(this.user.email);
+    this.managerDataService.deleteUser(this.user.email);
   }
 
   onInput(event: any) {
@@ -57,26 +57,17 @@ export class UserInfoComponent implements OnInit {
 
   onUserConfirm() {
     this.changesSaved = true;
-    this.userForm.get('firstName').disable();
-    this.userForm.get('lastName').disable();
-    this.userForm.get('email').disable();
-    this.userForm.get('caloriesPreference').disable();
-
-    const firstName = this.userForm.get('firstName').value;
-    const lastName = this.userForm.get('lastName').value;
-    const email = this.userForm.get('email').value;
-    let caloriesPreference = this.userForm.get('caloriesPreference').value;
-    if (!caloriesPreference) {
+    this.userForm.disable();
+    this.user.firstName = this.userForm.get('firstName').value;
+    this.user.lastName = this.userForm.get('lastName').value;
+    this.user.email = this.userForm.get('email').value;
+    this.user.caloriesPreference =
+      this.userForm.get('caloriesPreference').value;
+    if (!this.user.caloriesPreference) {
       this.userForm.controls['caloriesPreference'].setValue(0);
-      caloriesPreference = 0;
+      this.user.caloriesPreference = 0;
     }
 
-    this.managerService.updateUser(
-      this.user.id,
-      firstName,
-      lastName,
-      email,
-      caloriesPreference
-    );
+    this.managerDataService.updateUser(this.user);
   }
 }

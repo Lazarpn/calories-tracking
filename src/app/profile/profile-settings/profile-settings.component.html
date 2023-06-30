@@ -1,5 +1,5 @@
-<form class="form" #form="ngForm">
-  <div class="form__calories">
+<form class="calories-form" #form="ngForm">
+  <div class="calories-wrapper">
     <label for="calories">Your calories</label>
     <input
       [disabled]="!isEditMode"
@@ -9,15 +9,12 @@
       (input)="onInput($event)"
       name="caloriesPreference"
       id="caloriesPreference"
-      [(ngModel)]="caloriesPreference"
-    />
-
+      [(ngModel)]="caloriesPreference" />
     <button
       *ngIf="isEditMode"
       class="btn-submit btn"
       type="submit"
-      (click)="onCaloriesConfirm()"
-    >
+      (click)="onCaloriesConfirm()">
       <svg class="icon icon-confirm">
         <use xlink:href="/assets/sprite.svg#icon-checkmark"></use>
       </svg>

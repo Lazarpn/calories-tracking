@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Meal } from './meal.model';
 import { Filter } from './meal-list/filter.model';
 import { FilterService } from '../shared/filter.service';
+import { Meal } from '../shared/models/meal/meal.model';
+import { MealUpdate } from '../shared/models/meal/meal-update.model';
 
 @Injectable({ providedIn: 'root' })
 export class MealsService {
@@ -31,9 +32,12 @@ export class MealsService {
     this.updateAllComponents();
   }
 
-  updateMeal(newMeal: Meal) {
-    const index = this.meals.indexOf(newMeal);
-    this.meals[index] = newMeal;
+  updateMeal(id: string, model: MealUpdate) {
+    const index = this.meals.indexOf(this.meals.find(m => m.id === id));
+    this.meals[index].name = model.name;
+    this.meals[index].date = model.date;
+    this.meals[index].calories = model.calories;
+
     // FIXME: mozda treba ovde da se proveri za datum da li je danasnji
     this.updateAllComponents();
   }

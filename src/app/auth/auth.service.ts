@@ -3,10 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, catchError, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-
-export interface AuthResponseModel {
-  token: string;
-}
+import { AuthResponseModel } from '../shared/models/user/auth-response.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -63,11 +60,12 @@ export class AuthService {
   signOut() {
     localStorage.clear();
     this.userRole.next(null);
-    this.router.navigate(['/auth']);
     if (this.tokenExpirationTimer) {
       clearTimeout(this.tokenExpirationTimer);
     }
     this.tokenExpirationTimer = null;
+    //FIXME: ovo treba da se promeni da ne bude ovaj url uvek
+    location.replace('http://localhost:4200/auth');
   }
 
   authenticated(): boolean {
@@ -75,6 +73,7 @@ export class AuthService {
   }
 
   private handleAuthentication(authResponse: AuthResponseModel) {
+    console.log(authResponse);
     const parsedToken = this.parseJwt(authResponse.token);
     const expirationTime = new Date(parsedToken.exp * 1000);
     const expirationDuration = expirationTime.getTime() - new Date().getTime();

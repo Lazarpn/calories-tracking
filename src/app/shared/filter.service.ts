@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Filter } from '../meals/meal-list/filter.model';
-import { Meal } from '../meals/meal.model';
+import { Meal } from './models/meal/meal.model';
 
 @Injectable({
   providedIn: 'root',

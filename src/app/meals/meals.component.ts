@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Filter } from './meal-list/filter.model';
-import { Meal } from './meal.model';
+import { Meal } from '../shared/models/meal/meal.model';
 import { MealsDataService } from './meals-data.service';
 import { MealsService } from './meals.service';
 

@@ -1,32 +1,26 @@
 @import '/src/styles.scss';
 :host {
   display: grid;
+  grid-template-columns: 20% 80%;
   height: 500px;
   width: 1100px;
-  grid-template-columns: 20% 80%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  margin-top: 100px;
+  background-color: #f0f0f0;
 
   @include respond(tab-land) {
     width: 90%;
     height: 80%;
-    top: 55%;
     grid-template-columns: 150px 1fr;
   }
 
   @include respond(phone) {
-    top: 70%;
   }
 }
 
 .profile-info {
-  position: relative;
 }
 
 .profile-user-info {
-  margin-top: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -52,6 +46,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  gap: 30px;
   align-items: center;
   background-color: var(--color-primary);
 
@@ -119,7 +114,7 @@
     justify-content: center;
     align-items: center;
     &-active {
-      background-color: var(--color-primary);
+      background-color: var(--color-primary-dark);
     }
   }
 }
@@ -137,13 +132,9 @@
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  margin-right: 20px;
   fill: var(--color-white);
   outline: 1px solid var(--color-white);
   outline-offset: 5px;
-  position: absolute;
-  bottom: 5%;
-  right: 5%;
 }
 
 .icon-camera {

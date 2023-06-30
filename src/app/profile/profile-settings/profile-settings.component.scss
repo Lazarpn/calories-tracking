@@ -1,27 +1,27 @@
-@import "/src/styles.scss";
+@import '/src/styles.scss';
+//FIXME:popraviti ovo
+:host {
+}
 
-.form {
+.calories-form {
   margin-top: 10px;
   margin-left: 10px;
+}
 
-  &__settings {
+.calories-wrapper {
+  margin-top: 20px;
+
+  label {
+    margin-right: 10px;
   }
 
-  &__calories {
-    margin-top: 20px;
-
-    label {
-      margin-right: 10px;
-    }
-
-    input {
-      all: unset;
-      width: 150px;
-      border-bottom: 2px solid var(--color-primary);
-      text-align: center;
-      color: var(--color-primary);
-      margin-right: 15px;
-    }
+  input {
+    all: unset;
+    width: 150px;
+    border-bottom: 2px solid var(--color-primary);
+    text-align: center;
+    color: var(--color-primary);
+    margin-right: 15px;
   }
 }
 
@@ -42,9 +42,4 @@
   fill: var(--color-primary);
   outline: 1px solid var(--color-primary);
   outline-offset: 5px;
-}
-.icon-confirm {
-}
-
-.icon-edit {
 }

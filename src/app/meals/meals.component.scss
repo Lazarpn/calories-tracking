@@ -1,8 +1,7 @@
 @import '/src/styles.scss';
 
-.meals {
+:host {
   display: flex;
-  grid-template-columns: 0.6fr 0.4fr;
   // flex-wrap: wrap;
   justify-content: center;
   padding: 40px 40px;
@@ -16,25 +15,26 @@
     text-align: center;
     font-size: 25px;
   }
+}
 
-  &__list {
-    display: flex;
-    gap: 30px;
-    justify-content: center;
-    flex-direction: column;
-    @include respond(tab-land) {
-    }
+ct-meal-list {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  flex-direction: column;
+
+  @include respond(tab-land) {
   }
+}
 
-  &__advanced {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.meals-calendar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-    @include respond(tab-land) {
-      order: -1;
-      margin-left: 0;
-    }
+  @include respond(tab-land) {
+    order: -1;
+    margin-left: 0;
   }
 }
 

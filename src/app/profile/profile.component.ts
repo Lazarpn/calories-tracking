@@ -6,10 +6,10 @@ import {
   ElementRef,
   HostListener,
 } from '@angular/core';
-import { FormControl, FormGroup, NgForm } from '@angular/forms';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ProfileService } from './profile.service';
 import { Subscription } from 'rxjs';
+import { User } from '../shared/models/user/user.model';
 
 @Component({
   selector: 'ct-profile',
@@ -36,18 +36,17 @@ export class ProfileComponent implements OnInit, OnDestroy {
   imageSrc: string;
   isPhotoUploaded: boolean;
   isEditMode: boolean = false;
-  userInfoSub: Subscription;
   beforeEditName: string;
   beforeEditSurname: string;
-  constructor(
-    private sanitizer: DomSanitizer,
-    private profileService: ProfileService
-  ) {}
+  constructor(private profileService: ProfileService) {}
 
   ngOnInit(): void {
-    const userInfo = JSON.parse(localStorage.getItem('userData'));
+    const userInfo = this.profileService.getUserInfo();
     this.form = new FormGroup({
-      firstName: new FormControl({ value: userInfo.firstName, disabled: true }),
+      firstName: new FormControl({
+        value: userInfo.firstName,
+        disabled: true,
+      }),
       lastName: new FormControl({ value: userInfo.lastName, disabled: true }),
     });
 

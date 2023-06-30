@@ -17,6 +17,10 @@
   }
 }
 
+:host.display-none {
+  display: none;
+}
+
 .auth-heading {
   color: #fff;
   font-size: 25px;

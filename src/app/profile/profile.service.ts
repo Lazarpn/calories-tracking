@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { User } from '../shared/models/user.model';
+import { User } from '../shared/models/user/user.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { PreloadAllModules } from '@angular/router';

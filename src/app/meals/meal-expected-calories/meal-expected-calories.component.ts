@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ProfileService } from '../../profile/profile.service';
 import { Subscription } from 'rxjs';
 import { MealsService } from '../meals.service';
-import { User } from 'src/app/shared/models/user.model';
+import { User } from 'src/app/shared/models/user/user.model';
 
 @Component({
   selector: 'ct-meal-expected-calories',
@@ -46,22 +46,13 @@ export class MealExpectedCaloriesComponent implements OnInit, OnDestroy {
     this.todaysMeals = this.mealsService.getTodaysMeals();
     this.totalCalories = this.mealsService.getTotalCalories();
     this.totalMeals = this.mealsService.getTotalMeals();
-    //////
     this.todaysCalories = this.mealsService.getTodaysCalories();
     this.caloriesPreference = this.profileService.getUserCalories();
+
     if (this.caloriesPreference && this.caloriesPreference > 0) {
       this.caloriesPreferenceApplied = true;
       this.calculateCalories();
     }
-
-    this.profileService.preferenceCaloriesChanged.subscribe(
-      (calories: number) => {
-        //FIXME: mozda treba da proverim za ovo caloriesPreferenceApplied za true
-        this.caloriesPreferenceApplied = true;
-        this.caloriesPreference = calories;
-        this.calculateCalories();
-      }
-    );
   }
 
   calculateCalories() {

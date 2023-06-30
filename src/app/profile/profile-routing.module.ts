@@ -5,6 +5,7 @@ import { ProfileSettingsComponent } from './profile-settings/profile-settings.co
 
 const routes: Routes = [
   {
+    // FIXME: pitaj Milosa sa ovaj error sto ne vodi na profile
     path: '',
     component: ProfileComponent,
     children: [{ path: 'settings', component: ProfileSettingsComponent }],

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthResponseModel, AuthService } from './auth.service';
+import { AuthService } from './auth.service';
+import { AuthResponseModel } from '../shared/models/user/auth-response.model';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -10,9 +11,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./auth.component.scss'],
 })
 export class AuthComponent implements OnInit {
+  @HostBinding('class.display-none') isLoading: boolean = false;
   isSignInMode: boolean = true;
-  isLoading: boolean = false;
-  error: string = null;
   authForm: FormGroup;
 
   constructor(private authService: AuthService, private router: Router) {}
@@ -46,6 +46,7 @@ export class AuthComponent implements OnInit {
     if (!this.authForm.valid) {
       return;
     }
+    this.isLoading = true;
     const email = this.authForm.value.email;
     const password = this.authForm.value.password;
     let firstName, lastName;
@@ -56,7 +57,6 @@ export class AuthComponent implements OnInit {
     }
 
     let authObs: Observable<AuthResponseModel>;
-    this.isLoading = true;
 
     if (this.isSignInMode) {
       authObs = this.authService.signIn(email, password);
@@ -66,11 +66,10 @@ export class AuthComponent implements OnInit {
 
     authObs.subscribe(
       responseData => {
-        this.isLoading = false;
         this.router.navigate(['/meals']);
+        this.isLoading = false;
       },
-      errorMessage => {
-        this.error = errorMessage;
+      err => {
         this.isLoading = false;
       }
     );

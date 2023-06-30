@@ -1,7 +1,7 @@
 @import '/src/styles.scss';
 
 :host {
-  width: 820px;
+  max-width: 820px;
   height: 100px;
   border-radius: 20px;
   background-color: var(--color-primary);
