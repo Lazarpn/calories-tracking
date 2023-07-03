@@ -12,15 +12,12 @@ export class MealCalendarComponent implements OnInit, OnDestroy {
   @Output() filterApplied = new Subject<MealDateFilter>();
 
   model: MealDateFilter = {
+    //FIXME: ili stavi najstariji datum za dateStart a dateEnd po default-u danasnji i tjt. i mozda umesto alerta poruka neka
     dateStart: new Date(new Date().setHours(0, 0, 0, 0)),
     dateEnd: new Date(new Date().setHours(23, 59, 59)),
   };
 
   set dateStart(value: string) {
-    if (!this.model.dateStart) {
-      this.model.dateStart = new Date(value);
-      return;
-    }
     const hours = this.model.dateStart.getHours();
     const minutes = this.model.dateStart.getMinutes();
     this.model.dateStart = new Date(value);
@@ -29,10 +26,6 @@ export class MealCalendarComponent implements OnInit, OnDestroy {
   }
 
   set dateEnd(value: string) {
-    if (!this.model.dateEnd) {
-      this.model.dateEnd = new Date(value);
-      return;
-    }
     const hours = this.model.dateEnd.getHours();
     const minutes = this.model.dateEnd.getMinutes();
     this.model.dateEnd = new Date(value);
@@ -57,8 +50,6 @@ export class MealCalendarComponent implements OnInit, OnDestroy {
   ngOnInit(): void {}
 
   onSubmit() {
-    console.log(this.model.dateStart);
-    console.log(this.model.dateEnd);
     if (this.model.dateStart > this.model.dateEnd) {
       alert('Date end must be bigger than Date end!');
       return;

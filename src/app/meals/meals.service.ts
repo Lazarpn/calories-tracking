@@ -96,7 +96,7 @@ export class MealsService {
   }
 
   private updateAllComponents() {
-    //FIXME: Ovo moze da se popakuje po funkcijama gde sta treba a ne uvek sve
+    //FIXME: Ovo moze da se popakuje po funkcijama gde sta treba a ne uvek sve i ovo pravi problem kad se nextuje ako je filterApplied, ponisti filter u prevodu
     this.mealsChanged.next(this.meals.slice());
     this.totalCaloriesChanged.next(this.getTotalCalories());
     this.totalMealsChanged.next(this.getTotalMeals());
