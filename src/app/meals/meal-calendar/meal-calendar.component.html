@@ -1,18 +1,17 @@
-<form class="calendar-form" #calendarForm="ngForm">
+<form class="calendar-form" (ngSubmit)="onSubmit()" #calendarForm="ngForm">
   <!-- DATE -->
+  <p class="calendar-tip">
+    If you don't set a date, today's date will be taken
+  </p>
   <div class="calendar-dates">
     <label for="dateStart">Date Start</label>
     <input
       type="date"
       id="dateStart"
       name="dateStart"
-      [(ngModel)]="model.dateStart" />
+      [(ngModel)]="dateStart" />
     <label for="dateEnd">Date End</label>
-    <input
-      type="date"
-      id="dateEnd"
-      name="dateEnd"
-      [(ngModel)]="model.dateEnd" />
+    <input type="date" id="dateEnd" name="dateEnd" [(ngModel)]="dateEnd" />
   </div>
 
   <div class="calendar-time">
@@ -21,13 +20,9 @@
       type="time"
       id="timeStart"
       name="timeStart"
-      [(ngModel)]="model.timeStart" />
+      [(ngModel)]="timeStart" />
     <label for="timeEnd">Time end</label>
-    <input
-      type="time"
-      id="timeEnd"
-      name="timeEnd"
-      [(ngModel)]="model.timeEnd" />
+    <input type="time" id="timeEnd" name="timeEnd" [(ngModel)]="timeEnd" />
   </div>
 
   <button class="btn-search" type="submit">Search</button>

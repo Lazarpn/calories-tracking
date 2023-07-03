@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ProfileService } from '../profile.service';
-import { AuthService } from 'src/app/auth/auth.service';
+import { AuthService } from 'src/app/+auth/auth.service';
 
 @Component({
   selector: 'ct-profile-settings',

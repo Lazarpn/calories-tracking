@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Filter } from './meal-list/filter.model';
+import { MealDateFilter } from '../shared/models/meal/meal-date-filter.model';
 import { FilterService } from '../shared/filter.service';
 import { Meal } from '../shared/models/meal/meal.model';
 import { MealUpdate } from '../shared/models/meal/meal-update.model';
@@ -49,7 +49,7 @@ export class MealsService {
     this.updateAllComponents();
   }
 
-  filterMeals(filter: Filter) {
+  filterMeals(filter: MealDateFilter) {
     const filteredMeals: Meal[] = this.filterService.filterMeals(
       filter,
       this.meals.slice()

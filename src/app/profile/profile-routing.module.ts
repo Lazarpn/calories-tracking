@@ -8,7 +8,10 @@ const routes: Routes = [
     // FIXME: pitaj Milosa sa ovaj error sto ne vodi na profile
     path: '',
     component: ProfileComponent,
-    children: [{ path: 'settings', component: ProfileSettingsComponent }],
+    children: [
+      { path: '', redirectTo: 'settings', pathMatch: 'full' },
+      { path: 'settings', component: ProfileSettingsComponent },
+    ],
   },
 ];
 

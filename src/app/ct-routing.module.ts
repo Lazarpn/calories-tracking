@@ -1,18 +1,22 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
-import { AuthenticatedResolver } from './auth/authenticated.resolver';
-import { UnauthenticatedGuard } from './auth/unauthenticated.guard';
+import { AuthenticatedResolver } from './+auth/authenticated.resolver';
+import { UnauthenticatedGuard } from './+auth/unauthenticated.guard';
 
 const routes: Routes = [
   {
     path: 'auth',
-    loadChildren: () => import('./auth/auth.module').then( m => m.AuthModule),
+    loadChildren: () => import('./+auth/auth.module').then(m => m.AuthModule),
   },
   {
-    path: '',  canActivate: [UnauthenticatedGuard],
+    path: '',
+    canActivate: [UnauthenticatedGuard],
     resolve: { userData: AuthenticatedResolver },
-    loadChildren: () => import('./authenticated/authenticated.module').then(m => m.AuthenticatedModule),
+    loadChildren: () =>
+      import('./+authenticated/authenticated.module').then(
+        m => m.AuthenticatedModule
+      ),
   },
   { path: '**', redirectTo: 'auth' },
 ];

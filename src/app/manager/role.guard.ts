@@ -7,13 +7,13 @@ import {
   UrlTree,
 } from '@angular/router';
 import { Observable, map, take } from 'rxjs';
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from '../+auth/auth.service';
 import { User } from '../shared/models/user/user.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UsersGuard implements CanActivate {
+export class RoleGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -24,8 +24,8 @@ export class UsersGuard implements CanActivate {
     | boolean
     | UrlTree {
     return this.authService.userRole.pipe(
-      take(1),
       map(userRole => {
+        //FIXME:mozda bih trebao da koristim resolver i direktno za backend-om da proverim da li je user admin a ne iz token-a
         const canAccess = userRole === 'Administrator';
         if (canAccess) {
           return true;

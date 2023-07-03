@@ -3,13 +3,13 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { ManagerComponent } from './manager.component';
 import { UserInfoListComponent } from './user-info-list/user-info-list.component';
-import { UsersGuard } from './users.guard';
+import { RoleGuard } from './role.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: ManagerComponent,
-    canActivate: [UsersGuard],
+    canActivate: [RoleGuard],
     children: [
       { path: '', redirectTo: 'user-list', pathMatch: 'full' },
       {

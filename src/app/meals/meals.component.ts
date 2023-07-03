@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Filter } from './meal-list/filter.model';
 import { Meal } from '../shared/models/meal/meal.model';
 import { MealsDataService } from './meals-data.service';
 import { MealsService } from './meals.service';
+import { MealDateFilter } from '../shared/models/meal/meal-date-filter.model';
 
 @Component({
   selector: 'ct-meals',
@@ -38,7 +38,7 @@ export class MealsComponent implements OnInit {
     });
   }
 
-  onFilterApplied(filter: Filter) {
+  onFilterApplied(filter: MealDateFilter) {
     const isFilterEmpty = Object.values(filter).every(value => value === '');
     this.filterApplied = !isFilterEmpty;
     this.mealsService.filterMeals(filter);
