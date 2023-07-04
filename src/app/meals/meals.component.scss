@@ -2,7 +2,6 @@
 
 :host {
   display: flex;
-  // flex-wrap: wrap;
   justify-content: center;
   padding: 40px 40px;
   gap: 80px;
@@ -58,5 +57,9 @@ ct-meal-list {
 
   @include respond(tab-land) {
     top: 10%;
+  }
+
+  @include respond(phone) {
+    top: 16%;
   }
 }

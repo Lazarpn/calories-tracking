@@ -1,4 +1,4 @@
-@import "/src/styles.scss";
+@import '/src/styles.scss';
 
 .user {
   width: 100%;
@@ -19,10 +19,13 @@
   }
 
   @include respond(tab-port) {
-    flex-direction: column;
     gap: 15px;
     padding: 15px;
     height: auto;
+  }
+
+  @include respond(phone) {
+    flex-direction: column;
   }
 
   &__image {

@@ -1,5 +1,5 @@
 <ct-meal-list [meals]="meals"> </ct-meal-list>
-<p *ngIf="!meals.length && !filterApplied">
+<p *ngIf="!meals.length && mealsFetched && !filterApplied">
   You don't have any meals currently!
 </p>
 <p *ngIf="filterApplied && !meals.length">

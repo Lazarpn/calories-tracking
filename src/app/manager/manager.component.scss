@@ -1,8 +1,15 @@
+@import '/src/styles.scss';
+
 :host {
   display: flex;
   justify-content: center;
   padding: 40px 0;
   position: relative;
+
+  @include respond(phone) {
+    display: flex;
+    flex: 1;
+  }
 }
 
 ::ng-deep ct-user-info-list {

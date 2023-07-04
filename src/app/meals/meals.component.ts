@@ -13,6 +13,7 @@ import { MealDateFilter } from '../shared/models/meal/meal-date-filter.model';
 })
 export class MealsComponent implements OnInit {
   filterApplied: boolean = false;
+  mealsFetched: boolean = false;
   meals: Meal[] = [];
 
   constructor(
@@ -23,7 +24,10 @@ export class MealsComponent implements OnInit {
 
   ngOnInit(): void {
     this.meals = this.mealsService.getMeals();
-    this.mealsService.mealsChanged.subscribe(meals => (this.meals = meals));
+    this.mealsService.mealsChanged.subscribe(meals => {
+      this.meals = meals;
+      this.mealsFetched = true;
+    });
 
     if (this.meals.length === 0) {
       this.mealsDataService.getMeals();
