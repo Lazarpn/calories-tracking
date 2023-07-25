@@ -23,7 +23,6 @@ export class AuthenticatedResolver implements Resolve<User> {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<User> | Promise<User> | User {
-    FIXME: 'Jel treba ovo ovako?';
     return this.http.get<User>(this.url + '/users/me').pipe(
       tap((user: User) => {
         this.profileService.setUser(user);

@@ -8,7 +8,7 @@
 </div>
 
 <div class="calories-preference" *ngIf="caloriesPreferenceApplied">
-  <ng-container *ngIf="todaysCaloriesLeft > 0">
+  <div *ngIf="todaysCaloriesLeft > 0">
     <p class="calories-goal">
       Today you had <span>{{ todaysMeals }}</span>
       {{ todaysMeals > 1 || todaysMeals === 0 ? 'meals' : 'meal' }} with the
@@ -24,15 +24,15 @@
       }}
       to go
     </p>
-  </ng-container>
+  </div>
 
-  <ng-container *ngIf="todaysCaloriesLeft <= 0">
+  <div *ngIf="todaysCaloriesLeft <= 0">
     <p class="calories-goal">
       Congratulations! You've reached your goal for today! You had
       <span>{{ todaysCalories }}</span> out of
       <span>{{ caloriesPreference }}</span> calories
     </p>
-  </ng-container>
+  </div>
 
   <form class="calories-progress" #form="ngForm">
     <label for="progress">Your progress</label>

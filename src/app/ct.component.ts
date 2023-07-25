@@ -7,6 +7,7 @@ import { AuthService } from './+auth/auth.service';
   styleUrls: ['./ct.component.scss'],
 })
 export class CtComponent implements OnInit {
+  title: string = 'Calories Tracking';
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {

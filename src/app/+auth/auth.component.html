@@ -31,26 +31,26 @@
     character!
   </span>
 
-  <ng-container *ngIf="!isSignInMode">
+  <div class="sign-up" *ngIf="!isSignInMode">
+    <label for="firstName">FirstName</label>
     <input
       formControlName="firstName"
       name="firstName"
       type="text"
       placeholder="FirstName" />
-    <label for="firstName">FirstName</label>
+    <label for="lastName">LastName</label>
     <input
       formControlName="lastName"
       type="text"
       name="lastName"
       placeholder="LastName" />
-    <label for="lastName">LastName</label>
-  </ng-container>
+  </div>
 
   <button type="submit" class="form-button" [disabled]="!authForm.valid">
     {{ isSignInMode ? 'Sign in' : 'Sign up' }}
   </button>
 
-  <ng-container>
+  <div>
     <p class="form-text">
       {{
         isSignInMode
@@ -69,7 +69,7 @@
       Or Sign up with
       <button class="btn-google">Google</button>
     </p>
-  </ng-container>
+  </div>
 </form>
 
 <ct-loading-spinner *ngIf="isLoading"></ct-loading-spinner>

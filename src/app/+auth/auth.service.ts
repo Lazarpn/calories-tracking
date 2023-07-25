@@ -46,6 +46,9 @@ export class AuthService {
     }
     const parsedToken = this.parseJwt(token);
     const expirationTime = new Date(parsedToken.exp * 1000);
+    if (new Date() > expirationTime) {
+      return;
+    }
     const expirationDuration = expirationTime.getTime() - new Date().getTime();
     this.userRole.next(parsedToken.roles);
     this.autoSignOut(expirationDuration);
@@ -64,8 +67,7 @@ export class AuthService {
       clearTimeout(this.tokenExpirationTimer);
     }
     this.tokenExpirationTimer = null;
-    //FIXME: ovo treba da se promeni da ne bude ovaj url uvek
-    location.replace('http://localhost:4200/auth');
+    location.replace(environment.homeUrl);
   }
 
   authenticated(): boolean {
@@ -73,7 +75,6 @@ export class AuthService {
   }
 
   private handleAuthentication(authResponse: AuthResponseModel) {
-    console.log(authResponse);
     const parsedToken = this.parseJwt(authResponse.token);
     const expirationTime = new Date(parsedToken.exp * 1000);
     const expirationDuration = expirationTime.getTime() - new Date().getTime();

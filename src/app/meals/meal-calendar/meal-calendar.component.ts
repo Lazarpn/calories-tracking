@@ -12,7 +12,6 @@ export class MealCalendarComponent implements OnInit, OnDestroy {
   @Output() filterApplied = new Subject<MealDateFilter>();
 
   model: MealDateFilter = {
-    //FIXME: ili stavi najstariji datum za dateStart a dateEnd po default-u danasnji i tjt. i mozda umesto alerta poruka neka
     dateStart: new Date(new Date().setHours(0, 0, 0, 0)),
     dateEnd: new Date(new Date().setHours(23, 59, 59)),
   };
@@ -51,8 +50,7 @@ export class MealCalendarComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (this.model.dateStart > this.model.dateEnd) {
-      alert('Date end must be bigger than Date end!');
-      return;
+      return alert('Date end must be bigger than Date end!');
     }
     this.filterApplied.next(this.model);
   }

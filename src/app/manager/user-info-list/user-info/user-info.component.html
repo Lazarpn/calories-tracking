@@ -2,22 +2,19 @@
   class="user"
   [ngClass]="{ 'user-edit': !changesSaved }"
   [formGroup]="userForm"
-  (ngSubmit)="onSubmit()"
->
+  (ngSubmit)="onSubmit()">
   <img
     *ngIf="user.userPhotoByte"
     [src]="userImage"
-    class="user__image"
-    alt="User-image"
-  />
+    class="user-image"
+    alt="User-image" />
 
   <label for="email">Email:</label>
   <input
     [ngStyle]="{ color: changesSaved === true ? '#fff' : '#23b5d3' }"
     formControlName="email"
     id="email"
-    type="text"
-  />
+    type="text" />
   <label for="firstName">First Name:</label>
 
   <input
@@ -25,8 +22,7 @@
     formControlName="firstName"
     type="text"
     ctNullToEmpty
-    id="firstName"
-  />
+    id="firstName" />
 
   <label for="lastName">Last Name:</label>
 
@@ -35,8 +31,7 @@
     formControlName="lastName"
     type="text"
     ctNullToEmpty
-    id="lastName"
-  />
+    id="lastName" />
   <label for="caloriesPreferencee">Calories Preference:</label>
 
   <input
@@ -44,8 +39,7 @@
     [formControlName]="'caloriesPreference'"
     type="number"
     (input)="onInput($event)"
-    id="caloriesPreference"
-  />
+    id="caloriesPreference" />
 
   <button class="btn-submit btn" type="submit" (click)="onUserConfirm()">
     <svg
@@ -54,8 +48,7 @@
         'display-none': changesSaved,
         icon: changesSaved,
         'icon-edit-mode': !changesSaved
-      }"
-    >
+      }">
       <use xlink:href="/assets/sprite.svg#icon-checkmark"></use>
     </svg>
   </button>
@@ -67,8 +60,7 @@
         'display-none': !changesSaved,
         icon: changesSaved,
         'icon-edit-mode': !changesSaved
-      }"
-    >
+      }">
       <use xlink:href="/assets/sprite.svg#icon-pencil"></use>
     </svg>
   </button>
@@ -80,8 +72,7 @@
         icon: changesSaved,
         'icon-edit-mode': !changesSaved,
         'display-none': !changesSaved
-      }"
-    >
+      }">
       <use xlink:href="/assets/sprite.svg#icon-bin"></use>
     </svg>
   </button>

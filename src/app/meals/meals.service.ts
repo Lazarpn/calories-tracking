@@ -13,6 +13,7 @@ export class MealsService {
   todaysMealsChanged = new Subject<number>();
   totalMealsChanged = new Subject<number>();
   totalCaloriesChanged = new Subject<number>();
+  mealChangesSaved: boolean = true;
 
   constructor(private filterService: FilterService) {}
 
@@ -37,13 +38,10 @@ export class MealsService {
     this.meals[index].name = model.name;
     this.meals[index].date = model.date;
     this.meals[index].calories = model.calories;
-
-    // FIXME: mozda treba ovde da se proveri za datum da li je danasnji
     this.updateAllComponents();
   }
 
   deleteMeal(meal: Meal) {
-    // FIXME: mogu da vrsim promenu da li je izbrisani meal danasnjeg datuma i tek onda da odredim koja vrsta update-a treba itd..
     const mealPosition = this.meals.indexOf(meal);
     this.meals.splice(mealPosition, 1);
     this.updateAllComponents();
@@ -96,7 +94,6 @@ export class MealsService {
   }
 
   private updateAllComponents() {
-    //FIXME: Ovo moze da se popakuje po funkcijama gde sta treba a ne uvek sve i ovo pravi problem kad se nextuje ako je filterApplied, ponisti filter u prevodu
     this.mealsChanged.next(this.meals.slice());
     this.totalCaloriesChanged.next(this.getTotalCalories());
     this.totalMealsChanged.next(this.getTotalMeals());

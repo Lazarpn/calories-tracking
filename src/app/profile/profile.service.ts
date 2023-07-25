@@ -17,8 +17,6 @@ export class ProfileService {
 
   constructor(private http: HttpClient) {}
 
-  // FIXME: 'Na koji nacin treba da vrsim cuvanje i prosledjivanje podataka iz servisa drugim komponentama i obrnuto';
-
   getUser(): User {
     return this.user;
   }
@@ -36,11 +34,11 @@ export class ProfileService {
 
   updateUserInfo(firstName: string, lastName: string) {
     this.http
-      .put(this.url + `/users/me`, {
+      .put<void>(this.url + `/users/me`, {
         firstName: firstName,
         lastName: lastName,
       })
-      .subscribe(() => {
+      .subscribe(_ => {
         this.user.firstName = firstName;
         this.user.lastName = lastName;
       });
@@ -52,45 +50,11 @@ export class ProfileService {
 
   updateUserCalories(caloriesPreference: number) {
     this.http
-      .put(this.url + '/users/me/calories', {
+      .put<void>(this.url + '/users/me/calories', {
         caloriesPreference: caloriesPreference,
       })
       .subscribe(() => {
         this.user.caloriesPreference = caloriesPreference;
-      });
-  }
-
-  getUserPhoto() {}
-
-  updateUserPhoto() {}
-
-  // FIXME: 'Menjanje nacina cuvanje slika';
-
-  getPhoto() {
-    return this.userPhoto;
-  }
-
-  fetchPhoto() {
-    const user: User = JSON.parse(localStorage.getItem('userData'));
-    this.http
-      .get(this.url + `/users/me/photo`)
-      .subscribe((res: { id: string; userPhoto: string }) => {
-        console.log(res);
-        this.userPhotoChanged.next(res.userPhoto);
-      });
-  }
-
-  uploadPhoto(base64) {
-    const user: User = JSON.parse(localStorage.getItem('userData'));
-    this.http
-      .put(this.url + `/users/me/photo`, {
-        userPhoto: base64,
-      })
-      .subscribe(res => {
-        console.log(res);
-        // console.log(res.userPhoto);
-        // this.userPhoto = res.userPhoto;
-        // this.userPhotoChanged.next(this.userPhoto);
       });
   }
 }

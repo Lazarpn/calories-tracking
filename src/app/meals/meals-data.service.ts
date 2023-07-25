@@ -1,4 +1,4 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Meal } from '../shared/models/meal/meal.model';
@@ -12,12 +12,12 @@ export class MealsDataService {
 
   updateMeal(id: string, model: MealUpdate) {
     this.http
-      .put<HttpResponse<204>>(this.url + `/meals/${id}`, {
+      .put<void>(this.url + `/meals/${id}`, {
         name: model.name,
         calories: model.calories,
         date: model.date,
       })
-      .subscribe(res => this.mealsService.updateMeal(id, model));
+      .subscribe(() => this.mealsService.updateMeal(id, model));
   }
 
   createMeal() {
@@ -32,8 +32,8 @@ export class MealsDataService {
 
   deleteMeal(meal: Meal) {
     this.http
-      .delete<HttpResponse<204>>(this.url + `/meals/${meal.id}`)
-      .subscribe(res => this.mealsService.deleteMeal(meal));
+      .delete<void>(this.url + `/meals/${meal.id}`)
+      .subscribe(() => this.mealsService.deleteMeal(meal));
   }
 
   getMeals() {

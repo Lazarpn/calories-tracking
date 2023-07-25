@@ -8,6 +8,8 @@ import {
 import { NgForm } from '@angular/forms';
 import { Meal } from '../../../shared/models/meal/meal.model';
 import { MealsDataService } from '../../meals-data.service';
+import { Subject } from 'rxjs';
+import { MealsService } from '../../meals.service';
 
 @Component({
   selector: 'ct-meal',
@@ -17,8 +19,10 @@ import { MealsDataService } from '../../meals-data.service';
 export class MealComponent implements OnInit {
   @ViewChild('form', { static: true }) mealForm: NgForm;
   @HostBinding('class.meal-edit') isEditMode = false;
-  @Input() meal: Meal;
+  @Input()
+  meal: Meal;
   isDisabled: boolean = true;
+  changesSaved: boolean = true;
 
   get mealTime(): string {
     return `${this.meal.date.getHours()}:${this.meal.date
@@ -50,7 +54,10 @@ export class MealComponent implements OnInit {
     this.meal.date.setMinutes(minutes);
   }
 
-  constructor(private mealsDataService: MealsDataService) {}
+  constructor(
+    private mealsDataService: MealsDataService,
+    private mealsService: MealsService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -62,12 +69,16 @@ export class MealComponent implements OnInit {
   onMealConfirm() {
     this.isEditMode = false;
     this.isDisabled = true;
+    this.changesSaved = true;
     this.mealsDataService.updateMeal(this.meal.id, this.meal);
+    this.mealsService.mealChangesSaved = true;
   }
 
   onMealEdit() {
     this.isDisabled = false;
     this.isEditMode = true;
+    this.changesSaved = false;
+    this.mealsService.mealChangesSaved = false;
   }
 
   onMealDelete() {
