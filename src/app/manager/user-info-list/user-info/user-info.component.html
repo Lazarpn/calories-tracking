@@ -4,7 +4,7 @@
   [formGroup]="userForm"
   (ngSubmit)="onSubmit()">
   <img
-    *ngIf="user.userPhotoByte"
+    *ngIf="user.photoUrl"
     [src]="userImage"
     class="user-image"
     alt="User-image" />

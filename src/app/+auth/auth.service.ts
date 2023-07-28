@@ -8,7 +8,7 @@ import { AuthResponseModel } from '../shared/models/user/auth-response.model';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private tokenExpirationTimer: number;
-  url: string = environment.url + '/api';
+  url: string = `${environment.url}/api`;
   userRole = new BehaviorSubject<string>(null);
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -84,7 +84,7 @@ export class AuthService {
     this.autoSignOut(expirationDuration);
   }
 
-  FIXME: 'Jel mi ovaj error handlig vise ne treba, jel je ono u interceptoru na globalnom nivou?';
+  FIXME: 'snackbar';
 
   private handleError(errorRes: HttpErrorResponse) {
     let errorMessage = 'An unknown error occured';

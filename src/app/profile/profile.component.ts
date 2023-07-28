@@ -10,6 +10,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ProfileService } from './profile.service';
 import { Subscription } from 'rxjs';
 import { User } from '../shared/models/user/user.model';
+import { UserPhotoUploadModel } from '../shared/models/user/user-photo-upload-model';
+import { UtilityService } from '../shared/utility.service';
 
 @Component({
   selector: 'ct-profile',
@@ -17,7 +19,6 @@ import { User } from '../shared/models/user/user.model';
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit, OnDestroy {
-  @ViewChild('image') imageEl: ElementRef;
   @HostListener('document:keydown.escape', ['$event'])
   onEscape(event: KeyboardEvent) {
     if (this.isEditMode) {
@@ -30,10 +31,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
       }
     }
   }
-  imageError: boolean = false;
   form: FormGroup;
   imageSrc: string;
-  isPhotoUploaded: boolean;
   isEditMode: boolean = false;
   beforeEditName: string;
   beforeEditSurname: string;
@@ -41,6 +40,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const userInfo = this.profileService.getUserInfo();
+    this.profileService
+      .getUserPhoto()
+      .subscribe(model => (this.imageSrc = model.fileUrl));
     this.form = new FormGroup({
       firstName: new FormControl({
         value: userInfo.firstName,
@@ -51,22 +53,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   onUploadPhoto(event) {
-    // const file: File = event.target.files[0];
-    // const reader = new FileReader();
-    // reader.readAsDataURL(file);
-    // reader.onload = () => {
-    //   this.imageError = false;
-    //   const binaryString = reader.result as string;
-    //   this.imageSrc = binaryString;
-    //   this.imageEl.nativeElement.onload = () => {
-    //     const base64 = btoa(binaryString);
-    //     this.profileService.uploadPhoto(base64);
-    //   };
-    //   this.imageEl.nativeElement.onerror = error => {
-    //     this.imageError = true;
-    //     alert("We couldn't upload this photo, try another one!");
-    //   };
-    // };
+    const fileRead: File = event.target.files[0];
+    const model: UserPhotoUploadModel = {
+      file: fileRead,
+    };
+
+    this.profileService
+      .uploadUserPhoto(model)
+      .subscribe(model => (this.imageSrc = model.fileUrl));
   }
 
   onInfoConfirm() {

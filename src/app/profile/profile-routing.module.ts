@@ -4,14 +4,11 @@ import { ProfileComponent } from './profile.component';
 import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
 
 const routes: Routes = [
+  { path: '', redirectTo: 'settings', pathMatch: 'full' },
   {
-    // FIXME: pitaj Milosa sa ovaj error sto ne vodi na profile
     path: '',
     component: ProfileComponent,
-    children: [
-      { path: '', redirectTo: 'settings', pathMatch: 'full' },
-      { path: 'settings', component: ProfileSettingsComponent },
-    ],
+    children: [{ path: 'settings', component: ProfileSettingsComponent }],
   },
 ];
 

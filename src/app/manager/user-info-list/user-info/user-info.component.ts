@@ -35,8 +35,6 @@ export class UserInfoComponent implements OnInit {
         disabled: true,
       }),
     });
-
-    this.userImage = atob(this.user.userPhotoByte);
   }
 
   onSubmit() {}

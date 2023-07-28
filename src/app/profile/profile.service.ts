@@ -1,21 +1,27 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { User } from '../shared/models/user/user.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { PreloadAllModules } from '@angular/router';
+import { UserPhotoUploadModel } from '../shared/models/user/user-photo-upload-model';
+import { UtilityService } from '../shared/utility.service';
+import { UserPhotoModel } from '../shared/models/user/user-photo-model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProfileService {
-  url: string = environment.url + '/api';
+  url: string = `${environment.url}/api`;
   user: User = null;
   preferenceCaloriesChanged = new Subject<number>();
   userPhotoChanged = new Subject<any>();
   userPhoto: string;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private utilityService: UtilityService
+  ) {}
 
   getUser(): User {
     return this.user;
@@ -34,7 +40,7 @@ export class ProfileService {
 
   updateUserInfo(firstName: string, lastName: string) {
     this.http
-      .put<void>(this.url + `/users/me`, {
+      .put<void>(`${this.url}/users/me`, {
         firstName: firstName,
         lastName: lastName,
       })
@@ -50,11 +56,23 @@ export class ProfileService {
 
   updateUserCalories(caloriesPreference: number) {
     this.http
-      .put<void>(this.url + '/users/me/calories', {
+      .put<void>(`${this.url}/users/me/calories`, {
         caloriesPreference: caloriesPreference,
       })
       .subscribe(() => {
         this.user.caloriesPreference = caloriesPreference;
       });
+  }
+
+  getUserPhoto(): Observable<UserPhotoModel> {
+    return this.http.get<UserPhotoModel>(`${this.url}/users/me/photo`);
+  }
+
+  uploadUserPhoto(model: UserPhotoUploadModel) {
+    const formData = this.utilityService.createFormData(model);
+    return this.http.put<UserPhotoModel>(
+      `${this.url}/users/me/photo`,
+      formData
+    );
   }
 }

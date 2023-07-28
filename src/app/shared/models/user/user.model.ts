@@ -3,5 +3,5 @@ export interface User {
   firstName: string;
   lastName: string;
   caloriesPreference: number;
-  userPhotoByte: any;
+  photoUrl: string;
 }
