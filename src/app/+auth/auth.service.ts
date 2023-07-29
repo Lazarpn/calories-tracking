@@ -1,9 +1,9 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { BehaviorSubject, catchError, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AuthResponseModel } from '../shared/models/user/auth-response.model';
+import { ForgotPasswordModel } from '../shared/models/user/forgot-password-model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -11,7 +11,11 @@ export class AuthService {
   url: string = `${environment.url}/api`;
   userRole = new BehaviorSubject<string>(null);
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient) {}
+
+  resetPassword(model: ForgotPasswordModel) {
+    return this.http.put<void>(`${this.url}/password/forgot`, model);
+  }
 
   signUp(email: string, password: string, firstName: string, lastName: string) {
     return this.http

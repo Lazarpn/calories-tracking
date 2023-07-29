@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from './auth.service';
 import { AuthResponseModel } from '../shared/models/user/auth-response.model';
 import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'ct-auth',
@@ -15,7 +15,11 @@ export class AuthComponent implements OnInit {
   isSignInMode: boolean = true;
   authForm: FormGroup;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.authForm = new FormGroup({
@@ -74,5 +78,9 @@ export class AuthComponent implements OnInit {
     );
 
     this.authForm.reset();
+  }
+
+  forgotPassword() {
+    this.router.navigate(['forgot-password'], { relativeTo: this.route });
   }
 }

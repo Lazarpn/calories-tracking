@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 import { User } from '../shared/models/user/user.model';
 import { UserPhotoUploadModel } from '../shared/models/user/user-photo-upload-model';
 import { UtilityService } from '../shared/utility.service';
+import { ImageCropperModalComponent } from '../shared/image-cropper-modal/image-cropper-modal.component';
 
 @Component({
   selector: 'ct-profile',
@@ -40,9 +41,17 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const userInfo = this.profileService.getUserInfo();
-    this.profileService
-      .getUserPhoto()
-      .subscribe(model => (this.imageSrc = model.fileUrl));
+
+    this.imageSrc = this.profileService.userPhoto;
+
+    this.profileService.userPhotoChanged.subscribe(
+      url => (this.imageSrc = url)
+    );
+
+    if (!this.imageSrc) {
+      this.profileService.getUserPhoto();
+    }
+
     this.form = new FormGroup({
       firstName: new FormControl({
         value: userInfo.firstName,
@@ -79,6 +88,37 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {}
+
+  onFileChange(event: Event) {
+    // const input = event.target as HTMLInputElement;
+    // if (!input || !input.files || input.files.length === 0) {
+    //   this.clearFiles();
+    //   return;
+    // }
+    // const fileName = input.files[0].name.replace(/\.[^/.]+$/, '');
+    // const dialogRef = this.dialog.open(ImageCropperModalComponent, {
+    //   width: '600px',
+    //   panelClass: 'fullscreen-dialog',
+    //   data: {
+    //     event: event
+    //   } as ImageCropperModalDialogData,
+    // });
+    // dialogRef.afterClosed().subscribe((base64Image) => {
+    //   if (!base64Image) {
+    //     this.fileInput.nativeElement.value = '';
+    //     return;
+    //   }
+    //   const croppedImageBlob = base64ToFile(base64Image);
+    //   const fileSelected = new File([croppedImageBlob], `${fileName}.jpeg`, { type: 'image/jpeg' });
+    //   const reader = new FileReader();
+    //   reader.onload = (e: any) => {
+    //     const base64Image = e.target.result;
+    //     this.avatarThumbUrl = base64Image;
+    //   };
+    //   reader.readAsDataURL(fileSelected);
+    //   this.fileChanged.emit(fileSelected);
+    //   this.fileInput.nativeElement.value = '';
+  }
 
   ngOnDestroy(): void {}
 }

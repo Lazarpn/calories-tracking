@@ -14,9 +14,9 @@ import { UserPhotoModel } from '../shared/models/user/user-photo-model';
 export class ProfileService {
   url: string = `${environment.url}/api`;
   user: User = null;
+  userPhoto: string = null;
+  userPhotoChanged = new Subject<string>();
   preferenceCaloriesChanged = new Subject<number>();
-  userPhotoChanged = new Subject<any>();
-  userPhoto: string;
 
   constructor(
     private http: HttpClient,
@@ -64,8 +64,13 @@ export class ProfileService {
       });
   }
 
-  getUserPhoto(): Observable<UserPhotoModel> {
-    return this.http.get<UserPhotoModel>(`${this.url}/users/me/photo`);
+  getUserPhoto() {
+    this.http
+      .get<UserPhotoModel>(`${this.url}/users/me/photo`)
+      .subscribe(model => {
+        this.userPhoto = model.fileUrl;
+        this.userPhotoChanged.next(model.fileUrl);
+      });
   }
 
   uploadUserPhoto(model: UserPhotoUploadModel) {

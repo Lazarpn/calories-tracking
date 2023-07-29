@@ -19,6 +19,7 @@ import { MealsService } from '../../meals.service';
 export class MealComponent implements OnInit {
   @ViewChild('form', { static: true }) mealForm: NgForm;
   @HostBinding('class.meal-edit') isEditMode = false;
+  // If you had cancel option, you would use separate model
   @Input()
   meal: Meal;
   isDisabled: boolean = true;

@@ -61,14 +61,12 @@
         {{ isSignInMode ? 'Sign up' : 'Sign in' }}
       </button>
     </p>
-    <p class="form-text" *ngIf="isSignInMode">
-      Or Sign in with
-      <button class="btn-google">Google</button>
-    </p>
-    <p class="form-text" *ngIf="!isSignInMode">
-      Or Sign up with
-      <button class="btn-google">Google</button>
-    </p>
+    <button
+      (click)="forgotPassword()"
+      class="forgot-password-button"
+      routerLink="/forgot-password">
+      Forgot password?
+    </button>
   </div>
 </form>
 
