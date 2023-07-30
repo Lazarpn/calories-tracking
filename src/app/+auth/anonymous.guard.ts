@@ -12,15 +12,11 @@ import { AuthService } from './auth.service';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthenticatedGuard implements CanActivate {
+export class AnonymousGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
+
   canActivate(): boolean | UrlTree {
-    let isAuth = false;
-    this.authService.userRole.subscribe((userRole: string) => {
-      if (userRole) {
-        isAuth = true;
-      }
-    });
+    const isAuth = this.authService.authenticated();
     if (isAuth) {
       return this.router.createUrlTree(['/meals']);
     }

@@ -6,6 +6,7 @@ import { Role } from '../shared/role';
 import { AuthenticatedGuard } from './authenticated.guard';
 import { ForgotPasswordModalComponent } from './forgot-password-modal/forgot-password-modal.component';
 import { ResetPasswordModalComponent } from './reset-password-modal/reset-password-modal.component';
+import { AnonymousGuard } from './anonymous.guard';
 
 const routes: Routes = [
   {
@@ -16,6 +17,7 @@ const routes: Routes = [
   {
     path: 'forgot-password',
     component: ForgotPasswordModalComponent,
+    canActivate: [AnonymousGuard],
   },
   {
     path: 'reset-password/:userId/:token',

@@ -9,7 +9,7 @@ import { ResetPasswordModel } from '../shared/models/user/reset-password-model';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private tokenExpirationTimer: number;
-  url: string = `${environment.url}/api`;
+  private url: string = `${environment.url}/api`;
   userRole = new BehaviorSubject<string>(null);
 
   constructor(private http: HttpClient) {}

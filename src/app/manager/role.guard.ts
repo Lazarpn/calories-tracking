@@ -15,14 +15,7 @@ import { User } from '../shared/models/user/user.model';
 })
 export class RoleGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ):
-    | Observable<boolean | UrlTree>
-    | Promise<boolean | UrlTree>
-    | boolean
-    | UrlTree {
+  canActivate(): Observable<boolean | UrlTree> {
     return this.authService.userRole.pipe(
       map(userRole => {
         const canAccess = userRole === 'Administrator';

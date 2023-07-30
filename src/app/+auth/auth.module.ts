@@ -9,11 +9,7 @@ import { ResetPasswordModalComponent } from './reset-password-modal/reset-passwo
 import { ForgotPasswordModalComponent } from './forgot-password-modal/forgot-password-modal.component';
 
 @NgModule({
-  declarations: [
-    AuthComponent,
-    ResetPasswordModalComponent,
-    ForgotPasswordModalComponent,
-  ],
+  declarations: [AuthComponent, ResetPasswordModalComponent, ForgotPasswordModalComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
