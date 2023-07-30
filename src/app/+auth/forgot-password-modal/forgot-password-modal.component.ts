@@ -10,7 +10,7 @@ import { ForgotPasswordModel } from 'src/app/shared/models/user/forgot-password-
 })
 export class ForgotPasswordModalComponent implements OnInit {
   email: string;
-  errorMessage: string;
+  emailSentMessage: string;
   emailSent: boolean = false;
   constructor(private router: Router, private authService: AuthService) {}
 
@@ -24,9 +24,20 @@ export class ForgotPasswordModalComponent implements OnInit {
     const model: ForgotPasswordModel = {
       email: this.email,
     };
-    this.authService.resetPassword(model).subscribe();
-  }
 
-  //request da li user sa tim email-om postoji
-  //validacija
+    this.authService.forgotPassword(model).subscribe({
+      next: _ => {
+        this.emailSent = true;
+        this.emailSentMessage = `We have sent an email to ${this.email}. Please follow the enclosed link to
+        reset your password.`;
+      },
+      error: error => {
+        this.emailSent = true;
+        console.log(error);
+        //FIXME:
+        //request da li user sa tim email-om postoji
+        this.emailSentMessage = error;
+      },
+    });
+  }
 }

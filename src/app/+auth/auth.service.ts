@@ -4,6 +4,7 @@ import { BehaviorSubject, catchError, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AuthResponseModel } from '../shared/models/user/auth-response.model';
 import { ForgotPasswordModel } from '../shared/models/user/forgot-password-model';
+import { ResetPasswordModel } from '../shared/models/user/reset-password-model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -13,13 +14,17 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  resetPassword(model: ForgotPasswordModel) {
-    return this.http.put<void>(`${this.url}/password/forgot`, model);
+  resetPassword(model: ResetPasswordModel) {
+    return this.http.put<void>(`${this.url}/accounts/password/reset`, model);
+  }
+
+  forgotPassword(model: ForgotPasswordModel) {
+    return this.http.put<void>(`${this.url}/accounts/password/forgot`, model);
   }
 
   signUp(email: string, password: string, firstName: string, lastName: string) {
     return this.http
-      .post<AuthResponseModel>(this.url + '/accounts/register', {
+      .post<AuthResponseModel>(`${this.url}/accounts/register`, {
         email: email,
         password: password,
         firstName: firstName,
@@ -33,7 +38,7 @@ export class AuthService {
 
   signIn(email: string, password: string) {
     return this.http
-      .post<AuthResponseModel>(this.url + '/accounts/login', {
+      .post<AuthResponseModel>(`${this.url}/accounts/login`, {
         email: email,
         password: password,
       })

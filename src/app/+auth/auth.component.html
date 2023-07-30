@@ -1,16 +1,8 @@
-<h2 class="auth-heading">
-  {{ isSignInMode ? 'Sign in' : 'Sign up' }} to your account
-</h2>
+<h2 class="auth-heading">{{ isSignInMode ? 'Sign in' : 'Sign up' }} to your account</h2>
 <form class="auth-form" [formGroup]="authForm" (ngSubmit)="onSubmit()">
   <label for="email">Email</label>
-  <input
-    type="email"
-    name="email"
-    placeholder="Enter your email"
-    formControlName="email" />
-  <span
-    class="form-message"
-    *ngIf="!authForm.get('email').valid && authForm.get('email').touched">
+  <input type="email" name="email" placeholder="Enter Your Email" formControlName="email" />
+  <span class="form-message" *ngIf="!authForm.get('email').valid && authForm.get('email').touched">
     Please enter a valid email!
   </span>
 
@@ -18,32 +10,19 @@
   <input
     type="password"
     name="password"
-    placeholder="Enter your password"
+    placeholder="Enter Your Password"
     formControlName="password" />
   <span
     class="form-message"
-    *ngIf="
-      !isSignInMode &&
-      !authForm.get('password').valid &&
-      authForm.get('password').touched
-    ">
-    Password must me at least 6 characters and include one non-alphanumeric
-    character!
+    *ngIf="!isSignInMode && !authForm.get('password').valid && authForm.get('password').touched">
+    Password must me at least 6 characters and include one non-alphanumeric character!
   </span>
 
   <div class="sign-up" *ngIf="!isSignInMode">
     <label for="firstName">FirstName</label>
-    <input
-      formControlName="firstName"
-      name="firstName"
-      type="text"
-      placeholder="FirstName" />
+    <input formControlName="firstName" name="firstName" type="text" placeholder="FirstName" />
     <label for="lastName">LastName</label>
-    <input
-      formControlName="lastName"
-      type="text"
-      name="lastName"
-      placeholder="LastName" />
+    <input formControlName="lastName" type="text" name="lastName" placeholder="LastName" />
   </div>
 
   <button type="submit" class="form-button" [disabled]="!authForm.valid">
@@ -53,18 +32,13 @@
   <div>
     <p class="form-text">
       {{
-        isSignInMode
-          ? "Don't have an account? Switch to "
-          : 'Already have an account? Switch to '
+        isSignInMode ? "Don't have an account? Switch to " : 'Already have an account? Switch to '
       }}
       <button class="auth-switch" type="button" (click)="onSwitchMode()">
         {{ isSignInMode ? 'Sign up' : 'Sign in' }}
       </button>
     </p>
-    <button
-      (click)="forgotPassword()"
-      class="forgot-password-button"
-      routerLink="/forgot-password">
+    <button (click)="forgotPassword()" class="forgot-password-button" routerLink="/forgot-password">
       Forgot password?
     </button>
   </div>
