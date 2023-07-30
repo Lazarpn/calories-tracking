@@ -13,7 +13,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class AuthComponent implements OnInit {
   @HostBinding('class.display-none') isLoading: boolean = false;
   isSignInMode: boolean = true;
-  authForm: FormGroup;
+  authForm: FormGroup = new FormGroup({
+    email: new FormControl(null, [Validators.required, Validators.email]),
+    password: new FormControl(null, [
+      Validators.required,
+      Validators.minLength(6),
+      Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{6,}$/),
+    ]),
+  });
 
   constructor(
     private authService: AuthService,
@@ -21,16 +28,7 @@ export class AuthComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
 
-  ngOnInit(): void {
-    this.authForm = new FormGroup({
-      email: new FormControl(null, [Validators.required, Validators.email]),
-      password: new FormControl(null, [
-        Validators.required,
-        Validators.minLength(6),
-        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{6,}$/),
-      ]),
-    });
-  }
+  ngOnInit(): void {}
 
   onSwitchMode() {
     this.isSignInMode = !this.isSignInMode;
@@ -67,7 +65,7 @@ export class AuthComponent implements OnInit {
     }
 
     authObs.subscribe({
-      next: responseData => {
+      next: _ => {
         this.router.navigate(['/meals']).then(() => (this.isLoading = false));
       },
     });
