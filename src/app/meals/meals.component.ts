@@ -31,6 +31,7 @@ export class MealsComponent implements OnInit, CanComponentDeactivate {
 
   ngOnInit(): void {
     this.meals = this.mealsService.getMeals();
+    //FIXME: pitanje da li i ovde treba sa next-om na route-params i da li se handla error i ovde?
     this.mealsService.mealsChanged.subscribe(meals => {
       this.meals = meals;
       this.mealsFetched = true;

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
-import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-
+import { RouterModule, Routes } from '@angular/router';
 import { AuthenticatedResolver } from './+auth/authenticated.resolver';
 import { UnauthenticatedGuard } from './+auth/unauthenticated.guard';
 
@@ -14,9 +13,7 @@ const routes: Routes = [
     canActivate: [UnauthenticatedGuard],
     resolve: { userData: AuthenticatedResolver },
     loadChildren: () =>
-      import('./+authenticated/authenticated.module').then(
-        m => m.AuthenticatedModule
-      ),
+      import('./+authenticated/authenticated.module').then(m => m.AuthenticatedModule),
   },
   { path: '**', redirectTo: 'auth' },
 ];

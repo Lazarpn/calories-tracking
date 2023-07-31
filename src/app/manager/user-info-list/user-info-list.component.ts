@@ -27,9 +27,12 @@ export class UserInfoListComponent implements OnInit {
       this.isLoading = false;
     }
 
-    this.managerService.usersChanged.subscribe((users: UserAdminModel[]) => {
-      this.usersList = users;
-      this.isLoading = false;
+    //FIXME: pitanje da li i ovde treba sa next-om na route-params i da li se handla error i ovde?
+    this.managerService.usersChanged.subscribe({
+      next: (users: UserAdminModel[]) => {
+        this.usersList = users;
+        this.isLoading = false;
+      },
     });
   }
 }

@@ -33,6 +33,7 @@ export class ResetPasswordModalComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    //FIXME: pitanje da li i ovde treba sa next-om na route-params i da li se handla error i ovde?
     this.route.params.subscribe(params => {
       this.model.userId = params['userId'];
       this.model.token = params['token'];

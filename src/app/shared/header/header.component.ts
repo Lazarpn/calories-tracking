@@ -15,9 +15,12 @@ export class HeaderComponent implements OnInit {
     this.role = localStorage.getItem('roles') || null;
     this.isAuthenticated = this.authService.authenticated();
 
-    this.authService.userRole.subscribe((userRole: string) => {
-      this.isAuthenticated = this.authService.authenticated();
-      this.role = userRole;
+    //FIXME: pitanje da li i ovde treba sa next-om na route-params i da li se handla error i ovde?
+    this.authService.userRole.subscribe({
+      next: (userRole: string) => {
+        this.isAuthenticated = this.authService.authenticated();
+        this.role = userRole;
+      },
     });
   }
 

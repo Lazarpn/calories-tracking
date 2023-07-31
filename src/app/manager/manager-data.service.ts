@@ -17,25 +17,21 @@ export class ManagerDataService {
   ) {}
 
   getUsers() {
-    this.http
-      .get<UserAdminModel[]>(this.url + '/users/admin/all')
-      .subscribe(users => this.managerService.setUsers(users));
+    this.http.get<UserAdminModel[]>(this.url + '/users/admin/all').subscribe({
+      next: users => this.managerService.setUsers(users),
+      // FIXME: kad vidim za error-e sta radim
+    });
   }
 
   updateUser(model: UserAdminUpdateModel) {
-    this.http
-      .put<HttpResponse<204>>(this.url + `/users/admin/${model.email}`, {
-        email: model.email,
-        firstName: model.firstName,
-        lastName: model.lastName,
-        caloriesPreference: model.caloriesPreference,
-      })
-      .subscribe(res => this.managerService.updateUser(model));
+    this.http.put<HttpResponse<204>>(this.url + `/users/admin/${model.email}`, model).subscribe({
+      next: _ => this.managerService.updateUser(model),
+    });
   }
 
   deleteUser(email: string) {
-    this.http
-      .delete<HttpResponse<204>>(this.url + `/users/admin/${email}`)
-      .subscribe(res => this.managerService.deleteUser(email));
+    this.http.delete<HttpResponse<204>>(this.url + `/users/admin/${email}`).subscribe({
+      next: _ => this.managerService.deleteUser(email),
+    });
   }
 }
