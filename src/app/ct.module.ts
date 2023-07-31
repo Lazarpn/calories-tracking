@@ -5,10 +5,19 @@ import { CtRoutingModule } from './ct-routing.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptorService } from './+auth/auth-interceptor.service';
 import { SharedModule } from './shared/shared.module';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [CtComponent],
-  imports: [BrowserModule, CtRoutingModule, SharedModule, HttpClientModule],
+  imports: [
+    BrowserModule,
+    CtRoutingModule,
+    SharedModule,
+    HttpClientModule,
+    MatSnackBarModule,
+    NoopAnimationsModule,
+  ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

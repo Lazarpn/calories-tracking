@@ -1,7 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ManagerService } from '../manager.service';
 import { ManagerDataService } from '../manager-data.service';
-import { User } from 'src/app/shared/models/user/user.model';
+import { UserAdminModel } from 'src/app/shared/models/user/user-admin-model';
 
 @Component({
   selector: 'ct-user-info-list',
@@ -10,7 +10,7 @@ import { User } from 'src/app/shared/models/user/user.model';
 })
 export class UserInfoListComponent implements OnInit {
   isLoading: boolean = true;
-  @Input() usersList: User[];
+  usersList: UserAdminModel[];
   constructor(
     private managerDataService: ManagerDataService,
     private managerService: ManagerService
@@ -27,7 +27,7 @@ export class UserInfoListComponent implements OnInit {
       this.isLoading = false;
     }
 
-    this.managerService.usersChanged.subscribe((users: User[]) => {
+    this.managerService.usersChanged.subscribe((users: UserAdminModel[]) => {
       this.usersList = users;
       this.isLoading = false;
     });

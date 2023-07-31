@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ManagerDataService } from '../../manager-data.service';
 import { ManagerService } from '../../manager.service';
 import { User } from 'src/app/shared/models/user/user.model';
+import { UserAdminModel } from 'src/app/shared/models/user/user-admin-model';
 
 @Component({
   selector: 'ct-user-info',
@@ -10,8 +11,7 @@ import { User } from 'src/app/shared/models/user/user.model';
   styleUrls: ['./user-info.component.scss'],
 })
 export class UserInfoComponent implements OnInit {
-  @Input() user: User;
-  userImage: any;
+  @Input() user: UserAdminModel;
   userForm: FormGroup;
   changesSaved: boolean = true;
   constructor(private managerDataService: ManagerDataService) {}
@@ -59,8 +59,7 @@ export class UserInfoComponent implements OnInit {
     this.user.firstName = this.userForm.get('firstName').value;
     this.user.lastName = this.userForm.get('lastName').value;
     this.user.email = this.userForm.get('email').value;
-    this.user.caloriesPreference =
-      this.userForm.get('caloriesPreference').value;
+    this.user.caloriesPreference = this.userForm.get('caloriesPreference').value;
     if (!this.user.caloriesPreference) {
       this.userForm.controls['caloriesPreference'].setValue(0);
       this.user.caloriesPreference = 0;

@@ -3,11 +3,7 @@
   [ngClass]="{ 'user-edit': !changesSaved }"
   [formGroup]="userForm"
   (ngSubmit)="onSubmit()">
-  <img
-    *ngIf="user.photoUrl"
-    [src]="userImage"
-    class="user-image"
-    alt="User-image" />
+  <img *ngIf="user.thumbUrl" [src]="user.thumbUrl" class="user-image" alt="User-image" />
 
   <label for="email">Email:</label>
   <input

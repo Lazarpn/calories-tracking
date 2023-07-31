@@ -7,33 +7,17 @@
         </svg>
         <img [(src)]="imageSrc" class="image" id="image" />
       </label>
-      <input
-        (change)="onUploadPhoto($event)"
-        type="file"
-        name="photo"
-        id="photo" />
+      <input (change)="onUploadPhoto($event)" type="file" name="photo" id="photo" />
     </div>
 
     <div class="profile-user-info">
       <label for="firstName">Name</label>
-      <input
-        formControlName="firstName"
-        type="text"
-        name="firstName"
-        id="firstName" />
+      <input formControlName="firstName" type="text" name="firstName" id="firstName" />
       <label for="lastName">Surname</label>
-      <input
-        formControlName="lastName"
-        type="text"
-        name="lastName"
-        id="lastName" />
+      <input formControlName="lastName" type="text" name="lastName" id="lastName" />
     </div>
 
-    <button
-      *ngIf="isEditMode"
-      class="btn-submit btn"
-      type="submit"
-      (click)="onInfoConfirm()">
+    <button *ngIf="isEditMode" class="btn-submit btn" type="submit">
       <svg class="icon icon-confirm">
         <use xlink:href="/assets/sprite.svg#icon-checkmark"></use>
       </svg>
@@ -49,10 +33,7 @@
   <nav class="settings-nav">
     <ul class="settings-list">
       <li class="settings-item">
-        <a
-          routerLinkActive="settings-link-active"
-          class="settings-link"
-          routerLink="settings"
+        <a routerLinkActive="settings-link-active" class="settings-link" routerLink="settings"
           >Settings</a
         >
       </li>

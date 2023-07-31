@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ProfileService } from '../profile.service';
 import { AuthService } from 'src/app/+auth/auth.service';
+import { UserCaloriesModel } from 'src/app/shared/models/user/user-calories-model';
 
 @Component({
   selector: 'ct-profile-settings',
@@ -11,11 +12,13 @@ import { AuthService } from 'src/app/+auth/auth.service';
 export class ProfileSettingsComponent implements OnInit {
   // @ViewChild('form', { static: true }) form: NgForm;
   isEditMode: boolean = false;
-  caloriesPreference: number;
+  model: UserCaloriesModel;
   constructor(private profileService: ProfileService) {}
 
   ngOnInit(): void {
-    this.caloriesPreference = this.profileService.getUserCalories();
+    this.model = {
+      caloriesPreference: this.profileService.getUserCalories(),
+    };
   }
 
   onInput(event: any) {
@@ -29,6 +32,6 @@ export class ProfileSettingsComponent implements OnInit {
 
   onCaloriesConfirm() {
     this.isEditMode = false;
-    this.profileService.updateUserCalories(this.caloriesPreference);
+    this.profileService.updateUserCalories(this.model);
   }
 }

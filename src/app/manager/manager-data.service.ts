@@ -2,8 +2,8 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { ManagerService } from './manager.service';
-import { User } from '../shared/models/user/user.model';
-import { UserAdminUpdate } from '../shared/models/user/user-admin-update.model';
+import { UserAdminUpdateModel } from '../shared/models/user/user-admin-update-model';
+import { UserAdminModel } from '../shared/models/user/user-admin-model';
 
 @Injectable({
   providedIn: 'root',
@@ -18,11 +18,11 @@ export class ManagerDataService {
 
   getUsers() {
     this.http
-      .get<User[]>(this.url + '/users/admin/all')
+      .get<UserAdminModel[]>(this.url + '/users/admin/all')
       .subscribe(users => this.managerService.setUsers(users));
   }
 
-  updateUser(model: UserAdminUpdate) {
+  updateUser(model: UserAdminUpdateModel) {
     this.http
       .put<HttpResponse<204>>(this.url + `/users/admin/${model.email}`, {
         email: model.email,

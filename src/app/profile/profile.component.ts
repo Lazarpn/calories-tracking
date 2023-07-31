@@ -1,11 +1,4 @@
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  OnDestroy,
-  ElementRef,
-  HostListener,
-} from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, ElementRef, HostListener } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ProfileService } from './profile.service';
 import { Subscription } from 'rxjs';
@@ -13,6 +6,7 @@ import { User } from '../shared/models/user/user.model';
 import { UserPhotoUploadModel } from '../shared/models/user/user-photo-upload-model';
 import { UtilityService } from '../shared/utility.service';
 import { ImageCropperModalComponent } from '../shared/image-cropper-modal/image-cropper-modal.component';
+import { UserUpdateModel } from '../shared/models/user/user-update-model';
 
 @Component({
   selector: 'ct-profile',
@@ -44,9 +38,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     this.imageSrc = this.profileService.userPhoto;
 
-    this.profileService.userPhotoChanged.subscribe(
-      url => (this.imageSrc = url)
-    );
+    this.profileService.userPhotoChanged.subscribe(url => (this.imageSrc = url));
 
     if (!this.imageSrc) {
       this.profileService.getUserPhoto();
@@ -67,17 +59,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       file: fileRead,
     };
 
-    this.profileService
-      .uploadUserPhoto(model)
-      .subscribe(model => (this.imageSrc = model.fileUrl));
-  }
-
-  onInfoConfirm() {
-    this.isEditMode = false;
-    this.form.disable();
-    const firstName = this.form.get('firstName').value;
-    const lastName = this.form.get('lastName').value;
-    this.profileService.updateUserInfo(firstName, lastName);
+    this.profileService.uploadUserPhoto(model).subscribe(model => (this.imageSrc = model.fileUrl));
   }
 
   onInfoEdit() {
@@ -87,37 +69,16 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.beforeEditSurname = this.form.get('lastName').value;
   }
 
-  onSubmit() {}
+  onSubmit() {
+    this.isEditMode = false;
+    this.form.disable();
 
-  onFileChange(event: Event) {
-    // const input = event.target as HTMLInputElement;
-    // if (!input || !input.files || input.files.length === 0) {
-    //   this.clearFiles();
-    //   return;
-    // }
-    // const fileName = input.files[0].name.replace(/\.[^/.]+$/, '');
-    // const dialogRef = this.dialog.open(ImageCropperModalComponent, {
-    //   width: '600px',
-    //   panelClass: 'fullscreen-dialog',
-    //   data: {
-    //     event: event
-    //   } as ImageCropperModalDialogData,
-    // });
-    // dialogRef.afterClosed().subscribe((base64Image) => {
-    //   if (!base64Image) {
-    //     this.fileInput.nativeElement.value = '';
-    //     return;
-    //   }
-    //   const croppedImageBlob = base64ToFile(base64Image);
-    //   const fileSelected = new File([croppedImageBlob], `${fileName}.jpeg`, { type: 'image/jpeg' });
-    //   const reader = new FileReader();
-    //   reader.onload = (e: any) => {
-    //     const base64Image = e.target.result;
-    //     this.avatarThumbUrl = base64Image;
-    //   };
-    //   reader.readAsDataURL(fileSelected);
-    //   this.fileChanged.emit(fileSelected);
-    //   this.fileInput.nativeElement.value = '';
+    const model: UserUpdateModel = {
+      firstName: this.form.get('firstName').value,
+      lastName: this.form.get('lastName').value,
+    };
+
+    this.profileService.updateUserInfo(model);
   }
 
   ngOnDestroy(): void {}

@@ -3,18 +3,13 @@
     <label for="calories">Your calories:</label>
     <input
       [disabled]="!isEditMode"
-      ngModel
       type="number"
       min="0"
       (input)="onInput($event)"
       name="caloriesPreference"
       id="caloriesPreference"
-      [(ngModel)]="caloriesPreference" />
-    <button
-      *ngIf="isEditMode"
-      class="btn-submit btn"
-      type="submit"
-      (click)="onCaloriesConfirm()">
+      [(ngModel)]="model.caloriesPreference" />
+    <button *ngIf="isEditMode" class="btn-submit btn" type="submit" (click)="onCaloriesConfirm()">
       <svg class="icon icon-confirm">
         <use xlink:href="/assets/sprite.svg#icon-checkmark"></use>
       </svg>

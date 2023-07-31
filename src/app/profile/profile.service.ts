@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { User } from '../shared/models/user/user.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { PreloadAllModules } from '@angular/router';
 import { UserPhotoUploadModel } from '../shared/models/user/user-photo-upload-model';
 import { UtilityService } from '../shared/utility.service';
 import { UserPhotoModel } from '../shared/models/user/user-photo-model';
+import { UserUpdateModel } from '../shared/models/user/user-update-model';
+import { UserCaloriesModel } from '../shared/models/user/user-calories-model';
 
 @Injectable({
   providedIn: 'root',
@@ -38,46 +39,39 @@ export class ProfileService {
     };
   }
 
-  updateUserInfo(firstName: string, lastName: string) {
-    this.http
-      .put<void>(`${this.url}/users/me`, {
-        firstName: firstName,
-        lastName: lastName,
-      })
-      .subscribe(_ => {
-        this.user.firstName = firstName;
-        this.user.lastName = lastName;
-      });
+  updateUserInfo(model: UserUpdateModel) {
+    this.http.put<void>(`${this.url}/users/me`, model).subscribe({
+      next: _ => {
+        this.user.firstName = model.firstName;
+        this.user.lastName = model.lastName;
+      },
+    });
   }
 
   getUserCalories(): number {
     return this.user.caloriesPreference;
   }
 
-  updateUserCalories(caloriesPreference: number) {
-    this.http
-      .put<void>(`${this.url}/users/me/calories`, {
-        caloriesPreference: caloriesPreference,
-      })
-      .subscribe(() => {
-        this.user.caloriesPreference = caloriesPreference;
-      });
+  updateUserCalories(model: UserCaloriesModel) {
+    this.http.put<void>(`${this.url}/users/me/calories`, model).subscribe({
+      next: _ => {
+        this.user.caloriesPreference = model.caloriesPreference;
+      },
+      // FIXME:error kad vidim sa Milosem
+    });
   }
 
   getUserPhoto() {
-    this.http
-      .get<UserPhotoModel>(`${this.url}/users/me/photo`)
-      .subscribe(model => {
+    this.http.get<UserPhotoModel>(`${this.url}/users/me/photo`).subscribe({
+      next: model => {
         this.userPhoto = model.fileUrl;
         this.userPhotoChanged.next(model.fileUrl);
-      });
+      },
+    });
   }
 
-  uploadUserPhoto(model: UserPhotoUploadModel) {
+  uploadUserPhoto(model: UserPhotoUploadModel): Observable<UserPhotoModel> {
     const formData = this.utilityService.createFormData(model);
-    return this.http.put<UserPhotoModel>(
-      `${this.url}/users/me/photo`,
-      formData
-    );
+    return this.http.put<UserPhotoModel>(`${this.url}/users/me/photo`, formData);
   }
 }

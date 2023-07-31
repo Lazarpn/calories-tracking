@@ -1,23 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { User } from '../shared/models/user/user.model';
-import { UserAdminUpdate } from '../shared/models/user/user-admin-update.model';
+import { UserAdminUpdateModel } from '../shared/models/user/user-admin-update-model';
+import { UserAdminModel } from '../shared/models/user/user-admin-model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ManagerService {
-  users: User[];
-  usersChanged = new Subject<User[]>();
+  users: UserAdminModel[];
+  usersChanged = new Subject<UserAdminModel[]>();
 
   constructor() {}
 
-  setUsers(users: User[]) {
+  setUsers(users: UserAdminModel[]) {
     this.users = users;
     this.usersChanged.next(users);
   }
 
-  getUsers(): User[] {
+  getUsers(): UserAdminModel[] {
     return this.users;
   }
 
@@ -28,10 +28,8 @@ export class ManagerService {
     this.usersChanged.next(this.users);
   }
 
-  updateUser(model: UserAdminUpdate) {
-    const index = this.users.indexOf(
-      this.users.find(u => u.email === model.email)
-    );
+  updateUser(model: UserAdminUpdateModel) {
+    const index = this.users.indexOf(this.users.find(u => u.email === model.email));
     this.users[index].email = model.email;
     this.users[index].caloriesPreference = model.caloriesPreference;
     this.users[index].firstName = model.firstName;

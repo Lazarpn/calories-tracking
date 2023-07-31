@@ -3,7 +3,7 @@ import { Subject } from 'rxjs';
 import { MealDateFilter } from '../shared/models/meal/meal-date-filter.model';
 import { FilterService } from '../shared/filter.service';
 import { Meal } from '../shared/models/meal/meal.model';
-import { MealUpdate } from '../shared/models/meal/meal-update.model';
+import { MealUpdateModel } from '../shared/models/meal/meal-update-model';
 
 @Injectable({ providedIn: 'root' })
 export class MealsService {
@@ -33,7 +33,7 @@ export class MealsService {
     this.updateAllComponents();
   }
 
-  updateMeal(id: string, model: MealUpdate) {
+  updateMeal(id: string, model: MealUpdateModel) {
     const index = this.meals.indexOf(this.meals.find(m => m.id === id));
     this.meals[index].name = model.name;
     this.meals[index].date = model.date;
@@ -48,10 +48,7 @@ export class MealsService {
   }
 
   filterMeals(filter: MealDateFilter) {
-    const filteredMeals: Meal[] = this.filterService.filterMeals(
-      filter,
-      this.meals.slice()
-    );
+    const filteredMeals: Meal[] = this.filterService.filterMeals(filter, this.meals.slice());
     this.mealsChanged.next(filteredMeals);
   }
 

@@ -1,10 +1,13 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, tap, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AuthResponseModel } from '../shared/models/user/auth-response.model';
 import { ForgotPasswordModel } from '../shared/models/user/forgot-password-model';
 import { ResetPasswordModel } from '../shared/models/user/reset-password-model';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SignUpModel } from '../shared/models/user/sign-up-model';
+import { SignInModel } from '../shared/models/user/sign-in-model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -12,40 +15,31 @@ export class AuthService {
   private url: string = `${environment.url}/api`;
   userRole = new BehaviorSubject<string>(null);
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private snackBar: MatSnackBar
+  ) {}
 
-  resetPassword(model: ResetPasswordModel) {
+  resetPassword(model: ResetPasswordModel): Observable<void> {
     return this.http.put<void>(`${this.url}/accounts/password/reset`, model);
   }
 
-  forgotPassword(model: ForgotPasswordModel) {
+  forgotPassword(model: ForgotPasswordModel): Observable<void> {
     return this.http.put<void>(`${this.url}/accounts/password/forgot`, model);
   }
 
-  signUp(email: string, password: string, firstName: string, lastName: string) {
-    return this.http
-      .post<AuthResponseModel>(`${this.url}/accounts/register`, {
-        email: email,
-        password: password,
-        firstName: firstName,
-        lastName: lastName,
-      })
-      .pipe(
-        catchError(this.handleError),
-        tap(resData => this.handleAuthentication(resData))
-      );
+  signUp(model: SignUpModel): Observable<AuthResponseModel> {
+    return this.http.post<AuthResponseModel>(`${this.url}/accounts/register`, model).pipe(
+      catchError(error => this.handleError(error)),
+      tap(resData => this.handleAuthentication(resData))
+    );
   }
 
-  signIn(email: string, password: string) {
-    return this.http
-      .post<AuthResponseModel>(`${this.url}/accounts/login`, {
-        email: email,
-        password: password,
-      })
-      .pipe(
-        catchError(this.handleError),
-        tap(resData => this.handleAuthentication(resData))
-      );
+  signIn(model: SignInModel): Observable<AuthResponseModel> {
+    return this.http.post<AuthResponseModel>(`${this.url}/accounts/login`, model).pipe(
+      catchError(error => this.handleError(error)),
+      tap(resData => this.handleAuthentication(resData))
+    );
   }
 
   autoSignIn() {
@@ -92,14 +86,11 @@ export class AuthService {
     this.userRole.next(parsedToken.roles);
     this.autoSignOut(expirationDuration);
   }
-
-  FIXME: 'snackbar';
-
-  private handleError(errorRes: HttpErrorResponse) {
-    let errorMessage = 'An unknown error occured';
-    errorMessage = errorRes.error;
-
-    return throwError(errorMessage);
+  // FIXME:kako da handlujem error-e
+  private handleError(error: HttpErrorResponse) {
+    console.log(error);
+    this.snackBar.open(`Unexpexted error occured`, '✖️');
+    return throwError(() => error);
   }
 
   private parseJwt(token) {

@@ -1,10 +1,4 @@
-import {
-  Component,
-  HostBinding,
-  Input,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, HostBinding, Input, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Meal } from '../../../shared/models/meal/meal.model';
 import { MealsDataService } from '../../meals-data.service';
@@ -20,8 +14,7 @@ export class MealComponent implements OnInit {
   @ViewChild('form', { static: true }) mealForm: NgForm;
   @HostBinding('class.meal-edit') isEditMode = false;
   // If you had cancel option, you would use separate model
-  @Input()
-  meal: Meal;
+  @Input() meal: Meal;
   isDisabled: boolean = true;
   changesSaved: boolean = true;
 
@@ -41,10 +34,7 @@ export class MealComponent implements OnInit {
   get mealDate(): string {
     return `${this.meal.date.getFullYear()}-${(this.meal.date.getMonth() + 1)
       .toString()
-      .padStart(2, '0')}-${this.meal.date
-      .getDate()
-      .toString()
-      .padStart(2, '0')}`;
+      .padStart(2, '0')}-${this.meal.date.getDate().toString().padStart(2, '0')}`;
   }
 
   set mealDate(value: string) {

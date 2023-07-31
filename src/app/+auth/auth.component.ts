@@ -4,6 +4,8 @@ import { AuthService } from './auth.service';
 import { AuthResponseModel } from '../shared/models/user/auth-response.model';
 import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SignUpModel } from '../shared/models/user/sign-up-model';
+import { SignInModel } from '../shared/models/user/sign-in-model';
 
 @Component({
   selector: 'ct-auth',
@@ -49,24 +51,38 @@ export class AuthComponent implements OnInit {
     this.isLoading = true;
     const email = this.authForm.value.email;
     const password = this.authForm.value.password;
-    let firstName, lastName;
+
+    const signInModel: SignInModel = {
+      email: email,
+      password: password,
+    };
+
+    const signUpModel: SignUpModel = {
+      email: email,
+      password: password,
+      firstName: '',
+      lastName: '',
+    };
 
     if (!this.isSignInMode) {
-      firstName = this.authForm.value.firstName;
-      lastName = this.authForm.value.lastName;
+      signUpModel.firstName = this.authForm.value.firstName;
+      signUpModel.lastName = this.authForm.value.lastName;
     }
 
     let authObs: Observable<AuthResponseModel>;
 
     if (this.isSignInMode) {
-      authObs = this.authService.signIn(email, password);
+      authObs = this.authService.signIn(signInModel);
     } else {
-      authObs = this.authService.signUp(email, password, firstName, lastName);
+      authObs = this.authService.signUp(signUpModel);
     }
 
     authObs.subscribe({
       next: _ => {
         this.router.navigate(['/meals']).then(() => (this.isLoading = false));
+      },
+      error: _ => {
+        this.isLoading = false;
       },
     });
 
