@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, Output, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { MealDateFilter } from '../../shared/models/meal/meal-date-filter.model';
 

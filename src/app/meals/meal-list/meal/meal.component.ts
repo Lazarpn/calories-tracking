@@ -2,7 +2,6 @@ import { Component, HostBinding, Input, OnInit, ViewChild } from '@angular/core'
 import { NgForm } from '@angular/forms';
 import { Meal } from '../../../shared/models/meal/meal.model';
 import { MealsDataService } from '../../meals-data.service';
-import { Subject } from 'rxjs';
 import { MealsService } from '../../meals.service';
 
 @Component({

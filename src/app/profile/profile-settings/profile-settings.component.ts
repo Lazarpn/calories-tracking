@@ -1,7 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 import { ProfileService } from '../profile.service';
-import { AuthService } from 'src/app/+auth/auth.service';
 import { UserCaloriesModel } from 'src/app/shared/models/user/user-calories-model';
 
 @Component({

@@ -41,8 +41,8 @@ export class ResetPasswordModalComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.formModel.password !== this.formModel.password2) {
-      this.passwordCheck(this.formModel.password, this.formModel.password2);
+    const validPassword = this.passwordCheck(this.formModel.password, this.formModel.password2);
+    if (!validPassword) {
       return;
     }
 
@@ -70,35 +70,44 @@ export class ResetPasswordModalComponent implements OnInit {
     this.router.navigate(['/auth']);
   }
 
-  private passwordCheck(password: string, password2: string) {
+  private passwordCheck(password: string, password2: string): boolean {
+    let isValidPassword = true;
+    this.errorMessages = [];
     const digitPattern = /\d/;
     const uppercasePattern = /[A-Z]/;
     const lowercasePattern = /[a-z]/;
     const specialCharacterPattern = /[^a-zA-Z0-9]/;
 
-    if (this.formModel.password !== this.formModel.password2) {
+    if (password != password2) {
       this.errorMessages.push('⚠️ The passwords do not match!');
-      return;
+      return false;
     }
 
     if (password.length < 6) {
       this.errorMessages.push('⚠️ Password must be at least 6 characters.');
+      isValidPassword = false;
     }
 
     if (!digitPattern.test(password)) {
       this.errorMessages.push('⚠️ Password must contain at least 1 digit.');
+      isValidPassword = false;
     }
 
     if (!uppercasePattern.test(password)) {
       this.errorMessages.push('⚠️ Password must contain at least 1 uppercase letter.');
+      isValidPassword = false;
     }
 
     if (!lowercasePattern.test(password)) {
       this.errorMessages.push('⚠️ Password must contain at least 1 lowercase letter.');
+      isValidPassword = false;
     }
 
     if (!specialCharacterPattern.test(password)) {
       this.errorMessages.push('⚠️ Password must contain at least 1 special character.');
+      isValidPassword = false;
     }
+
+    return isValidPassword;
   }
 }

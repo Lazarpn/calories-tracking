@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ProfileService } from '../../profile/profile.service';
 import { Subscription } from 'rxjs';
 import { MealsService } from '../meals.service';
-import { User } from 'src/app/shared/models/user/user.model';
 
 @Component({
   selector: 'ct-meal-expected-calories',
