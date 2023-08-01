@@ -1,0 +1,21 @@
+{
+  "label": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up"
+  },
+  "errors": {
+    "RequestInvalid": "",
+    "Unauthorized": "",
+    "RequirementsNotMet": "",
+    "IdentityError": "{{details}}",
+    "EntityDoesNotExist": "{{entityName}} does not exist.",
+    "EntityAlreadyExists": "{{entityName}} already exists.",
+    "InternalServerError": "",
+    "InvalidCredentials": "",
+    "EmptyFile": "",
+    "MaxFileSizeReached": "",
+    "CanOnlyUploadPhotos": "",
+    "WrongAspectRatio": "",
+    "MissingAspectRatio": ""
+  }
+}

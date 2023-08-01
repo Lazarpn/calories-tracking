@@ -6,6 +6,9 @@ import { UserInfoComponent } from './user-info-list/user-info/user-info.componen
 import { ReactiveFormsModule } from '@angular/forms';
 import { ManagerRoutingModule } from './manager-routing.module';
 import { SharedModule } from '../shared/shared.module';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HttpLoaderFactory } from '../shared/loaders/http-loader-factory';
+import { HttpClient } from '@angular/common/http';
 
 @NgModule({
   declarations: [ManagerComponent, UserInfoListComponent, UserInfoComponent],
@@ -14,6 +17,13 @@ import { SharedModule } from '../shared/shared.module';
     ReactiveFormsModule,
     ManagerRoutingModule,
     SharedModule,
+    TranslateModule.forChild({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+    }),
   ],
 })
 export class ManagerModule {}

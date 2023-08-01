@@ -8,6 +8,7 @@ import { ResetPasswordModel } from '../shared/models/user/reset-password-model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SignUpModel } from '../shared/models/user/sign-up-model';
 import { SignInModel } from '../shared/models/user/sign-in-model';
+import { ExceptionDetail } from '../shared/models/exception-detail';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -29,17 +30,15 @@ export class AuthService {
   }
 
   signUp(model: SignUpModel): Observable<AuthResponseModel> {
-    return this.http.post<AuthResponseModel>(`${this.url}/accounts/register`, model).pipe(
-      catchError(error => this.handleError(error)),
-      tap(resData => this.handleAuthentication(resData))
-    );
+    return this.http
+      .post<AuthResponseModel>(`${this.url}/accounts/register`, model)
+      .pipe(tap(resData => this.handleAuthentication(resData)));
   }
 
   signIn(model: SignInModel): Observable<AuthResponseModel> {
-    return this.http.post<AuthResponseModel>(`${this.url}/accounts/login`, model).pipe(
-      catchError(error => this.handleError(error)),
-      tap(resData => this.handleAuthentication(resData))
-    );
+    return this.http
+      .post<AuthResponseModel>(`${this.url}/accounts/login`, model)
+      .pipe(tap(resData => this.handleAuthentication(resData)));
   }
 
   autoSignIn() {
@@ -85,12 +84,6 @@ export class AuthService {
     localStorage.setItem('roles', parsedToken.roles);
     this.userRole.next(parsedToken.roles);
     this.autoSignOut(expirationDuration);
-  }
-  // FIXME:kako da handlujem error-e
-  private handleError(error: HttpErrorResponse) {
-    console.log(error);
-    this.snackBar.open(`Unexpexted error occured`, '✖️');
-    return throwError(() => error);
   }
 
   private parseJwt(token: string) {

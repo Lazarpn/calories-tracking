@@ -1,4 +1,6 @@
-<h2 class="auth-heading">{{ isSignInMode ? 'Sign in' : 'Sign up' }} to your account</h2>
+<h2 class="auth-heading">
+  {{ (isSignInMode ? 'label.signIn' : 'label.signUp') | translate }} to your account
+</h2>
 <form class="auth-form" [formGroup]="authForm" (ngSubmit)="onSubmit()">
   <label for="email">Email</label>
   <input type="email" name="email" placeholder="Enter Your Email" formControlName="email" />
