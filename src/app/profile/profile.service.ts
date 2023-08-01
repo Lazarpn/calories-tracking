@@ -8,6 +8,7 @@ import { UtilityService } from '../shared/utility.service';
 import { UserPhotoModel } from '../shared/models/user/user-photo-model';
 import { UserUpdateModel } from '../shared/models/user/user-update-model';
 import { UserCaloriesModel } from '../shared/models/user/user-calories-model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +22,8 @@ export class ProfileService {
 
   constructor(
     private http: HttpClient,
-    private utilityService: UtilityService
+    private utilityService: UtilityService,
+    private snackBar: MatSnackBar
   ) {}
 
   getUser(): User {
@@ -57,8 +59,13 @@ export class ProfileService {
       next: _ => {
         this.user.caloriesPreference = model.caloriesPreference;
       },
-      // FIXME:error kad vidim sa Milosem
+      // FIXME:error kad vidim sa Milosem svuda u servisu
     });
+  }
+
+  setUserPhoto(url: string) {
+    this.userPhoto = url;
+    this.userPhotoChanged.next(url);
   }
 
   getUserPhoto() {
@@ -70,8 +77,15 @@ export class ProfileService {
     });
   }
 
-  uploadUserPhoto(model: UserPhotoUploadModel): Observable<UserPhotoModel> {
+  uploadUserPhoto(model: UserPhotoUploadModel) {
     const formData = this.utilityService.createFormData(model);
-    return this.http.put<UserPhotoModel>(`${this.url}/users/me/photo`, formData);
+    this.http.put<UserPhotoModel>(`${this.url}/users/me/photo`, formData).subscribe({
+      next: model => {
+        this.setUserPhoto(model.fileUrl);
+      },
+      error: error => {
+        this.snackBar.open("We couldn't upload your photo, try again.", '✖️');
+      },
+    });
   }
 }

@@ -1,6 +1,7 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 export interface ImageCropperModalDialogData {
   event: Event;
@@ -13,13 +14,14 @@ export interface ImageCropperModalDialogData {
   styleUrls: ['./image-cropper-modal.component.scss'],
 })
 export class ImageCropperModalComponent {
+  @ViewChild(ImageCropperComponent) imageCropper: ImageCropperComponent;
   event: Event;
   croppedImage: string = '';
   showCropper = false;
   isCoverImage = false;
 
   constructor(
-    // private toastService: ToastService,
+    private snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: ImageCropperModalDialogData,
     private dialogRef: MatDialogRef<ImageCropperModalComponent>
   ) {
@@ -32,6 +34,7 @@ export class ImageCropperModalComponent {
   }
 
   onSave() {
+    this.onClose();
     this.dialogRef.close(this.croppedImage);
   }
 
@@ -41,16 +44,12 @@ export class ImageCropperModalComponent {
 
   loadImageFailed() {
     this.onCancel();
-    // this.toastService.error(
-    //   'Error',
-    //   'Image load failed. Unsupported media type or corrupted file.'
-    // );
+    this.snackBar.open('Error', 'Image load failed. Unsupported media type or corrupted file.');
   }
 
-  imageCropped(event: ImageCroppedEvent) {
-    if (event.base64) {
-      this.croppedImage = event.base64;
-    }
+  onClose() {
+    const event: ImageCroppedEvent = this.imageCropper.crop('base64');
+    this.croppedImage = event.base64;
   }
 
   imageLoaded() {

@@ -24,13 +24,13 @@ export class ManagerDataService {
   }
 
   updateUser(model: UserAdminUpdateModel) {
-    this.http.put<HttpResponse<204>>(this.url + `/users/admin/${model.email}`, model).subscribe({
+    this.http.put<void>(this.url + `/users/admin/${model.email}`, model).subscribe({
       next: _ => this.managerService.updateUser(model),
     });
   }
 
   deleteUser(email: string) {
-    this.http.delete<HttpResponse<204>>(this.url + `/users/admin/${email}`).subscribe({
+    this.http.delete<void>(this.url + `/users/admin/${email}`).subscribe({
       next: _ => this.managerService.deleteUser(email),
     });
   }

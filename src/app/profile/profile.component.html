@@ -5,9 +5,18 @@
         <svg class="icon-camera">
           <use xlink:href="/assets/sprite.svg#icon-camera"></use>
         </svg>
-        <img [(src)]="imageSrc" class="image" id="image" />
+        <img [(src)]="imageUrl" class="image" id="image" />
       </label>
-      <input (change)="onUploadPhoto($event)" type="file" name="photo" id="photo" />
+      <input
+        (change)="onUploadPhoto($event)"
+        #fileInput
+        type="file"
+        name="photo"
+        id="photo"
+        accept="image/png, image/jpeg, image/jpg" />
+      <!-- *ngIf="!isGroup"
+  role="button" -->
+      <div class="" (click)="fileInput.click()"></div>
     </div>
 
     <div class="profile-user-info">

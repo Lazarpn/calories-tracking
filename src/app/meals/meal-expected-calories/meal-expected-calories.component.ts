@@ -32,6 +32,7 @@ export class MealExpectedCaloriesComponent implements OnInit, OnDestroy {
 
     this.mealsService.todaysMealsChanged.subscribe(meals => {
       this.todaysMeals = meals;
+      this.calculateCalories();
     });
 
     this.mealsService.totalMealsChanged.subscribe(meals => {
@@ -40,6 +41,7 @@ export class MealExpectedCaloriesComponent implements OnInit, OnDestroy {
 
     this.mealsService.totalCaloriesChanged.subscribe(calories => {
       this.totalCalories = calories;
+      this.calculateCalories();
     });
 
     this.todaysCalories = this.mealsService.getTodaysCalories();
@@ -58,10 +60,9 @@ export class MealExpectedCaloriesComponent implements OnInit, OnDestroy {
   calculateCalories() {
     this.todaysCaloriesLeft = this.caloriesPreference - this.todaysCalories;
     if (this.todaysCalories && this.caloriesPreference) {
-      this.progressBar = +(
-        (this.todaysCalories * 100) /
-        this.caloriesPreference
-      ).toFixed(0);
+      this.progressBar = +((this.todaysCalories * 100) / this.caloriesPreference).toFixed(0);
+    } else {
+      this.progressBar = 0;
     }
   }
 

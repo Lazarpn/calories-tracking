@@ -5,6 +5,7 @@ import { ProfileSettingsComponent } from './profile-settings/profile-settings.co
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProfileRoutingModule } from './profile-routing.module';
 import { SharedModule } from '../shared/shared.module';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [ProfileComponent, ProfileSettingsComponent],
@@ -14,6 +15,7 @@ import { SharedModule } from '../shared/shared.module';
     SharedModule,
     ReactiveFormsModule,
     ProfileRoutingModule,
+    MatDialogModule,
   ],
 })
 export class ProfileModule {}

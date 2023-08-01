@@ -1,12 +1,26 @@
-import { Component, OnInit, ViewChild, OnDestroy, ElementRef, HostListener } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  OnDestroy,
+  ElementRef,
+  HostListener,
+  Host,
+} from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ProfileService } from './profile.service';
 import { Subscription } from 'rxjs';
 import { User } from '../shared/models/user/user.model';
 import { UserPhotoUploadModel } from '../shared/models/user/user-photo-upload-model';
 import { UtilityService } from '../shared/utility.service';
-import { ImageCropperModalComponent } from '../shared/image-cropper-modal/image-cropper-modal.component';
+import {
+  ImageCropperModalComponent,
+  ImageCropperModalDialogData,
+} from '../shared/image-cropper-modal/image-cropper-modal.component';
 import { UserUpdateModel } from '../shared/models/user/user-update-model';
+import { base64ToFile } from 'ngx-image-cropper';
+import { MatDialog } from '@angular/material/dialog';
+import { SlicePipe } from '@angular/common';
 
 @Component({
   selector: 'ct-profile',
@@ -14,6 +28,7 @@ import { UserUpdateModel } from '../shared/models/user/user-update-model';
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit, OnDestroy {
+  @ViewChild('fileInput') fileInput: ElementRef;
   @HostListener('document:keydown.escape', ['$event'])
   onEscape(event: KeyboardEvent) {
     if (this.isEditMode) {
@@ -27,23 +42,26 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
   }
   form: FormGroup;
-  imageSrc: string;
+  imageUrl: string;
   isEditMode: boolean = false;
   beforeEditName: string;
   beforeEditSurname: string;
-  constructor(private profileService: ProfileService) {}
+  constructor(
+    private profileService: ProfileService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     const userInfo = this.profileService.getUserInfo();
 
-    this.imageSrc = this.profileService.userPhoto;
+    this.imageUrl = this.profileService.userPhoto;
 
-    //FIXME: pitanje da li i ovde treba sa next-om na route-params i da li se handla error i ovde?
+    // //FIXME: pitanje da li i ovde treba sa next-om na route-params i da li se handla error i ovde?
     this.profileService.userPhotoChanged.subscribe({
-      next: url => (this.imageSrc = url),
+      next: url => (this.imageUrl = url),
     });
 
-    if (!this.imageSrc) {
+    if (!this.imageUrl) {
       this.profileService.getUserPhoto();
     }
 
@@ -56,13 +74,46 @@ export class ProfileComponent implements OnInit, OnDestroy {
     });
   }
 
-  onUploadPhoto(event) {
-    const fileRead: File = event.target.files[0];
-    const model: UserPhotoUploadModel = {
-      file: fileRead,
-    };
+  onUploadPhoto(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input || !input.files || input.files.length === 0) {
+      return;
+    }
 
-    this.profileService.uploadUserPhoto(model).subscribe(model => (this.imageSrc = model.fileUrl));
+    const fileName = input.files[0].name.replace(/\.[^/.]+$/, '');
+
+    const dialogRef = this.dialog.open(ImageCropperModalComponent, {
+      width: '600px',
+      panelClass: 'fullscreen-dialog',
+      data: {
+        event: event,
+      } as ImageCropperModalDialogData,
+    });
+
+    dialogRef.afterClosed().subscribe(base64Image => {
+      if (!base64Image) {
+        this.fileInput.nativeElement.value = '';
+        return;
+      }
+
+      const croppedImageBlob = base64ToFile(base64Image);
+      const fileSelected = new File([croppedImageBlob], `${fileName}.jpeg`, { type: 'image/jpeg' });
+
+      const model: UserPhotoUploadModel = {
+        file: fileSelected,
+      };
+      this.profileService.uploadUserPhoto(model);
+
+      const reader = new FileReader();
+
+      reader.onload = (e: any) => {
+        const base64Image = e.target.result;
+        this.imageUrl = base64Image;
+      };
+
+      reader.readAsDataURL(fileSelected);
+      this.fileInput.nativeElement.value = '';
+    });
   }
 
   onInfoEdit() {

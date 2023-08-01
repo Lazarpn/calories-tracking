@@ -1,1 +1,28 @@
-<p>image-cropper-modal works!</p>
+<div class="mat-header">
+  <h2 mat-dialog-title>{{ isCoverImage ? 'Edit cover image' : 'Edit profile photo' }}</h2>
+  <button mat-dialog-close class="close-modal">✖️</button>
+</div>
+
+<mat-dialog-content>
+  <image-cropper
+    [imageChangedEvent]="event"
+    [maintainAspectRatio]="true"
+    [containWithinAspectRatio]="false"
+    [aspectRatio]="isCoverImage ? 3.75 : 1"
+    [cropperMinWidth]="200"
+    [onlyScaleDown]="true"
+    [roundCropper]="false"
+    [imageQuality]="100"
+    [autoCrop]="false"
+    alignImage="center"
+    [style.display]="showCropper ? null : 'none'"
+    format="jpeg"
+    (imageLoaded)="imageLoaded()"
+    (loadImageFailed)="loadImageFailed()">
+  </image-cropper>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-dialog-close class="cancel-modal">Cancel</button>
+  <button class="button-save" (click)="onSave()">OK</button>
+</mat-dialog-actions>
