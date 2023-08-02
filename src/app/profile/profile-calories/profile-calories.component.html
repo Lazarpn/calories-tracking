@@ -1,6 +1,6 @@
 <form class="calories-form" #form="ngForm">
   <div class="calories-wrapper">
-    <label for="calories">Your calories:</label>
+    <label for="calories">{{ 'label.calories' | translate }}:</label>
     <input
       [disabled]="!isEditMode"
       type="number"

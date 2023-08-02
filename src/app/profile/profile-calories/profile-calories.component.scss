@@ -1,13 +1,15 @@
 @import '/src/styles.scss';
 .calories-form {
-  margin-top: 10px;
-  margin-left: 10px;
+  margin-top: 20px;
+  margin-left: 20px;
 }
 
 .calories-wrapper {
   margin-top: 20px;
 
   label {
+    font-size: 18px;
+    font-weight: 400;
     margin-right: 10px;
   }
 

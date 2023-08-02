@@ -1,9 +1,6 @@
-<form
-  class="meal-form"
-  [ngClass]="{ 'meal-form-edit': isEditMode }"
-  #form="ngForm">
+<form class="meal-form" [ngClass]="{ 'meal-form-edit': isEditMode }" #form="ngForm">
   <div class="form-inputs">
-    <label for="mealName">Meal:</label>
+    <label for="mealName">{{ 'label.meal' | translate }}:</label>
     <input
       [disabled]="isDisabled"
       type="text"
@@ -12,7 +9,7 @@
       ctNullToEmpty
       [(ngModel)]="meal.name" />
 
-    <label for="calories">Calories:</label>
+    <label for="calories">{{ 'label.calories' | translate }}:</label>
     <input
       [disabled]="isDisabled"
       type="number"
@@ -21,7 +18,7 @@
       name="calories"
       [(ngModel)]="meal.calories" />
 
-    <label for="date">Date:</label>
+    <label for="date">{{ 'label.date' | translate }}:</label>
     <input
       [disabled]="isDisabled"
       type="date"
@@ -30,7 +27,7 @@
       ctNullToEmpty
       [(ngModel)]="mealDate" />
 
-    <label for="date">Time:</label>
+    <label for="date">{{ 'label.time' | translate }}:</label>
     <input
       type="time"
       [disabled]="isDisabled"
@@ -65,9 +62,7 @@
     </button>
 
     <button class="btn-delete btn" (click)="onMealDelete()">
-      <svg
-        class="icon-delete"
-        [ngClass]="{ icon: !isEditMode, 'icon-edit-mode': isEditMode }">
+      <svg class="icon-delete" [ngClass]="{ icon: !isEditMode, 'icon-edit-mode': isEditMode }">
         <use xlink:href="/assets/sprite.svg#icon-bin"></use>
       </svg>
     </button>

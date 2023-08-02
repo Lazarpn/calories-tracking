@@ -1,0 +1,17 @@
+<div class="picker-wrapper">
+  <p class="picker-title">{{ 'label.your-language' | translate }}:</p>
+  <button class="button-picker" mat-menu-item [matMenuTriggerFor]="languageMenu">
+    <mat-icon [style.backgroundImage]="'url(' + activeLanguage.flag + ')'"></mat-icon>
+    {{ activeLanguage?.name }}
+  </button>
+  <mat-menu #languageMenu="matMenu">
+    <button
+      class="button-option"
+      *ngFor="let language of appLanguages"
+      mat-menu-item
+      (click)="changeLanguage(language)">
+      <mat-icon [style.backgroundImage]="'url(' + language.flag + ')'"></mat-icon>
+      {{ language.name }}
+    </button>
+  </mat-menu>
+</div>

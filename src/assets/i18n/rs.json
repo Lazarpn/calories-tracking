@@ -1,6 +1,29 @@
 {
   "label": {
     "signIn": "Uloguj se",
-    "signUp": "Registruj se"
+    "signUp": "Registruj se",
+    "signOut": "Izloguj se",
+    "meals": "Obroci",
+    "profile": "Profil",
+    "all-users": "Svi Korisnici",
+    "language": "Jezik",
+    "calories": "Kalorije",
+    "name": "Ime",
+    "surname": "Prezime",
+    "your-calories": "Vaše Kalorije",
+    "your-language": "Izaberite Vaš Jezik",
+    "meal": "Obrok",
+    "date": "Datum",
+    "time": "Vreme",
+    "date-start": "Početni Datum",
+    "date-end": "Krajnji Datum",
+    "time-start": "Početno Vreme",
+    "time-end": "Krajnje Vreme",
+    "search": "Pretraži",
+    "date-filter-message": "Ukoliko ne postavite datum, današnji datum će biti uzet",
+    "email": "Email",
+    "first-name": "Ime",
+    "last-name": "Prezime",
+    "calories-preference": "Željene kalorije"
   }
 }

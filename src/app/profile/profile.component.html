@@ -17,9 +17,9 @@
     </div>
 
     <div class="profile-user-info">
-      <label for="firstName">Name</label>
+      <label for="firstName">{{ 'label.name' | translate }}</label>
       <input formControlName="firstName" type="text" name="firstName" id="firstName" />
-      <label for="lastName">Surname</label>
+      <label for="lastName">{{ 'label.surname' | translate }}</label>
       <input formControlName="lastName" type="text" name="lastName" id="lastName" />
     </div>
 
@@ -39,9 +39,14 @@
   <nav class="settings-nav">
     <ul class="settings-list">
       <li class="settings-item">
-        <a routerLinkActive="settings-link-active" class="settings-link" routerLink="settings"
-          >Settings</a
-        >
+        <a routerLinkActive="settings-link-active" class="settings-link" routerLink="calories">{{
+          'label.calories' | translate
+        }}</a>
+      </li>
+      <li class="settings-item">
+        <a routerLinkActive="settings-link-active" class="settings-link" routerLink="language">{{
+          'label.language' | translate
+        }}</a>
       </li>
     </ul>
   </nav>

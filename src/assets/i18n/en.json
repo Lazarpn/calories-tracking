@@ -1,7 +1,30 @@
 {
   "label": {
     "signIn": "Sign In",
-    "signUp": "Sign Up"
+    "signUp": "Sign Up",
+    "signOut": "Sign Out",
+    "meals": "Meals",
+    "profile": "Profile",
+    "all-users": "All Users",
+    "language": "Language",
+    "calories": "Calories",
+    "name": "Name",
+    "surname": "Surname",
+    "your-calories": "Your Calories",
+    "your-language": "Choose Your Language",
+    "meal": "Meal",
+    "date": "Date",
+    "time": "Time",
+    "date-start": "Date Start",
+    "date-end": "Date End",
+    "time-start": "Time Start",
+    "time-end": "Time End",
+    "search": "Search",
+    "date-filter-message": "If you don't set a date, today's date will be taken",
+    "email": "Email",
+    "first-name": "First Name",
+    "last-name": "Last name",
+    "calories-preference": "Calories Preference"
   },
   "errors": {
     "RequestInvalid": "",

@@ -1,18 +1,7 @@
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  OnDestroy,
-  ElementRef,
-  HostListener,
-  Host,
-} from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, ElementRef, HostListener } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ProfileService } from './profile.service';
-import { Subscription } from 'rxjs';
-import { User } from '../shared/models/user/user.model';
 import { UserPhotoUploadModel } from '../shared/models/user/user-photo-upload-model';
-import { UtilityService } from '../shared/utility.service';
 import {
   ImageCropperModalComponent,
   ImageCropperModalDialogData,
@@ -20,7 +9,6 @@ import {
 import { UserUpdateModel } from '../shared/models/user/user-update-model';
 import { base64ToFile } from 'ngx-image-cropper';
 import { MatDialog } from '@angular/material/dialog';
-import { SlicePipe } from '@angular/common';
 
 @Component({
   selector: 'ct-profile',

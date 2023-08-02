@@ -5,13 +5,13 @@
   (ngSubmit)="onSubmit()">
   <img *ngIf="user.thumbUrl" [src]="user.thumbUrl" class="user-image" alt="User-image" />
 
-  <label for="email">Email:</label>
+  <label for="email">{{ 'label.email' | translate }}:</label>
   <input
     [ngStyle]="{ color: changesSaved === true ? '#fff' : '#23b5d3' }"
     formControlName="email"
     id="email"
     type="text" />
-  <label for="firstName">First Name:</label>
+  <label for="firstName">{{ 'label.first-name' | translate }}:</label>
 
   <input
     [ngStyle]="{ color: changesSaved === true ? '#fff' : '#23b5d3' }"
@@ -20,7 +20,7 @@
     ctNullToEmpty
     id="firstName" />
 
-  <label for="lastName">Last Name:</label>
+  <label for="lastName">{{ 'label.last-name' | translate }}:</label>
 
   <input
     [ngStyle]="{ color: changesSaved === true ? '#fff' : '#23b5d3' }"
@@ -28,7 +28,7 @@
     type="text"
     ctNullToEmpty
     id="lastName" />
-  <label for="caloriesPreferencee">Calories Preference:</label>
+  <label for="caloriesPreferencee">{{ 'label.calories-preference' | translate }}:</label>
 
   <input
     [ngStyle]="{ color: changesSaved === true ? '#fff' : '#23b5d3' }"

@@ -1,14 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ProfileComponent } from './profile.component';
-import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
+import { ProfileCaloriesComponent } from './profile-calories/profile-calories.component';
+import { ProfileLanguageComponent } from './profile-language/profile-language.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'settings', pathMatch: 'full' },
+  { path: '', redirectTo: 'calories', pathMatch: 'full' },
   {
     path: '',
     component: ProfileComponent,
-    children: [{ path: 'settings', component: ProfileSettingsComponent }],
+    children: [
+      { path: 'calories', component: ProfileCaloriesComponent },
+      { path: 'language', component: ProfileLanguageComponent },
+    ],
   },
 ];
 

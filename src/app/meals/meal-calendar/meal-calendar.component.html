@@ -1,29 +1,21 @@
 <form class="calendar-form" (ngSubmit)="onSubmit()" #calendarForm="ngForm">
   <!-- DATE -->
   <p class="calendar-tip">
-    If you don't set a date, today's date will be taken
+    {{ 'label.date-filter-message' | translate }}
   </p>
   <div class="calendar-dates">
-    <label for="dateStart">Date Start</label>
-    <input
-      type="date"
-      id="dateStart"
-      name="dateStart"
-      [(ngModel)]="dateStart" />
-    <label for="dateEnd">Date End</label>
+    <label for="dateStart">{{ 'label.date-start' | translate }}</label>
+    <input type="date" id="dateStart" name="dateStart" [(ngModel)]="dateStart" />
+    <label for="dateEnd">{{ 'label.date-end' | translate }}</label>
     <input type="date" id="dateEnd" name="dateEnd" [(ngModel)]="dateEnd" />
   </div>
 
   <div class="calendar-time">
-    <label for="timeStart">Time start</label>
-    <input
-      type="time"
-      id="timeStart"
-      name="timeStart"
-      [(ngModel)]="timeStart" />
-    <label for="timeEnd">Time end</label>
+    <label for="timeStart">{{ 'label.time-start' | translate }}</label>
+    <input type="time" id="timeStart" name="timeStart" [(ngModel)]="timeStart" />
+    <label for="timeEnd">{{ 'label.time-end' | translate }}</label>
     <input type="time" id="timeEnd" name="timeEnd" [(ngModel)]="timeEnd" />
   </div>
 
-  <button class="btn-search" type="submit">Search</button>
+  <button class="btn-search" type="submit">{{ 'label.search' | translate }}</button>
 </form>

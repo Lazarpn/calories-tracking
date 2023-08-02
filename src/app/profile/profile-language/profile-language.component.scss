@@ -1,0 +1,36 @@
+@import '/src/styles.scss';
+
+:host {
+  display: flex;
+  padding: 20px;
+}
+
+.flag {
+  height: 45px;
+  width: 45px;
+  background-size: cover;
+}
+
+.picker-title {
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.picker-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: center;
+}
+
+.button-picker {
+  width: 200px;
+  background-color: #e4e4e4;
+  border-bottom: 2px solid var(--color-primary);
+  display: flex;
+}
+
+.button-option {
+  display: flex;
+  align-items: center;
+}
