@@ -7,7 +7,7 @@
       <a class="header-link" routerLink="/meals">{{ 'label.meals' | translate }}</a>
     </li>
     <li class="header-item" *ngIf="!isAuthenticated">
-      <a class="header-link" routerLink="/auth">Authentication</a>
+      <a class="header-link" routerLink="/auth">{{ 'label.authentication' | translate }}</a>
     </li>
     <li class="header-item" *ngIf="isAuthenticated">
       <a class="header-link" routerLink="/profile/calories">{{ 'label.profile' | translate }}</a>

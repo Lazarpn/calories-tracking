@@ -63,7 +63,9 @@ export class AuthService {
   }
 
   signOut() {
+    const language = localStorage.getItem('language');
     localStorage.clear();
+    localStorage.setItem('language', language);
     this.userRole.next(null);
     if (this.tokenExpirationTimer) {
       clearTimeout(this.tokenExpirationTimer);

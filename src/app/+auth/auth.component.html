@@ -1,14 +1,15 @@
 <h2 class="auth-heading">
-  {{ (isSignInMode ? 'label.signIn' : 'label.signUp') | translate }} to your account
+  {{ (isSignInMode ? 'label.signIn' : 'label.signUp') | translate }}
+  {{ 'label.to-your-account' | translate }}
 </h2>
 <form class="auth-form" [formGroup]="authForm" (ngSubmit)="onSubmit()">
-  <label for="email">Email</label>
+  <label for="email">{{ 'label.email' | translate }}</label>
   <input type="email" name="email" placeholder="Enter Your Email" formControlName="email" />
   <span class="form-message" *ngIf="!authForm.get('email').valid && authForm.get('email').touched">
-    Please enter a valid email!
+    {{ 'label.valid-email' | translate }}
   </span>
 
-  <label for="password">Password</label>
+  <label for="password">{{ 'label.password' | translate }}</label>
   <input
     type="password"
     name="password"
@@ -17,31 +18,30 @@
   <span
     class="form-message"
     *ngIf="!isSignInMode && !authForm.get('password').valid && authForm.get('password').touched">
-    Password must me at least 6 characters and include one non-alphanumeric character!
+    {{ 'label.valid-password' | translate }}
   </span>
 
   <div class="sign-up" *ngIf="!isSignInMode">
-    <label for="firstName">FirstName</label>
+    <label for="firstName">{{ 'label.name' | translate }}</label>
     <input formControlName="firstName" name="firstName" type="text" placeholder="FirstName" />
-    <label for="lastName">LastName</label>
+    <label for="lastName">{{ 'label.surname' | translate }}</label>
     <input formControlName="lastName" type="text" name="lastName" placeholder="LastName" />
   </div>
 
   <button type="submit" class="form-button" [disabled]="!authForm.valid">
-    {{ isSignInMode ? 'Sign in' : 'Sign up' }}
+    {{ (isSignInMode ? 'label.signIn' : 'label.signUp') | translate }}
   </button>
 
   <div>
     <p class="form-text">
-      {{
-        isSignInMode ? "Don't have an account? Switch to " : 'Already have an account? Switch to '
-      }}
+      {{ (isSignInMode ? 'label.no-account' : 'label.already-have-an-account') | translate }}?
+      {{ 'label.switch-to' | translate }}
       <button class="auth-switch" type="button" (click)="onSwitchMode()">
-        {{ isSignInMode ? 'Sign up' : 'Sign in' }}
+        {{ (isSignInMode ? 'label.signUp' : 'label.signIn') | translate }}
       </button>
     </p>
     <button (click)="forgotPassword()" class="forgot-password-button" routerLink="/forgot-password">
-      Forgot password?
+      {{ 'label.forgot-password' | translate }}
     </button>
   </div>
 </form>

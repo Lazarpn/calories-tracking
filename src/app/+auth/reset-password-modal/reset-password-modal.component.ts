@@ -14,7 +14,7 @@ export class ResetPasswordModalComponent implements OnInit {
   @ViewChild('form') form: NgForm;
   passwordSent: boolean = false;
   passwordSentMessage: string;
-  passwordPattern: RegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*d)(?=.*[^da-zA-Z]).{6,}$/;
+  passwordPattern: RegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{6,}$/;
   errorMessages: string[] = [];
   formModel: ResetPasswordForm = {
     password: '',
@@ -41,8 +41,8 @@ export class ResetPasswordModalComponent implements OnInit {
   }
 
   onSubmit() {
-    const validPassword = this.passwordCheck(this.formModel.password, this.formModel.password2);
-    if (!validPassword) {
+    if (!this.form.valid) {
+      this.passwordCheck(this.formModel.password, this.formModel.password2);
       return;
     }
 
@@ -70,8 +70,7 @@ export class ResetPasswordModalComponent implements OnInit {
     this.router.navigate(['/auth']);
   }
 
-  private passwordCheck(password: string, password2: string): boolean {
-    let isValidPassword = true;
+  private passwordCheck(password: string, password2: string) {
     this.errorMessages = [];
     const digitPattern = /\d/;
     const uppercasePattern = /[A-Z]/;
@@ -79,35 +78,28 @@ export class ResetPasswordModalComponent implements OnInit {
     const specialCharacterPattern = /[^a-zA-Z0-9]/;
 
     if (password != password2) {
-      this.errorMessages.push('⚠️ The passwords do not match!');
-      return false;
+      this.errorMessages.push('label.passwords-dont-match');
+      return;
     }
 
     if (password.length < 6) {
-      this.errorMessages.push('⚠️ Password must be at least 6 characters.');
-      isValidPassword = false;
+      this.errorMessages.push('label.pasword-must-be-6-length');
     }
 
     if (!digitPattern.test(password)) {
-      this.errorMessages.push('⚠️ Password must contain at least 1 digit.');
-      isValidPassword = false;
+      this.errorMessages.push('label.password-must-contain-digit');
     }
 
     if (!uppercasePattern.test(password)) {
-      this.errorMessages.push('⚠️ Password must contain at least 1 uppercase letter.');
-      isValidPassword = false;
+      this.errorMessages.push('label.password-must-contain-uppercase-letter');
     }
 
     if (!lowercasePattern.test(password)) {
-      this.errorMessages.push('⚠️ Password must contain at least 1 lowercase letter.');
-      isValidPassword = false;
+      this.errorMessages.push('label.password-must-contain-lowercase-letter');
     }
 
     if (!specialCharacterPattern.test(password)) {
-      this.errorMessages.push('⚠️ Password must contain at least 1 special character.');
-      isValidPassword = false;
+      this.errorMessages.push('label.password-must-contain-special-character');
     }
-
-    return isValidPassword;
   }
 }

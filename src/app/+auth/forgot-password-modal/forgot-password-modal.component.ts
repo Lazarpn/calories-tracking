@@ -12,7 +12,11 @@ export class ForgotPasswordModalComponent implements OnInit {
   email: string;
   emailSentMessage: string;
   emailSent: boolean = false;
-  constructor(private router: Router, private authService: AuthService) {}
+
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -28,8 +32,7 @@ export class ForgotPasswordModalComponent implements OnInit {
     this.authService.forgotPassword(model).subscribe({
       next: _ => {
         this.emailSent = true;
-        this.emailSentMessage = `We have sent an email to ${this.email}. Please follow the enclosed link to
-        reset your password.`;
+        this.emailSentMessage = `label.forgot-password-email-sent`;
       },
       error: error => {
         this.emailSent = true;
