@@ -4,10 +4,12 @@
 </h2>
 <form class="auth-form" [formGroup]="authForm" (ngSubmit)="onSubmit()">
   <label for="email">{{ 'label.email' | translate }}</label>
+  <ng-container *ngIf="errorMessagesEmail">
+    <span class="form-message" *ngFor="let message of errorMessagesEmail">
+      ⚠️ {{ message.name | translate: message?.param }}
+    </span>
+  </ng-container>
   <input type="email" name="email" placeholder="Enter Your Email" formControlName="email" />
-  <span class="form-message" *ngIf="!authForm.get('email').valid && authForm.get('email').touched">
-    {{ 'label.valid-email' | translate }}
-  </span>
 
   <label for="password">{{ 'label.password' | translate }}</label>
   <input
@@ -15,11 +17,11 @@
     name="password"
     placeholder="Enter Your Password"
     formControlName="password" />
-  <span
-    class="form-message"
-    *ngIf="!isSignInMode && !authForm.get('password').valid && authForm.get('password').touched">
-    {{ 'label.valid-password' | translate }}
-  </span>
+  <ng-container *ngIf="errorMessagesPassword">
+    <span class="form-message" *ngFor="let message of errorMessagesPassword">
+      ⚠️ {{ message.name | translate: message?.param }}
+    </span>
+  </ng-container>
 
   <div class="sign-up" *ngIf="!isSignInMode">
     <label for="firstName">{{ 'label.name' | translate }}</label>
@@ -28,7 +30,7 @@
     <input formControlName="lastName" type="text" name="lastName" placeholder="LastName" />
   </div>
 
-  <button type="submit" class="form-button" [disabled]="!authForm.valid">
+  <button type="submit" class="form-button">
     {{ (isSignInMode ? 'label.signIn' : 'label.signUp') | translate }}
   </button>
 

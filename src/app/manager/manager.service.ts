@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { UserAdminUpdateModel } from '../shared/models/user/user-admin-update-model';
 import { UserAdminModel } from '../shared/models/user/user-admin-model';
+import { ExceptionDetail } from '../shared/models/exception-detail';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +12,10 @@ export class ManagerService {
   usersChanged = new Subject<UserAdminModel[]>();
 
   constructor() {}
+
+  setUsersErrors(exceptions: ExceptionDetail[]) {
+    this.usersChanged.error(exceptions);
+  }
 
   setUsers(users: UserAdminModel[]) {
     this.users = users;

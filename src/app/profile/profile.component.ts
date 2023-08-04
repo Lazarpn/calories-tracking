@@ -44,7 +44,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     this.imageUrl = this.profileService.userPhoto;
 
-    // //FIXME: pitanje da li i ovde treba sa next-om na route-params i da li se handla error i ovde?
     this.profileService.userPhotoChanged.subscribe({
       next: url => (this.imageUrl = url),
     });

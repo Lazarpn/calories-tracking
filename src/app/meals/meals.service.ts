@@ -4,6 +4,7 @@ import { MealDateFilter } from '../shared/models/meal/meal-date-filter.model';
 import { FilterService } from '../shared/filter.service';
 import { Meal } from '../shared/models/meal/meal.model';
 import { MealUpdateModel } from '../shared/models/meal/meal-update-model';
+import { ExceptionDetail } from '../shared/models/exception-detail';
 
 @Injectable({ providedIn: 'root' })
 export class MealsService {
@@ -19,6 +20,10 @@ export class MealsService {
 
   getMeals() {
     return this.meals.slice();
+  }
+
+  setMealsErrors(exceptions: ExceptionDetail[]) {
+    this.mealsChanged.error(exceptions);
   }
 
   setMeals(meals: Meal[]) {

@@ -4,6 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ResetPasswordForm } from 'src/app/shared/models/form/reset-password-form';
 import { ResetPasswordModel } from 'src/app/shared/models/user/reset-password-model';
 import { AuthService } from '../auth.service';
+import { UtilityService } from 'src/app/shared/utility.service';
+import { TranslationMessage } from 'src/app/shared/models/translation-message';
+import { PASSWORD_PATTERN } from 'src/app/shared/constants';
 
 @Component({
   selector: 'ct-reset-password-modal',
@@ -14,8 +17,8 @@ export class ResetPasswordModalComponent implements OnInit {
   @ViewChild('form') form: NgForm;
   passwordSent: boolean = false;
   passwordSentMessage: string;
-  passwordPattern: RegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{6,}$/;
-  errorMessages: string[] = [];
+  passwordPattern: RegExp = PASSWORD_PATTERN;
+  errorMessages: TranslationMessage[] = [];
   formModel: ResetPasswordForm = {
     password: '',
     password2: '',
@@ -29,11 +32,11 @@ export class ResetPasswordModalComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private utilityService: UtilityService
   ) {}
 
   ngOnInit(): void {
-    //FIXME: pitanje da li i ovde treba sa next-om na route-params i da li se handla error i ovde?
     this.route.params.subscribe(params => {
       this.model.userId = params['userId'];
       this.model.token = params['token'];
@@ -41,65 +44,26 @@ export class ResetPasswordModalComponent implements OnInit {
   }
 
   onSubmit() {
+    this.errorMessages = [];
     if (!this.form.valid) {
-      this.passwordCheck(this.formModel.password, this.formModel.password2);
+      this.errorMessages = this.utilityService.checkPassword(
+        this.formModel.password,
+        this.formModel.password2
+      );
       return;
     }
 
-    this.errorMessages = [];
     this.model.password = this.formModel.password;
-    //FIXME: Internal server, bad request error itd..
-    // this.model.token = 'blbla';
-    // this.model.userId = 'blbala';
 
     this.authService.resetPassword(this.model).subscribe({
       next: _ => {
         this.passwordSent = true;
         this.passwordSentMessage = 'Your password has been successfully reset. You can now log in.';
       },
-      error: error => {
-        //FIXME:pitati za format greske
-        this.passwordSent = true;
-        console.log(error);
-        this.passwordSentMessage = error;
-      },
     });
   }
 
   onRedirect() {
     this.router.navigate(['/auth']);
-  }
-
-  private passwordCheck(password: string, password2: string) {
-    this.errorMessages = [];
-    const digitPattern = /\d/;
-    const uppercasePattern = /[A-Z]/;
-    const lowercasePattern = /[a-z]/;
-    const specialCharacterPattern = /[^a-zA-Z0-9]/;
-
-    if (password != password2) {
-      this.errorMessages.push('label.passwords-dont-match');
-      return;
-    }
-
-    if (password.length < 6) {
-      this.errorMessages.push('label.pasword-must-be-6-length');
-    }
-
-    if (!digitPattern.test(password)) {
-      this.errorMessages.push('label.password-must-contain-digit');
-    }
-
-    if (!uppercasePattern.test(password)) {
-      this.errorMessages.push('label.password-must-contain-uppercase-letter');
-    }
-
-    if (!lowercasePattern.test(password)) {
-      this.errorMessages.push('label.password-must-contain-lowercase-letter');
-    }
-
-    if (!specialCharacterPattern.test(password)) {
-      this.errorMessages.push('label.password-must-contain-special-character');
-    }
   }
 }

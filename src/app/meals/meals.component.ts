@@ -4,6 +4,9 @@ import { MealsDataService } from './meals-data.service';
 import { MealsService } from './meals.service';
 import { MealDateFilter } from '../shared/models/meal/meal-date-filter.model';
 import { CanComponentDeactivate } from '../shared/can-deactivate-meals.guard';
+import { ExceptionDetail } from '../shared/models/exception-detail';
+import { UtilityService } from '../shared/utility.service';
+import { TranslationMessage } from '../shared/models/translation-message';
 
 @Component({
   selector: 'ct-meals',
@@ -17,7 +20,8 @@ export class MealsComponent implements OnInit, CanComponentDeactivate {
 
   constructor(
     private mealsService: MealsService,
-    private mealsDataService: MealsDataService
+    private mealsDataService: MealsDataService,
+    private utilityService: UtilityService
   ) {}
 
   canDeactivate(): boolean {
@@ -31,10 +35,15 @@ export class MealsComponent implements OnInit, CanComponentDeactivate {
 
   ngOnInit(): void {
     this.meals = this.mealsService.getMeals();
-    //FIXME: pitanje da li i ovde treba sa next-om na route-params i da li se handla error i ovde?
-    this.mealsService.mealsChanged.subscribe(meals => {
-      this.meals = meals;
-      this.mealsFetched = true;
+    this.mealsService.mealsChanged.subscribe({
+      next: meals => {
+        this.meals = meals;
+        this.mealsFetched = true;
+      },
+      error: (exceptions: ExceptionDetail[]) => {
+        const errors: TranslationMessage[] = this.utilityService.getErrorMessages(exceptions);
+        this.utilityService.displaySnackBarErrors(errors);
+      },
     });
 
     if (this.meals.length === 0) {

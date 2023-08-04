@@ -12,15 +12,10 @@ export class AuthenticatedGuard implements CanActivate {
   ) {}
   canActivate(): boolean | UrlTree {
     let isAuth = false;
-    //FIXME: pitanje da li i ovde treba sa next-om na route-params i da li se handla error i ovde?
-
-    this.authService.userRole.subscribe({
-      next: (userRole: string) => {
-        if (userRole) {
-          isAuth = true;
-        }
-      },
-      error: error => {},
+    this.authService.userRole.subscribe((userRole: string) => {
+      if (userRole) {
+        isAuth = true;
+      }
     });
     if (isAuth) {
       return this.router.createUrlTree(['/meals']);

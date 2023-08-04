@@ -6,6 +6,10 @@ import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SignUpModel } from '../shared/models/user/sign-up-model';
 import { SignInModel } from '../shared/models/user/sign-in-model';
+import { ExceptionDetail } from '../shared/models/exception-detail';
+import { PASSWORD_PATTERN } from '../shared/constants';
+import { UtilityService } from '../shared/utility.service';
+import { TranslationMessage } from '../shared/models/translation-message';
 
 @Component({
   selector: 'ct-auth',
@@ -15,19 +19,18 @@ import { SignInModel } from '../shared/models/user/sign-in-model';
 export class AuthComponent implements OnInit {
   @HostBinding('class.display-none') isLoading: boolean = false;
   isSignInMode: boolean = true;
+  errorMessagesEmail: TranslationMessage[] = [];
+  errorMessagesPassword: TranslationMessage[] = [];
   authForm: FormGroup = new FormGroup({
     email: new FormControl(null, [Validators.required, Validators.email]),
-    password: new FormControl(null, [
-      Validators.required,
-      Validators.minLength(6),
-      Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{6,}$/),
-    ]),
+    password: new FormControl(null, [Validators.required, Validators.pattern(PASSWORD_PATTERN)]),
   });
 
   constructor(
     private authService: AuthService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private utilityService: UtilityService
   ) {}
 
   ngOnInit(): void {}
@@ -45,7 +48,20 @@ export class AuthComponent implements OnInit {
   }
 
   onSubmit() {
+    this.errorMessagesEmail = [];
+    this.errorMessagesPassword = [];
+
     if (!this.authForm.valid) {
+      if (!this.authForm.controls['email'].valid) {
+        this.errorMessagesEmail.push(this.utilityService.errorEmail());
+      }
+
+      if (!this.authForm.controls['password'].valid) {
+        this.errorMessagesPassword = this.errorMessagesPassword.concat(
+          this.utilityService.checkPassword(this.authForm.controls['password'].value)
+        );
+      }
+
       return;
     }
     this.isLoading = true;
@@ -81,7 +97,8 @@ export class AuthComponent implements OnInit {
       next: _ => {
         this.router.navigate(['/meals']).then(() => (this.isLoading = false));
       },
-      error: _ => {
+      error: (errors: ExceptionDetail[]) => {
+        this.errorMessagesEmail = this.utilityService.getErrorMessages(errors);
         this.isLoading = false;
       },
     });

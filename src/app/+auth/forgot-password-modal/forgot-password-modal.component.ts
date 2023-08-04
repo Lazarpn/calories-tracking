@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { ForgotPasswordModel } from 'src/app/shared/models/user/forgot-password-model';
+import { ExceptionDetail } from 'src/app/shared/models/exception-detail';
+import { TranslationMessage } from 'src/app/shared/models/translation-message';
+import { UtilityService } from 'src/app/shared/utility.service';
+import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 
 @Component({
   selector: 'ct-forgot-password-modal',
@@ -9,13 +13,16 @@ import { ForgotPasswordModel } from 'src/app/shared/models/user/forgot-password-
   styleUrls: ['./forgot-password-modal.component.scss'],
 })
 export class ForgotPasswordModalComponent implements OnInit {
-  email: string;
+  form: FormGroup = new FormGroup({
+    email: new FormControl(null, [Validators.required, Validators.email]),
+  });
   emailSentMessage: string;
-  emailSent: boolean = false;
+  errorMessages: TranslationMessage[] = [];
 
   constructor(
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private utilityService: UtilityService
   ) {}
 
   ngOnInit(): void {}
@@ -25,21 +32,22 @@ export class ForgotPasswordModalComponent implements OnInit {
   }
 
   onSubmit() {
+    this.errorMessages = [];
+
+    if (!this.form.valid) {
+      this.errorMessages.push(this.utilityService.errorEmail());
+      return;
+    }
     const model: ForgotPasswordModel = {
-      email: this.email,
+      email: this.form.controls['email'].value,
     };
 
     this.authService.forgotPassword(model).subscribe({
       next: _ => {
-        this.emailSent = true;
         this.emailSentMessage = `label.forgot-password-email-sent`;
       },
-      error: error => {
-        this.emailSent = true;
-        console.log(error);
-        //FIXME:
-        //request da li user sa tim email-om postoji
-        this.emailSentMessage = error;
+      error: (errors: ExceptionDetail[]) => {
+        this.errorMessages = this.utilityService.getErrorMessages(errors);
       },
     });
   }

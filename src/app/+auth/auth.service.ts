@@ -1,14 +1,12 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, catchError, tap, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AuthResponseModel } from '../shared/models/user/auth-response.model';
 import { ForgotPasswordModel } from '../shared/models/user/forgot-password-model';
 import { ResetPasswordModel } from '../shared/models/user/reset-password-model';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { SignUpModel } from '../shared/models/user/sign-up-model';
 import { SignInModel } from '../shared/models/user/sign-in-model';
-import { ExceptionDetail } from '../shared/models/exception-detail';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -16,10 +14,7 @@ export class AuthService {
   private url: string = `${environment.url}/api`;
   userRole = new BehaviorSubject<string>(null);
 
-  constructor(
-    private http: HttpClient,
-    private snackBar: MatSnackBar
-  ) {}
+  constructor(private http: HttpClient) {}
 
   resetPassword(model: ResetPasswordModel): Observable<void> {
     return this.http.put<void>(`${this.url}/accounts/password/reset`, model);

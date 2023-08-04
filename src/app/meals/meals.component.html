@@ -1,13 +1,12 @@
 <ct-meal-list [meals]="meals"> </ct-meal-list>
 <p *ngIf="!meals.length && mealsFetched && !filterApplied">
-  You don't have any meals currently!
+  {{ 'label.no-meals-currently' | translate }}
 </p>
 <p *ngIf="filterApplied && !meals.length">
-  You don't have meals for a given criteria!
+  {{ 'label.no-meals-for-given-criteria' | translate }}
 </p>
 <div class="meals-calendar">
-  <ct-meal-calendar (filterApplied)="onFilterApplied($event)">
-  </ct-meal-calendar>
+  <ct-meal-calendar (filterApplied)="onFilterApplied($event)"> </ct-meal-calendar>
   <ct-meal-expected-calories></ct-meal-expected-calories>
 </div>
 

@@ -1,10 +1,87 @@
 import { Injectable } from '@angular/core';
+import {
+  DIGIT_PATTERN,
+  LENGTH_PATTERN,
+  LOWERCASE_PATTERN,
+  SPECIAL_CHARACTERS_PATTERN,
+  UPPERCASE_PATTERN,
+} from './constants';
+import { TranslationMessage } from './models/translation-message';
+import { ExceptionDetail } from './models/exception-detail';
+import { TranslateService } from '@ngx-translate/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UtilityService {
-  constructor() {}
+  constructor(
+    private translateService: TranslateService,
+    private snackBar: MatSnackBar
+  ) {}
+
+  displaySnackBarErrors(errors: TranslationMessage[]) {
+    for (let error of errors) {
+      this.getTranslatedMessage(`errors.${error.name}`, error.param).subscribe((value: string) => {
+        this.snackBar.open(value, '✖️');
+      });
+    }
+  }
+
+  getTranslatedMessage(name: string, param: any) {
+    return this.translateService.get(name, param);
+  }
+
+  getErrorMessages(exceptions: ExceptionDetail[]): TranslationMessage[] {
+    let errorMessages: TranslationMessage[] = [];
+    for (let exception of exceptions) {
+      errorMessages.push({
+        name: `errors.${exception.errorCode}`,
+        param: exception.params,
+      });
+    }
+    return errorMessages;
+  }
+
+  errorEmail(): TranslationMessage {
+    return {
+      name: 'label.valid-email',
+      param: null,
+    };
+  }
+
+  checkPassword(password: string, password2: string = null): TranslationMessage[] {
+    let errorMessages: TranslationMessage[] = [];
+    if (password2) {
+      if (password != password2) {
+        errorMessages.push({ name: 'label.passwords-dont-match', param: null });
+        return errorMessages;
+      }
+    }
+
+    if (!LENGTH_PATTERN.test(password)) {
+      console.log('ne');
+      errorMessages.push({ name: 'label.pasword-must-be-6-length', param: null });
+    }
+
+    if (!DIGIT_PATTERN.test(password)) {
+      errorMessages.push({ name: 'label.password-must-contain-digit', param: null });
+    }
+
+    if (!UPPERCASE_PATTERN.test(password)) {
+      errorMessages.push({ name: 'label.password-must-contain-uppercase-letter', param: null });
+    }
+
+    if (!LOWERCASE_PATTERN.test(password)) {
+      errorMessages.push({ name: 'label.password-must-contain-lowercase-letter', param: null });
+    }
+
+    if (!SPECIAL_CHARACTERS_PATTERN.test(password)) {
+      errorMessages.push({ name: 'label.password-must-contain-special-character', param: null });
+    }
+
+    return errorMessages;
+  }
 
   createFormData(obj: any): FormData {
     const formData = new FormData();

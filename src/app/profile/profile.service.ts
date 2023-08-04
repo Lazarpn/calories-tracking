@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { User } from '../shared/models/user/user.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
@@ -8,7 +8,8 @@ import { UtilityService } from '../shared/utility.service';
 import { UserPhotoModel } from '../shared/models/user/user-photo-model';
 import { UserUpdateModel } from '../shared/models/user/user-update-model';
 import { UserCaloriesModel } from '../shared/models/user/user-calories-model';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { ExceptionDetail } from '../shared/models/exception-detail';
+import { TranslationMessage } from '../shared/models/translation-message';
 
 @Injectable({
   providedIn: 'root',
@@ -22,8 +23,7 @@ export class ProfileService {
 
   constructor(
     private http: HttpClient,
-    private utilityService: UtilityService,
-    private snackBar: MatSnackBar
+    private utilityService: UtilityService
   ) {}
 
   getUser(): User {
@@ -47,6 +47,10 @@ export class ProfileService {
         this.user.firstName = model.firstName;
         this.user.lastName = model.lastName;
       },
+      error: (exceptions: ExceptionDetail[]) => {
+        const errors: TranslationMessage[] = this.utilityService.getErrorMessages(exceptions);
+        this.utilityService.displaySnackBarErrors(errors);
+      },
     });
   }
 
@@ -59,7 +63,10 @@ export class ProfileService {
       next: _ => {
         this.user.caloriesPreference = model.caloriesPreference;
       },
-      // FIXME:error kad vidim sa Milosem svuda u servisu
+      error: (exceptions: ExceptionDetail[]) => {
+        const errors: TranslationMessage[] = this.utilityService.getErrorMessages(exceptions);
+        this.utilityService.displaySnackBarErrors(errors);
+      },
     });
   }
 
@@ -74,6 +81,10 @@ export class ProfileService {
         this.userPhoto = model.fileUrl;
         this.userPhotoChanged.next(model.fileUrl);
       },
+      error: (exceptions: ExceptionDetail[]) => {
+        const errors: TranslationMessage[] = this.utilityService.getErrorMessages(exceptions);
+        this.utilityService.displaySnackBarErrors(errors);
+      },
     });
   }
 
@@ -83,8 +94,9 @@ export class ProfileService {
       next: model => {
         this.setUserPhoto(model.fileUrl);
       },
-      error: error => {
-        this.snackBar.open("We couldn't upload your photo, try again.", '✖️');
+      error: (exceptions: ExceptionDetail[]) => {
+        const errors: TranslationMessage[] = this.utilityService.getErrorMessages(exceptions);
+        this.utilityService.displaySnackBarErrors(errors);
       },
     });
   }

@@ -3,7 +3,9 @@
   [ngClass]="{ 'user-edit': !changesSaved }"
   [formGroup]="userForm"
   (ngSubmit)="onSubmit()">
-  <img *ngIf="user.thumbUrl" [src]="user.thumbUrl" class="user-image" alt="User-image" />
+  <div
+    class="user-image"
+    [style.backgroundImage]="user.thumbUrl ? 'url(' + user.thumbUrl + ')' : ''"></div>
 
   <label for="email">{{ 'label.email' | translate }}:</label>
   <input

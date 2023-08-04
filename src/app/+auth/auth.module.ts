@@ -10,10 +10,6 @@ import { ForgotPasswordModalComponent } from './forgot-password-modal/forgot-pas
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../shared/loaders/http-loader-factory';
 
-// FIXME: posebnu komponentu koja prima exception details i koja ce ili da loaduje snackbar ili sta god, passovanje parametra na ngx pogledati kako da radim
-// napraviti mesto gde ce user da menja jezik
-// prebaciti regexe u konstama i ostale stvari koje treba, u onom fajlu
-
 @NgModule({
   declarations: [AuthComponent, ResetPasswordModalComponent, ForgotPasswordModalComponent],
   imports: [
