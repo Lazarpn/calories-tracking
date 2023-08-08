@@ -53,13 +53,14 @@ export class MealsComponent implements OnInit, CanComponentDeactivate {
 
   onMealAdd() {
     this.mealsDataService.createMeal();
+    //FIXME:veci timout zbod produkcije
     const timer = setTimeout(() => {
       window.scrollTo({
         top: document.documentElement.scrollHeight,
         behavior: 'smooth',
       });
       clearTimeout(timer);
-    }, 100);
+    }, 1500);
   }
 
   onFilterApplied(filter: MealDateFilter) {

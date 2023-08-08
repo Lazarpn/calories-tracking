@@ -25,6 +25,9 @@ export class MealComponent implements OnInit {
   }
 
   set mealTime(value: string) {
+    if (!value) {
+      return;
+    }
     const [hours, minutes] = value.split(':');
     this.meal.date.setHours(+hours);
     this.meal.date.setMinutes(+minutes);
@@ -37,6 +40,9 @@ export class MealComponent implements OnInit {
   }
 
   set mealDate(value: string) {
+    if (!value) {
+      return;
+    }
     const hours = this.meal.date.getHours();
     const minutes = this.meal.date.getMinutes();
     this.meal.date = new Date(value);
