@@ -1,4 +1,5 @@
 <div class="calories-total">
+  <!-- FIXME: treba jos ove label-e popraviti, pitati Milosa -->
   <p>
     You had <span>{{ totalMeals }}</span>
     {{ totalMeals > 1 || totalMeals === 0 ? 'meals' : 'meal' }} with total of
@@ -11,17 +12,13 @@
   <div *ngIf="todaysCaloriesLeft > 0">
     <p class="calories-goal">
       Today you had <span>{{ todaysMeals }}</span>
-      {{ todaysMeals > 1 || todaysMeals === 0 ? 'meals' : 'meal' }} with the
-      total of <span>{{ todaysCalories }}</span>
+      {{ todaysMeals > 1 || todaysMeals === 0 ? 'meals' : 'meal' }} with the total of
+      <span>{{ todaysCalories }}</span>
       {{ todaysCalories > 1 || todaysCalories === 0 ? 'calories' : 'calory' }}
       out of
       <span>{{ caloriesPreference }}</span
       >. You have <span>{{ todaysCaloriesLeft }}</span> more
-      {{
-        todaysCaloriesLeft > 1 || todaysCaloriesLeft === 0
-          ? 'calories'
-          : 'calory'
-      }}
+      {{ todaysCaloriesLeft > 1 || todaysCaloriesLeft === 0 ? 'calories' : 'calory' }}
       to go
     </p>
   </div>
@@ -29,13 +26,12 @@
   <div *ngIf="todaysCaloriesLeft <= 0">
     <p class="calories-goal">
       Congratulations! You've reached your goal for today! You had
-      <span>{{ todaysCalories }}</span> out of
-      <span>{{ caloriesPreference }}</span> calories
+      <span>{{ todaysCalories }}</span> out of <span>{{ caloriesPreference }}</span> calories
     </p>
   </div>
 
   <form class="calories-progress" #form="ngForm">
-    <label for="progress">Your progress</label>
+    <label for="progress">{{ 'label.your-progress' | translate }}</label>
     <progress id="progress" max="100" value="{{ progressBar }}"></progress>
   </form>
 </div>

@@ -44,7 +44,7 @@ export class ImageCropperModalComponent {
 
   loadImageFailed() {
     this.onCancel();
-    this.snackBar.open('Error', 'Image load failed. Unsupported media type or corrupted file.');
+    this.snackBar.open('Error. Image load failed. Unsupported media type or corrupted file.', '✖️');
   }
 
   onClose() {

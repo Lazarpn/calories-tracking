@@ -58,7 +58,7 @@ export class ResetPasswordModalComponent implements OnInit {
     this.authService.resetPassword(this.model).subscribe({
       next: _ => {
         this.passwordSent = true;
-        this.passwordSentMessage = 'Your password has been successfully reset. You can now log in.';
+        this.passwordSentMessage = 'label.password-reset-succeeded';
       },
     });
   }

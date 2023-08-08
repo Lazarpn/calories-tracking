@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileService } from '../profile.service';
 import { UserCaloriesModel } from 'src/app/shared/models/user/user-calories-model';
+import { POSITIVE_DIGIT_PATTERN } from 'src/app/shared/constants';
 
 @Component({
   selector: 'ct-profile-calories',
@@ -8,9 +9,9 @@ import { UserCaloriesModel } from 'src/app/shared/models/user/user-calories-mode
   styleUrls: ['./profile-calories.component.scss'],
 })
 export class ProfileCaloriesComponent implements OnInit {
-  // @ViewChild('form', { static: true }) form: NgForm;
   isEditMode: boolean = false;
   model: UserCaloriesModel;
+
   constructor(private profileService: ProfileService) {}
 
   ngOnInit(): void {
@@ -21,7 +22,7 @@ export class ProfileCaloriesComponent implements OnInit {
 
   onInput(event: any) {
     const input = event.target.value;
-    event.target.value = input.replace(/[^0-9]/g, '');
+    event.target.value = input.replace(POSITIVE_DIGIT_PATTERN, '');
   }
 
   onCaloriesEdit() {

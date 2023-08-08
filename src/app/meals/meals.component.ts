@@ -53,10 +53,13 @@ export class MealsComponent implements OnInit, CanComponentDeactivate {
 
   onMealAdd() {
     this.mealsDataService.createMeal();
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      behavior: 'smooth',
-    });
+    const timer = setTimeout(() => {
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: 'smooth',
+      });
+      clearTimeout(timer);
+    }, 100);
   }
 
   onFilterApplied(filter: MealDateFilter) {

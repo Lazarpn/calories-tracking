@@ -17,16 +17,12 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class ProfileComponent implements OnInit, OnDestroy {
   @ViewChild('fileInput') fileInput: ElementRef;
-  @HostListener('document:keydown.escape', ['$event'])
-  onEscape(event: KeyboardEvent) {
-    if (this.isEditMode) {
-      const answer = confirm('Do you want to discard changes?');
-      if (answer) {
-        this.isEditMode = false;
-        this.form.disable();
-        this.form.controls['firstName'].setValue(this.beforeEditName);
-        this.form.controls['lastName'].setValue(this.beforeEditSurname);
-      }
+  @HostListener('document:keydown.escape', ['$event']) onEscape() {
+    if (this.isEditMode && confirm('Do you want to discard changes?')) {
+      this.isEditMode = false;
+      this.form.disable();
+      this.form.controls['firstName'].setValue(this.beforeEditName);
+      this.form.controls['lastName'].setValue(this.beforeEditSurname);
     }
   }
   form: FormGroup;
@@ -34,6 +30,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   isEditMode: boolean = false;
   beforeEditName: string;
   beforeEditSurname: string;
+
   constructor(
     private profileService: ProfileService,
     private dialog: MatDialog
@@ -41,7 +38,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const userInfo = this.profileService.getUserInfo();
-
     this.imageUrl = this.profileService.userPhoto;
 
     this.profileService.userPhotoChanged.subscribe({

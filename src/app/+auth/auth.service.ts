@@ -7,6 +7,7 @@ import { ForgotPasswordModel } from '../shared/models/user/forgot-password-model
 import { ResetPasswordModel } from '../shared/models/user/reset-password-model';
 import { SignUpModel } from '../shared/models/user/sign-up-model';
 import { SignInModel } from '../shared/models/user/sign-in-model';
+import { LS_USER_LANGUAGE, LS_USER_ROLES, LS_USER_TOKEN } from '../shared/constants';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -37,7 +38,7 @@ export class AuthService {
   }
 
   autoSignIn() {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem(LS_USER_TOKEN);
     if (!token) {
       return;
     }
@@ -58,9 +59,9 @@ export class AuthService {
   }
 
   signOut() {
-    const language = localStorage.getItem('language');
+    const language = localStorage.getItem(LS_USER_LANGUAGE);
     localStorage.clear();
-    localStorage.setItem('language', language);
+    localStorage.setItem(LS_USER_LANGUAGE, language);
     this.userRole.next(null);
     if (this.tokenExpirationTimer) {
       clearTimeout(this.tokenExpirationTimer);
@@ -70,15 +71,15 @@ export class AuthService {
   }
 
   authenticated(): boolean {
-    return localStorage.getItem('token') != null;
+    return localStorage.getItem(LS_USER_TOKEN) != null;
   }
 
   private handleAuthentication(authResponse: AuthResponseModel) {
     const parsedToken = this.parseJwt(authResponse.token);
     const expirationTime = new Date(parsedToken.exp * 1000);
     const expirationDuration = expirationTime.getTime() - new Date().getTime();
-    localStorage.setItem('token', authResponse.token);
-    localStorage.setItem('roles', parsedToken.roles);
+    localStorage.setItem(LS_USER_TOKEN, authResponse.token);
+    localStorage.setItem(LS_USER_ROLES, parsedToken.roles);
     this.userRole.next(parsedToken.roles);
     this.autoSignOut(expirationDuration);
   }

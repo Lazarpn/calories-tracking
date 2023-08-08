@@ -37,6 +37,7 @@
     "reset-password-instructions": "Enter the new password you would like to use.",
     "reset-password-placeholder": "Enter New Password",
     "reset-password-placeholder-second": "Re-enter New Password",
+    "reset-password-succeeded": "Your password has been successfully reset. You can now log in.",
     "enter-your-password": "Enter Your Password",
     "enter-your-email": "Enter Your Email",
     "valid-password": "Password must me at least 6 characters and include one non-alphanumeric character!",
@@ -52,7 +53,8 @@
     "no-account": "Don't have an account",
     "already-have-an-account": "Already have an account",
     "no-meals-currently": "You don't have any meals currently.",
-    "no-meals-for-given-criteria": "You don't have meals for a given criteria."
+    "no-meals-for-given-criteria": "You don't have meals for a given criteria.",
+    "your-progress": "Your progress"
   },
   "errors": {
     "RequestInvalid": "",
@@ -64,8 +66,8 @@
     "InternalServerError": "",
     "InvalidCredentials": "Invalid credentials.",
     "EmptyFile": "",
-    "MaxFileSizeReached": "",
-    "CanOnlyUploadPhotos": "",
+    "MaxFileSizeReached": "Couldn't upload. Maximum file size is {{maxSizeInMb}} MB.",
+    "CanOnlyUploadPhotos": "Image load failed. Unsupported media type or corrupted file.",
     "WrongAspectRatio": "",
     "MissingAspectRatio": ""
   }

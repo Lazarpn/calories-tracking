@@ -12,16 +12,14 @@ import { catchError, map } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { environment } from 'src/environments/environment';
 import { ExceptionDetail } from '../shared/models/exception-detail';
+import { LS_USER_TOKEN } from '../shared/constants';
 
 @Injectable()
 export class AuthInterceptorService implements HttpInterceptor {
   constructor(private authService: AuthService) {}
 
-  intercept(
-    request: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
-    const token = localStorage.getItem('token');
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const token = localStorage.getItem(LS_USER_TOKEN);
     if (token && request.url.indexOf(environment.url) > -1) {
       const headers = request.headers.set('Authorization', `Bearer ${token}`);
       request = request.clone({ headers });
@@ -32,7 +30,7 @@ export class AuthInterceptorService implements HttpInterceptor {
         if (response instanceof HttpResponse) {
           const refreshedToken = response.headers.get('refreshed-token');
           if (refreshedToken) {
-            localStorage.setItem('token', refreshedToken);
+            localStorage.setItem(LS_USER_TOKEN, refreshedToken);
           }
         }
         return response;

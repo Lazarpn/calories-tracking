@@ -37,6 +37,7 @@
     "reset-password-instructions": "Unesite novu šifru koju biste koristili.",
     "reset-password-placeholder": "Unesite Novu Šifru",
     "reset-password-placeholder-second": "Ponovo Unesite Novu Šifru",
+    "reset-password-succeeded": "Uspešno ste promenili šifru. Sada se možete prijaviti.",
     "enter-your-password": "Unesite Vašu Šifru",
     "enter-your-email": "Unesite Vaš Email",
     "valid-password": "Šifra mora biti minium 6 karaktera i mora da sadrži makar jedan specijalni karakter!",
@@ -52,7 +53,8 @@
     "no-account": "Nemate nalog",
     "already-have-an-account": "Već imate nalog",
     "no-meals-currently": "Trenutno nemate nijedan obrok.",
-    "no-meals-for-given-criteria": "Ne postoje obroci za zadati kriterijum."
+    "no-meals-for-given-criteria": "Ne postoje obroci za zadati kriterijum.",
+    "your-progress": "Vaš napredak"
   },
   "errors": {
     "RequestInvalid": "",
@@ -64,7 +66,7 @@
     "InternalServerError": "",
     "InvalidCredentials": "Neispravni podaci.",
     "EmptyFile": "",
-    "MaxFileSizeReached": "",
+    "MaxFileSizeReached": "Neuspešno. Slika ne može biti veća od {{maxSizeInMb}} MB.",
     "CanOnlyUploadPhotos": "",
     "WrongAspectRatio": "",
     "MissingAspectRatio": ""

@@ -18,7 +18,7 @@ export class MealsService {
 
   constructor(private filterService: FilterService) {}
 
-  getMeals() {
+  getMeals(): Meal[] {
     return this.meals.slice();
   }
 
@@ -57,11 +57,11 @@ export class MealsService {
     this.mealsChanged.next(filteredMeals);
   }
 
-  getTotalMeals() {
+  getTotalMeals(): number {
     return this.meals.length;
   }
 
-  getTodaysMeals() {
+  getTodaysMeals(): number {
     return this.meals.filter(meal => {
       const date = new Date();
       const mealDate = new Date(meal.date);
@@ -73,13 +73,11 @@ export class MealsService {
     }).length;
   }
 
-  getTotalCalories() {
-    return this.meals.reduce((accumulator, meal) => {
-      return accumulator + meal.calories;
-    }, 0);
+  getTotalCalories(): number {
+    return this.meals.reduce((accumulator, meal) => accumulator + meal.calories, 0);
   }
 
-  getTodaysCalories() {
+  getTodaysCalories(): number {
     return this.meals
       .filter(meal => {
         const date = new Date();
@@ -90,9 +88,7 @@ export class MealsService {
           mealDate.getFullYear() === date.getFullYear()
         );
       })
-      .reduce((acc, meal) => {
-        return acc + meal.calories;
-      }, 0);
+      .reduce((acc, meal) => acc + meal.calories, 0);
   }
 
   private updateAllComponents() {

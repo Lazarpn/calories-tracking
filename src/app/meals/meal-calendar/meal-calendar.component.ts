@@ -8,7 +8,6 @@ import { MealDateFilter } from '../../shared/models/meal/meal-date-filter.model'
   styleUrls: ['./meal-calendar.component.scss'],
 })
 export class MealCalendarComponent implements OnInit, OnDestroy {
-  // @ViewChild('calendarForm', { static: true }) calendarForm: NgForm;
   @Output() filterApplied = new Subject<MealDateFilter>();
 
   model: MealDateFilter = {
@@ -17,6 +16,10 @@ export class MealCalendarComponent implements OnInit, OnDestroy {
   };
 
   set dateStart(value: string) {
+    if (!value) {
+      this.model.dateStart = new Date(new Date().setHours(0, 0, 0, 0));
+      return;
+    }
     const hours = this.model.dateStart.getHours();
     const minutes = this.model.dateStart.getMinutes();
     this.model.dateStart = new Date(value);
@@ -25,6 +28,10 @@ export class MealCalendarComponent implements OnInit, OnDestroy {
   }
 
   set dateEnd(value: string) {
+    if (!value) {
+      this.model.dateEnd = new Date(new Date().setHours(23, 59, 59));
+      return;
+    }
     const hours = this.model.dateEnd.getHours();
     const minutes = this.model.dateEnd.getMinutes();
     this.model.dateEnd = new Date(value);
@@ -52,6 +59,7 @@ export class MealCalendarComponent implements OnInit, OnDestroy {
     if (this.model.dateStart > this.model.dateEnd) {
       return alert('Date end must be bigger than Date end!');
     }
+
     this.filterApplied.next(this.model);
   }
 

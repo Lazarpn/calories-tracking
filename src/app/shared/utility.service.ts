@@ -22,14 +22,15 @@ export class UtilityService {
 
   displaySnackBarErrors(errors: TranslationMessage[]) {
     for (let error of errors) {
-      this.getTranslatedMessage(`errors.${error.name}`, error.param).subscribe((value: string) => {
+      this.getTranslatedMessage(error.name, error.param).subscribe((value: string) => {
         this.snackBar.open(value, '✖️');
       });
     }
   }
 
-  getTranslatedMessage(name: string, param: any) {
-    return this.translateService.get(name, param);
+  getTranslatedMessage(name: string, params: any) {
+    console.log(name, params);
+    return this.translateService.get(name, params);
   }
 
   getErrorMessages(exceptions: ExceptionDetail[]): TranslationMessage[] {
@@ -60,7 +61,6 @@ export class UtilityService {
     }
 
     if (!LENGTH_PATTERN.test(password)) {
-      console.log('ne');
       errorMessages.push({ name: 'label.pasword-must-be-6-length', param: null });
     }
 

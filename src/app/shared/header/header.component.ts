@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../+auth/auth.service';
+import { LS_USER_ROLES } from '../constants';
 
 @Component({
   selector: 'ct-header',
@@ -12,7 +13,7 @@ export class HeaderComponent implements OnInit {
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.role = localStorage.getItem('roles') || null;
+    this.role = localStorage.getItem(LS_USER_ROLES) || null;
     this.isAuthenticated = this.authService.authenticated();
 
     this.authService.userRole.subscribe((userRole: string) => {

@@ -12,6 +12,7 @@ export class UserInfoComponent implements OnInit {
   @Input() user: UserAdminModel;
   userForm: FormGroup;
   changesSaved: boolean = true;
+
   constructor(private managerDataService: ManagerDataService) {}
 
   ngOnInit(): void {

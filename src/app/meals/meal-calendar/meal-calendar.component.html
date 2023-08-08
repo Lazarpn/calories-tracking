@@ -1,8 +1,8 @@
 <form class="calendar-form" (ngSubmit)="onSubmit()" #calendarForm="ngForm">
-  <!-- DATE -->
   <p class="calendar-tip">
     {{ 'label.date-filter-message' | translate }}
   </p>
+
   <div class="calendar-dates">
     <label for="dateStart">{{ 'label.date-start' | translate }}</label>
     <input type="date" id="dateStart" name="dateStart" [(ngModel)]="dateStart" />

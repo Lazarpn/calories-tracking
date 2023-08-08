@@ -14,6 +14,7 @@ import { TranslationMessage } from 'src/app/shared/models/translation-message';
 export class UserInfoListComponent implements OnInit {
   isLoading: boolean = true;
   usersList: UserAdminModel[];
+
   constructor(
     private managerDataService: ManagerDataService,
     private managerService: ManagerService,
