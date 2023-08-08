@@ -63,7 +63,7 @@
     "IdentityError": "{{details}}",
     "EntityDoesNotExist": "{{entityName}} ne postoji.",
     "EntityAlreadyExists": "{{entityName}} već postoji.",
-    "InternalServerError": "",
+    "InternalServerError": "{{details}}",
     "InvalidCredentials": "Neispravni podaci.",
     "EmptyFile": "",
     "MaxFileSizeReached": "Neuspešno. Slika ne može biti veća od {{maxSizeInMb}} MB.",

@@ -63,7 +63,7 @@
     "IdentityError": "{{details}}",
     "EntityDoesNotExist": "{{entityName}} does not exist.",
     "EntityAlreadyExists": "{{entityName}} already exists.",
-    "InternalServerError": "",
+    "InternalServerError": "{{details}}",
     "InvalidCredentials": "Invalid credentials.",
     "EmptyFile": "",
     "MaxFileSizeReached": "Couldn't upload. Maximum file size is {{maxSizeInMb}} MB.",
