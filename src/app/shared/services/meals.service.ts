@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { MealDateFilter } from '../shared/models/meal/meal-date-filter.model';
-import { FilterService } from '../shared/filter.service';
-import { Meal } from '../shared/models/meal/meal.model';
-import { MealUpdateModel } from '../shared/models/meal/meal-update-model';
-import { ExceptionDetail } from '../shared/models/exception-detail';
+import { MealDateFilter } from '../models/meal/meal-date-filter.model';
+import { FilterService } from './filter.service';
+import { Meal } from '../models/meal/meal.model';
+import { MealUpdateModel } from '../models/meal/meal-update-model';
+import { ExceptionDetail } from '../models/exception-detail';
 
 @Injectable({ providedIn: 'root' })
 export class MealsService {

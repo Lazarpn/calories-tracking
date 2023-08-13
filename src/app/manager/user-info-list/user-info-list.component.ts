@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ManagerService } from '../manager.service';
-import { ManagerDataService } from '../manager-data.service';
+import { ManagerService } from '../../shared/services/manager.service';
+import { ManagerDataService } from '../../shared/services/manager-data.service';
 import { UserAdminModel } from 'src/app/shared/models/user/user-admin-model';
 import { ExceptionDetail } from 'src/app/shared/models/exception-detail';
-import { UtilityService } from 'src/app/shared/utility.service';
+import { UtilityService } from 'src/app/shared/services/utility.service';
 import { TranslationMessage } from 'src/app/shared/models/translation-message';
 
 @Component({

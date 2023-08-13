@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ManagerDataService } from '../../manager-data.service';
+import { ManagerDataService } from '../../../shared/services/manager-data.service';
 import { UserAdminModel } from 'src/app/shared/models/user/user-admin-model';
 
 @Component({

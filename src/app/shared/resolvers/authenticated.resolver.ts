@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { User } from '../shared/models/user/user.model';
+import { User } from '../models/user/user.model';
 import { environment } from 'src/environments/environment';
-import { ProfileService } from '../profile/profile.service';
+import { ProfileService } from '../services/profile.service';
 
 @Injectable({
   providedIn: 'root',

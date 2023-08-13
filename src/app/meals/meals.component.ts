@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Meal } from '../shared/models/meal/meal.model';
-import { MealsDataService } from './meals-data.service';
-import { MealsService } from './meals.service';
+import { MealsDataService } from '../shared/services/meals-data.service';
+import { MealsService } from '../shared/services/meals.service';
 import { MealDateFilter } from '../shared/models/meal/meal-date-filter.model';
-import { CanComponentDeactivate } from '../shared/can-deactivate-meals.guard';
+import { CanComponentDeactivate } from '../shared/guards/can-deactivate-meals.guard';
 import { ExceptionDetail } from '../shared/models/exception-detail';
-import { UtilityService } from '../shared/utility.service';
+import { UtilityService } from '../shared/services/utility.service';
 import { TranslationMessage } from '../shared/models/translation-message';
 
 @Component({

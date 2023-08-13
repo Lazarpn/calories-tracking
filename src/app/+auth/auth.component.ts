@@ -1,6 +1,6 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from './auth.service';
+import { AuthService } from '../shared/services/auth.service';
 import { AuthResponseModel } from '../shared/models/user/auth-response.model';
 import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -8,7 +8,7 @@ import { SignUpModel } from '../shared/models/user/sign-up-model';
 import { SignInModel } from '../shared/models/user/sign-in-model';
 import { ExceptionDetail } from '../shared/models/exception-detail';
 import { PASSWORD_PATTERN } from '../shared/constants';
-import { UtilityService } from '../shared/utility.service';
+import { UtilityService } from '../shared/services/utility.service';
 import { TranslationMessage } from '../shared/models/translation-message';
 
 @Component({

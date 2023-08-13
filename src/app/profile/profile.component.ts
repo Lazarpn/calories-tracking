@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, OnDestroy, ElementRef, HostListener } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ProfileService } from './profile.service';
+import { ProfileService } from '../shared/services/profile.service';
 import { UserPhotoUploadModel } from '../shared/models/user/user-photo-upload-model';
 import {
   ImageCropperModalComponent,

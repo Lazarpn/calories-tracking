@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Meal } from '../shared/models/meal/meal.model';
+import { Meal } from '../models/meal/meal.model';
 import { MealsService } from './meals.service';
-import { MealUpdateModel } from '../shared/models/meal/meal-update-model';
-import { MealCreateModel } from '../shared/models/meal/meal-create-model';
+import { MealUpdateModel } from '../models/meal/meal-update-model';
+import { MealCreateModel } from '../models/meal/meal-create-model';
 
 @Injectable({ providedIn: 'root' })
 export class MealsDataService {

@@ -2,12 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { AuthResponseModel } from '../shared/models/user/auth-response.model';
-import { ForgotPasswordModel } from '../shared/models/user/forgot-password-model';
-import { ResetPasswordModel } from '../shared/models/user/reset-password-model';
-import { SignUpModel } from '../shared/models/user/sign-up-model';
-import { SignInModel } from '../shared/models/user/sign-in-model';
-import { LS_USER_LANGUAGE, LS_USER_ROLES, LS_USER_TOKEN } from '../shared/constants';
+import { AuthResponseModel } from '../models/user/auth-response.model';
+import { ForgotPasswordModel } from '../models/user/forgot-password-model';
+import { ResetPasswordModel } from '../models/user/reset-password-model';
+import { SignUpModel } from '../models/user/sign-up-model';
+import { SignInModel } from '../models/user/sign-in-model';
+import { LS_USER_LANGUAGE, LS_USER_ROLES, LS_USER_TOKEN } from '../constants';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {

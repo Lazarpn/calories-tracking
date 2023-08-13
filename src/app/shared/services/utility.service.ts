@@ -5,9 +5,9 @@ import {
   LOWERCASE_PATTERN,
   SPECIAL_CHARACTERS_PATTERN,
   UPPERCASE_PATTERN,
-} from './constants';
-import { TranslationMessage } from './models/translation-message';
-import { ExceptionDetail } from './models/exception-detail';
+} from '../constants';
+import { TranslationMessage } from '../models/translation-message';
+import { ExceptionDetail } from '../models/exception-detail';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 

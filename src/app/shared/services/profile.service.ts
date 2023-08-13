@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { User } from '../shared/models/user/user.model';
+import { User } from '../models/user/user.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { UserPhotoUploadModel } from '../shared/models/user/user-photo-upload-model';
-import { UtilityService } from '../shared/utility.service';
-import { UserPhotoModel } from '../shared/models/user/user-photo-model';
-import { UserUpdateModel } from '../shared/models/user/user-update-model';
-import { UserCaloriesModel } from '../shared/models/user/user-calories-model';
-import { ExceptionDetail } from '../shared/models/exception-detail';
-import { TranslationMessage } from '../shared/models/translation-message';
+import { UserPhotoUploadModel } from '../models/user/user-photo-upload-model';
+import { UtilityService } from './utility.service';
+import { UserPhotoModel } from '../models/user/user-photo-model';
+import { UserUpdateModel } from '../models/user/user-update-model';
+import { UserCaloriesModel } from '../models/user/user-calories-model';
+import { ExceptionDetail } from '../models/exception-detail';
+import { TranslationMessage } from '../models/translation-message';
 
 @Injectable({
   providedIn: 'root',

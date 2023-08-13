@@ -1,8 +1,8 @@
 import { Component, HostBinding, Input, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Meal } from '../../../shared/models/meal/meal.model';
-import { MealsDataService } from '../../meals-data.service';
-import { MealsService } from '../../meals.service';
+import { MealsDataService } from '../../../shared/services/meals-data.service';
+import { MealsService } from '../../../shared/services/meals.service';
 
 @Component({
   selector: 'ct-meal',
@@ -40,9 +40,17 @@ export class MealComponent implements OnInit {
   }
 
   set mealDate(value: string) {
+    // FIXME:ne radi kako treba
+    console.log(value);
+
     if (!value) {
+      console.log(value);
+      // this.meal.date = this.meal.date;
+      this.meal.date = new Date();
       return;
     }
+    console.log(value);
+
     const hours = this.meal.date.getHours();
     const minutes = this.meal.date.getMinutes();
     this.meal.date = new Date(value);
@@ -63,6 +71,7 @@ export class MealComponent implements OnInit {
   }
 
   onMealConfirm() {
+    console.log(this.meal.date);
     this.isEditMode = false;
     this.isDisabled = true;
     this.changesSaved = true;

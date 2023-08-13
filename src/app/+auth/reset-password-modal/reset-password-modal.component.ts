@@ -3,8 +3,8 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResetPasswordForm } from 'src/app/shared/models/form/reset-password-form';
 import { ResetPasswordModel } from 'src/app/shared/models/user/reset-password-model';
-import { AuthService } from '../auth.service';
-import { UtilityService } from 'src/app/shared/utility.service';
+import { AuthService } from '../../shared/services/auth.service';
+import { UtilityService } from 'src/app/shared/services/utility.service';
 import { TranslationMessage } from 'src/app/shared/models/translation-message';
 import { PASSWORD_PATTERN } from 'src/app/shared/constants';
 

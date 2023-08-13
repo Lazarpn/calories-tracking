@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { CtComponent } from './ct.component';
 import { CtRoutingModule } from './ct-routing.module';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
-import { AuthInterceptorService } from './+auth/auth-interceptor.service';
+import { AuthInterceptorService } from './shared/services/auth-interceptor.service';
 import { SharedModule } from './shared/shared.module';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/material/snack-bar';
 import {

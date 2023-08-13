@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProfileService } from '../profile.service';
+import { ProfileService } from '../../shared/services/profile.service';
 import { UserCaloriesModel } from 'src/app/shared/models/user/user-calories-model';
 import { POSITIVE_DIGIT_PATTERN } from 'src/app/shared/constants';
 

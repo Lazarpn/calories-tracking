@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ProfileService } from '../../profile/profile.service';
+import { ProfileService } from '../../shared/services/profile.service';
 import { Subscription } from 'rxjs';
-import { MealsService } from '../meals.service';
+import { MealsService } from '../../shared/services/meals.service';
 
 @Component({
   selector: 'ct-meal-expected-calories',

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../../shared/services/auth.service';
 import { ForgotPasswordModel } from 'src/app/shared/models/user/forgot-password-model';
 import { ExceptionDetail } from 'src/app/shared/models/exception-detail';
 import { TranslationMessage } from 'src/app/shared/models/translation-message';
-import { UtilityService } from 'src/app/shared/utility.service';
+import { UtilityService } from 'src/app/shared/services/utility.service';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 
 @Component({

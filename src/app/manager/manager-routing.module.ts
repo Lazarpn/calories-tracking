@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { ManagerComponent } from './manager.component';
 import { UserInfoListComponent } from './user-info-list/user-info-list.component';
-import { RoleGuard } from './role.guard';
+import { RoleGuard } from '../shared/guards/role.guard';
 
 const routes: Routes = [
   {

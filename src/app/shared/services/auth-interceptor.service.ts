@@ -11,8 +11,8 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { environment } from 'src/environments/environment';
-import { ExceptionDetail } from '../shared/models/exception-detail';
-import { LS_USER_TOKEN } from '../shared/constants';
+import { ExceptionDetail } from '../models/exception-detail';
+import { LS_USER_TOKEN } from '../constants';
 
 @Injectable()
 export class AuthInterceptorService implements HttpInterceptor {

@@ -1,10 +1,10 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { ManagerService } from './manager.service';
-import { UserAdminUpdateModel } from '../shared/models/user/user-admin-update-model';
-import { UserAdminModel } from '../shared/models/user/user-admin-model';
-import { ExceptionDetail } from '../shared/models/exception-detail';
+import { UserAdminUpdateModel } from '../models/user/user-admin-update-model';
+import { UserAdminModel } from '../models/user/user-admin-model';
+import { ExceptionDetail } from '../models/exception-detail';
 
 @Injectable({
   providedIn: 'root',
