@@ -69,6 +69,7 @@
     "MaxFileSizeReached": "Neuspešno. Slika ne može biti veća od {{maxSizeInMb}} MB.",
     "CanOnlyUploadPhotos": "",
     "WrongAspectRatio": "",
-    "MissingAspectRatio": ""
+    "MissingAspectRatio": "",
+    "EmailNotSent": "Dogodila se greška, email nije poslat, pokusajte kasnije."
   }
 }

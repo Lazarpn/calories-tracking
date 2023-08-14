@@ -69,6 +69,7 @@
     "MaxFileSizeReached": "Couldn't upload. Maximum file size is {{maxSizeInMb}} MB.",
     "CanOnlyUploadPhotos": "Image load failed. Unsupported media type or corrupted file.",
     "WrongAspectRatio": "",
-    "MissingAspectRatio": ""
+    "MissingAspectRatio": "",
+    "EmailNotSent": "Unexpected error, we couldn't send the email, try again later."
   }
 }
