@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../services/auth.service';
-import { LS_USER_ROLES } from '../constants';
+import { AuthService } from '../../services/auth.service';
+import { LS_USER_ROLES } from '../../constants';
 
 @Component({
   selector: 'ct-header',

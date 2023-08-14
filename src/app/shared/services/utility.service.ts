@@ -29,7 +29,6 @@ export class UtilityService {
   }
 
   getTranslatedMessage(name: string, params: any) {
-    console.log(name, params);
     return this.translateService.get(name, params);
   }
 

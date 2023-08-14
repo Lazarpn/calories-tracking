@@ -2,13 +2,14 @@ import { Component, OnInit, ViewChild, OnDestroy, ElementRef, HostListener } fro
 import { FormControl, FormGroup } from '@angular/forms';
 import { ProfileService } from '../shared/services/profile.service';
 import { UserPhotoUploadModel } from '../shared/models/user/user-photo-upload-model';
-import {
-  ImageCropperModalComponent,
-  ImageCropperModalDialogData,
-} from '../shared/image-cropper-modal/image-cropper-modal.component';
+
 import { UserUpdateModel } from '../shared/models/user/user-update-model';
 import { base64ToFile } from 'ngx-image-cropper';
 import { MatDialog } from '@angular/material/dialog';
+import {
+  ImageCropperModalComponent,
+  ImageCropperModalDialogData,
+} from '../shared/components/image-cropper-modal/image-cropper-modal.component';
 
 @Component({
   selector: 'ct-profile',

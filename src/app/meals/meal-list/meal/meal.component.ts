@@ -41,16 +41,6 @@ export class MealComponent implements OnInit {
 
   set mealDate(value: string) {
     // FIXME:ne radi kako treba
-    console.log(value);
-
-    if (!value) {
-      console.log(value);
-      // this.meal.date = this.meal.date;
-      this.meal.date = new Date();
-      return;
-    }
-    console.log(value);
-
     const hours = this.meal.date.getHours();
     const minutes = this.meal.date.getMinutes();
     this.meal.date = new Date(value);
@@ -71,7 +61,6 @@ export class MealComponent implements OnInit {
   }
 
   onMealConfirm() {
-    console.log(this.meal.date);
     this.isEditMode = false;
     this.isDisabled = true;
     this.changesSaved = true;

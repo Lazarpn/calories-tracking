@@ -98,7 +98,6 @@ export class AuthComponent implements OnInit {
         this.router.navigate(['/meals']).then(() => (this.isLoading = false));
       },
       error: (errors: ExceptionDetail[]) => {
-        console.log(errors);
         this.errorMessagesEmail = this.utilityService.getErrorMessages(errors);
         this.isLoading = false;
       },
