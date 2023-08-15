@@ -27,7 +27,11 @@ export class MealsComponent implements OnInit, CanComponentDeactivate {
   canDeactivate(): boolean {
     const changesSaved = this.mealsService.mealChangesSaved;
     if (!changesSaved) {
-      return confirm("Are you sure you want to leave? Changes won't be saved!");
+      const canLeave = confirm("Are you sure you want to leave? Changes won't be saved!");
+      if (canLeave) {
+        this.mealsService.mealChangesSaved = true;
+      }
+      return canLeave;
     }
 
     return changesSaved;

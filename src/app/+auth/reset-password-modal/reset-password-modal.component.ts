@@ -7,6 +7,7 @@ import { AuthService } from '../../shared/services/auth.service';
 import { UtilityService } from 'src/app/shared/services/utility.service';
 import { TranslationMessage } from 'src/app/shared/models/translation-message';
 import { PASSWORD_PATTERN } from 'src/app/shared/constants';
+import { ExceptionDetail } from 'src/app/shared/models/exception-detail';
 
 @Component({
   selector: 'ct-reset-password-modal',
@@ -59,6 +60,9 @@ export class ResetPasswordModalComponent implements OnInit {
       next: _ => {
         this.passwordSent = true;
         this.passwordSentMessage = 'label.reset-password-succeeded';
+      },
+      error: (exceptions: ExceptionDetail[]) => {
+        this.errorMessages = this.utilityService.getErrorMessages(exceptions);
       },
     });
   }

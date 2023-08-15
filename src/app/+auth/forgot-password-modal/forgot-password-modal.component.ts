@@ -46,8 +46,8 @@ export class ForgotPasswordModalComponent implements OnInit {
       next: _ => {
         this.emailSentMessage = `label.forgot-password-email-sent`;
       },
-      error: (errors: ExceptionDetail[]) => {
-        this.errorMessages = this.utilityService.getErrorMessages(errors);
+      error: (exceptions: ExceptionDetail[]) => {
+        this.errorMessages = this.utilityService.getErrorMessages(exceptions);
       },
     });
   }
