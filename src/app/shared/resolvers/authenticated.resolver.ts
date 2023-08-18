@@ -6,16 +6,19 @@ import { User } from '../models/user/user.model';
 import { environment } from 'src/environments/environment';
 import { ProfileService } from '../services/profile.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class AuthenticatedResolver implements Resolve<User> {
   private url = environment.url + '/api';
+
   constructor(
     private http: HttpClient,
     private profileService: ProfileService
-  ) {}
+  ) {
+    console.log('psi ga');
+  }
+
   resolve(): Observable<User> {
+    console.log('psi ga');
     return this.http.get<User>(this.url + '/users/me').pipe(
       tap((user: User) => {
         this.profileService.setUser(user);

@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { ProfileService } from '../services/profile.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AnonymousGuard implements CanActivate {
+export class EmailNotConfirmedGuard implements CanActivate {
   constructor(
-    private authService: AuthService,
+    private profileService: ProfileService,
     private router: Router
   ) {}
 
   canActivate(): boolean | UrlTree {
-    const isAuth = this.authService.authenticated();
-    if (isAuth) {
+    const hasEmailConfirmed = this.profileService.user?.emailConfirmed;
+    if (hasEmailConfirmed) {
       return this.router.createUrlTree(['/meals']);
     }
     return true;

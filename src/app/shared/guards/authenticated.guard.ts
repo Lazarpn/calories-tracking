@@ -10,15 +10,11 @@ export class AuthenticatedGuard implements CanActivate {
     private authService: AuthService,
     private router: Router
   ) {}
+
   canActivate(): boolean | UrlTree {
-    let isAuth = false;
-    this.authService.userRole.subscribe((userRole: string) => {
-      if (userRole) {
-        isAuth = true;
-      }
-    });
-    if (isAuth) {
-      return this.router.createUrlTree(['/meals']);
+    const isAuth = this.authService.authenticated();
+    if (!isAuth) {
+      return this.router.createUrlTree(['/auth']);
     }
     return true;
   }
