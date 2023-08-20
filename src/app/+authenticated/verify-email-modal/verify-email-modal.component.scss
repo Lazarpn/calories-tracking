@@ -1,0 +1,154 @@
+@import '/src/styles.scss';
+
+:host {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 40%);
+  width: 500px;
+  min-height: 200px;
+  padding: 25px 25px 25px 25px;
+  border-radius: 20px;
+  background-color: var(--color-primary);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: space-between;
+
+  @include respond(phone) {
+    position: relative;
+    justify-content: space-evenly;
+    width: 100%;
+  }
+}
+
+.heading-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #fff;
+
+  & > * {
+    margin-bottom: 10px;
+  }
+}
+
+.modal-heading {
+  color: #fff;
+}
+
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  @include respond(phone) {
+    gap: 20px;
+  }
+}
+
+.modal-info {
+  font-size: 17px;
+  color: #fff;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  input {
+    all: unset;
+    padding: 0 10px;
+    height: 40px;
+    background-color: #fff;
+    border-radius: 10px;
+  }
+
+  label {
+    font-size: 17px;
+    color: #fff;
+  }
+}
+
+.instructions-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  color: #fff;
+}
+
+.user-email {
+  color: #fffb00;
+}
+
+.buttons-wrapper {
+  display: flex;
+  gap: 50px;
+}
+
+.button-change {
+  all: unset;
+  cursor: pointer;
+  flex: 1;
+  height: 40px;
+  text-align: center;
+  font-weight: 700;
+  color: var(--color-primary);
+  font-size: 16px;
+  background-color: #fff;
+  border-radius: 10px;
+  transition: opacity 0.3s;
+}
+
+.button-change:hover {
+  opacity: 0.85;
+}
+
+.email-form {
+  display: flex;
+  justify-content: space-between;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+}
+
+.checked {
+  all: unset;
+  cursor: pointer;
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  background-color: rgb(113, 247, 113);
+  border-radius: 50%;
+}
+
+.cancel {
+  all: unset;
+  cursor: pointer;
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  background-color: rgb(255, 225, 223);
+  border-radius: 50%;
+}
+
+.button-verify {
+  all: unset;
+  cursor: pointer;
+  height: 40px;
+  text-align: center;
+  font-weight: 700;
+  color: var(--color-primary);
+  font-size: 16px;
+  background-color: #fff;
+  border-radius: 10px;
+  transition: opacity 0.3s;
+}
+
+.error-message {
+  font-size: 15px;
+  color: rgb(190, 73, 73);
+}

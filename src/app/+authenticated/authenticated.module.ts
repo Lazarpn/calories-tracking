@@ -6,12 +6,14 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../shared/loaders/http-loader-factory';
 import { HttpClient } from '@angular/common/http';
 import { VerifyEmailModalComponent } from './verify-email-modal/verify-email-modal.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [VerifyEmailModalComponent],
   imports: [
     CommonModule,
     SharedModule,
+    FormsModule,
     AuthenticatedRoutingModule,
     TranslateModule.forChild({
       loader: {
@@ -22,4 +24,6 @@ import { VerifyEmailModalComponent } from './verify-email-modal/verify-email-mod
     }),
   ],
 })
-export class AuthenticatedModule {}
+export class AuthenticatedModule {
+  constructor() {}
+}

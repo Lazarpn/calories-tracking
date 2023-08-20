@@ -12,9 +12,10 @@ import {
 } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpLoaderFactory } from './shared/loaders/http-loader-factory';
+import { HeaderComponent } from './shared/components/header/header.component';
 
 @NgModule({
-  declarations: [CtComponent],
+  declarations: [HeaderComponent, CtComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

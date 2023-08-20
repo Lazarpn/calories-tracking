@@ -1,1 +1,63 @@
-Verify Email works
+<div class="heading-wrapper">
+  <h2 class="modal-heading">{{ 'label.verify-email-heading' | translate }}</h2>
+</div>
+<div class="content-wrapper">
+  <p class="modal-info">
+    {{ 'label.verify-email-notification' | translate }}
+  </p>
+  <form class="modal-form" #formCode="ngForm" (ngSubmit)="onSubmitCode()">
+    <label for="code">{{ 'label.verify-email-label' | translate }}</label>
+    <input
+      [(ngModel)]="model.emailVerificationCode"
+      [placeholder]="'label.verify-email-placeholder' | translate"
+      type="text"
+      name="code"
+      id="code"
+      required
+      minlength="6"
+      maxlength="6" />
+
+    <p *ngFor="let message of errorMessages" class="error-message">
+      ⚠️ {{ message.name | translate }}
+    </p>
+
+    <p class="instructions-info">
+      <span>{{ 'label.verify-email-copy-code' | translate }}</span>
+      <span class="user-email">{{ userEmail }}</span>
+      <span>{{ 'label.verify-email-check-spam' | translate }}</span>
+    </p>
+
+    <div *ngIf="!changeEmailMode" class="buttons-wrapper">
+      <button type="button" class="button-change" (click)="onResendEmail()">
+        {{ 'label.resend' | translate }}
+      </button>
+      <button type="button" class="button-change" (click)="onChangeEmail()">
+        {{ 'label.change-email' | translate }}
+      </button>
+    </div>
+
+    <form
+      *ngIf="changeEmailMode"
+      #formEmail="ngForm"
+      class="email-form"
+      (ngSubmit)="onSubmitEmail()">
+      <input type="text" [placeholder]="'label.email' | translate" />
+      <div class="controls">
+        <button type="submit" (click)="onEmailChangeConfirm()" class="checked">✔️</button>
+        <button (click)="onEmailChangeCancel()" class="cancel">❌</button>
+      </div>
+      Popravi
+      <p *ngFor="let message of errorMessages" class="error-message">
+        ⚠️ {{ message.name | translate }}
+      </p>
+    </form>
+
+    <button
+      [ngStyle]="{ cursor: changeEmailMode ? 'default' : 'pointer' }"
+      [disabled]="changeEmailMode"
+      type="submit"
+      class="button-verify">
+      {{ 'label.verify' | translate }}
+    </button>
+  </form>
+</div>

@@ -1,28 +1,28 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { EmailConfirmedGuard } from '../shared/guards/email-confirmed.guard';
-import { EmailNotConfirmedGuard } from '../shared/guards/email-not-confirmed.guard';
 import { VerifyEmailModalComponent } from './verify-email-modal/verify-email-modal.component';
+import { EmailNotConfirmedResolver } from '../shared/guards/email-not-confirmed.resolver';
+import { EmailConfirmedResolver } from '../shared/guards/email-confirmed.resolver';
 
 const routes: Routes = [
   {
     path: 'profile',
-    canActivate: [EmailConfirmedGuard],
+    resolve: { hasEmailConfirmed: EmailConfirmedResolver },
     loadChildren: () => import('../profile/profile.module').then(m => m.ProfileModule),
   },
   {
     path: 'meals',
-    canActivate: [EmailConfirmedGuard],
+    resolve: { hasEmailConfirmed: EmailConfirmedResolver },
     loadChildren: () => import('../meals/meals.module').then(m => m.MealsModule),
   },
   {
     path: 'manager',
-    canActivate: [EmailConfirmedGuard],
+    resolve: { hasEmailConfirmed: EmailConfirmedResolver },
     loadChildren: () => import('../manager/manager.module').then(m => m.ManagerModule),
   },
   {
     path: 'verify-email',
-    canActivate: [EmailNotConfirmedGuard],
+    resolve: { hasEmailConfirmed: EmailNotConfirmedResolver },
     component: VerifyEmailModalComponent,
   },
 ];

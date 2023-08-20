@@ -14,13 +14,13 @@ export class AuthenticatedResolver implements Resolve<User> {
     private http: HttpClient,
     private profileService: ProfileService
   ) {
-    console.log('psi ga');
+    console.log('okinuo sam se');
   }
 
   resolve(): Observable<User> {
-    console.log('psi ga');
     return this.http.get<User>(this.url + '/users/me').pipe(
       tap((user: User) => {
+        console.log(user);
         this.profileService.setUser(user);
       })
     );

@@ -8,6 +8,9 @@ import { ResetPasswordModel } from '../models/user/reset-password-model';
 import { SignUpModel } from '../models/user/sign-up-model';
 import { SignInModel } from '../models/user/sign-in-model';
 import { LS_USER_LANGUAGE, LS_USER_ROLES, LS_USER_TOKEN } from '../constants';
+import { UserConfirmEmailModel } from '../models/user/user-confirm-email-model';
+import { ResentEmailResponseModel } from '../models/user/resent-email-response-model';
+import { ChangeEmailModel } from '../models/user/change-email-model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -16,6 +19,18 @@ export class AuthService {
   userRole = new BehaviorSubject<string>(null);
 
   constructor(private http: HttpClient) {}
+
+  resendVerificationEmail(): Observable<ResentEmailResponseModel> {
+    return this.http.put<ResentEmailResponseModel>(`${this.url}/accounts/verify-email/resend`, {});
+  }
+
+  changeVerificationEmail(model: ChangeEmailModel): Observable<void> {
+    return this.http.put<void>(`${this.url}/accounts/verify-email/change`, model);
+  }
+
+  verifyEmail(model: UserConfirmEmailModel): Observable<void> {
+    return this.http.put<void>(`${this.url}/accounts/verify-email`, model);
+  }
 
   resetPassword(model: ResetPasswordModel): Observable<void> {
     return this.http.put<void>(`${this.url}/accounts/password/reset`, model);
