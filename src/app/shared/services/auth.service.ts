@@ -82,7 +82,7 @@ export class AuthService {
       clearTimeout(this.tokenExpirationTimer);
     }
     this.tokenExpirationTimer = null;
-    location.replace(environment.homeUrl);
+    location.replace(environment.appAuthUrl);
   }
 
   authenticated(): boolean {

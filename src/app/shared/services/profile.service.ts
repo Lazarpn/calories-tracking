@@ -11,9 +11,7 @@ import { UserCaloriesModel } from '../models/user/user-calories-model';
 import { ExceptionDetail } from '../models/exception-detail';
 import { TranslationMessage } from '../models/translation-message';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class ProfileService {
   url: string = `${environment.url}/api`;
   user: User = null;

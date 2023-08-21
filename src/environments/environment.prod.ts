@@ -1,6 +1,7 @@
 export const environment = {
   production: true,
   url: 'https://calories-tracking-api.azurewebsites.net',
-  homeUrl: 'https://calories-tracking.netlify.app/auth',
+  appAuthUrl: 'https://calories-tracking.netlify.app/auth',
+  appHomeUrl: 'https://calories-tracking.netlify.app',
   defaultLanguage: 'en',
 };

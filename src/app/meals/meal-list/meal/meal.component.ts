@@ -40,7 +40,7 @@ export class MealComponent implements OnInit {
   }
 
   set mealDate(value: string) {
-    // FIXME:ne radi kako treba
+    // FIXME:trebala bi bolja komponenta (mat)
     const hours = this.meal.date.getHours();
     const minutes = this.meal.date.getMinutes();
     this.meal.date = new Date(value);

@@ -6,9 +6,7 @@ import { UserAdminUpdateModel } from '../models/user/user-admin-update-model';
 import { UserAdminModel } from '../models/user/user-admin-model';
 import { ExceptionDetail } from '../models/exception-detail';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class ManagerDataService {
   url: string = `${environment.url}/api`;
 

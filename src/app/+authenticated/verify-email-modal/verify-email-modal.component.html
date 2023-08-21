@@ -8,7 +8,7 @@
   <form class="modal-form" #formCode="ngForm" (ngSubmit)="onSubmitCode()">
     <label for="code">{{ 'label.verify-email-label' | translate }}</label>
     <input
-      [(ngModel)]="model.emailVerificationCode"
+      [(ngModel)]="codeModel.emailVerificationCode"
       [placeholder]="'label.verify-email-placeholder' | translate"
       type="text"
       name="code"
@@ -18,7 +18,7 @@
       maxlength="6" />
 
     <p *ngFor="let message of errorMessages" class="error-message">
-      ⚠️ {{ message.name | translate }}
+      ⚠️ {{ message.name | translate: message?.param }}
     </p>
 
     <p class="instructions-info">
@@ -28,10 +28,15 @@
     </p>
 
     <div *ngIf="!changeEmailMode" class="buttons-wrapper">
-      <button type="button" class="button-change" (click)="onResendEmail()">
-        {{ 'label.resend' | translate }}
+      <button
+        type="button"
+        [disabled]="timerDisplay"
+        [ngStyle]="{ cursor: timerDisplay ? 'not-allowed' : 'pointer' }"
+        class="button-change"
+        (click)="onResendEmail()">
+        {{ 'label.resend' | translate }} {{ timerDisplay }}
       </button>
-      <button type="button" class="button-change" (click)="onChangeEmail()">
+      <button type="button" class="button-change" (click)="onEmailChange()">
         {{ 'label.change-email' | translate }}
       </button>
     </div>
@@ -40,20 +45,26 @@
       *ngIf="changeEmailMode"
       #formEmail="ngForm"
       class="email-form"
-      (ngSubmit)="onSubmitEmail()">
-      <input type="text" [placeholder]="'label.email' | translate" />
-      <div class="controls">
-        <button type="submit" (click)="onEmailChangeConfirm()" class="checked">✔️</button>
-        <button (click)="onEmailChangeCancel()" class="cancel">❌</button>
+      (ngSubmit)="onEmailChangeConfirm()">
+      <div class="email-wrapper">
+        <input
+          [(ngModel)]="emailModel.newEmail"
+          name="email"
+          type="text"
+          [placeholder]="'label.email' | translate" />
+        <div class="controls">
+          <button type="submit" class="checked">✔️</button>
+          <button type="button" (click)="onEmailChangeCancel()" class="cancel">❌</button>
+        </div>
       </div>
-      Popravi
-      <p *ngFor="let message of errorMessages" class="error-message">
-        ⚠️ {{ message.name | translate }}
+
+      <p *ngFor="let message of errorMessagesEmail" class="error-message">
+        ⚠️ {{ message.name | translate: message?.param }}
       </p>
     </form>
 
     <button
-      [ngStyle]="{ cursor: changeEmailMode ? 'default' : 'pointer' }"
+      [ngStyle]="{ cursor: changeEmailMode ? 'not-allowed' : 'pointer' }"
       [disabled]="changeEmailMode"
       type="submit"
       class="button-verify">

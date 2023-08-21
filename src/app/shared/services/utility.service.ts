@@ -11,9 +11,7 @@ import { ExceptionDetail } from '../models/exception-detail';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class UtilityService {
   constructor(
     private translateService: TranslateService,
@@ -39,6 +37,7 @@ export class UtilityService {
         name: `errors.${exception.errorCode}`,
         param: exception.params,
       });
+      console.log(exception.params);
     }
     return errorMessages;
   }
