@@ -37,6 +37,10 @@ export class VerifyEmailModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.userEmail = this.profileService.user.email;
+    const codeExpiryDate = this.profileService.user.dateVerificationCodeExpires;
+    if (codeExpiryDate && !this.timerTimeLeft) {
+      this.startResendEmailTimer(this.profileService.user.dateVerificationCodeExpires);
+    }
   }
 
   onSubmitCode() {
@@ -70,12 +74,14 @@ export class VerifyEmailModalComponent implements OnInit {
 
   onEmailChangeCancel() {
     this.changeEmailMode = false;
+    this.errorMessagesEmail = [];
+    this.emailModel.newEmail = '';
   }
 
   onResendEmail() {
     this.authService.resendVerificationEmail().subscribe({
       next: (model: ResentEmailResponseModel) => {
-        this.startResendEmailTimer(model);
+        this.startResendEmailTimer(model.newCodeExpiryDate);
       },
       error: (exceptions: ExceptionDetail[]) => {
         const errors = this.utilityService.getErrorMessages(exceptions);
@@ -84,10 +90,10 @@ export class VerifyEmailModalComponent implements OnInit {
     });
   }
 
-  private startResendEmailTimer(model: ResentEmailResponseModel) {
+  private startResendEmailTimer(date: Date) {
     const timer = setInterval(() => {
       this.timerTimeLeft--;
-      this.timerDisplay = this.calculateDisplayTime(model);
+      this.timerDisplay = this.calculateDisplayTime(date);
       if (this.timerTimeLeft === 0) {
         clearInterval(timer);
         this.timerDisplay = '';
@@ -95,11 +101,8 @@ export class VerifyEmailModalComponent implements OnInit {
     }, 1000);
   }
 
-  private calculateDisplayTime(model: ResentEmailResponseModel): string {
-    // FIXME: treba pogledati da li ovako da se resi problem modela i treba videti kako da Timer run-uje i kada se browser ugasi ili da se getuje vreme, sta god
-    this.timerTimeLeft = Math.floor(
-      (new Date(model.newCodeExpiryDate).getTime() - new Date().getTime()) / 1000
-    );
+  private calculateDisplayTime(date: Date): string {
+    this.timerTimeLeft = Math.floor((new Date(date).getTime() - new Date().getTime()) / 1000);
     const minutes = Math.floor(this.timerTimeLeft / 60);
     const seconds = this.timerTimeLeft % 60;
     return `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;

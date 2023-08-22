@@ -11,6 +11,7 @@ import { LS_USER_LANGUAGE, LS_USER_ROLES, LS_USER_TOKEN } from '../constants';
 import { UserConfirmEmailModel } from '../models/user/user-confirm-email-model';
 import { ResentEmailResponseModel } from '../models/user/resent-email-response-model';
 import { ChangeEmailModel } from '../models/user/change-email-model';
+import { GoogleLoginModel } from '../models/user/google-login-model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -19,6 +20,10 @@ export class AuthService {
   userRole = new BehaviorSubject<string>(null);
 
   constructor(private http: HttpClient) {}
+
+  googleLogin(model: GoogleLoginModel) {
+    // FIXME:
+  }
 
   resendVerificationEmail(): Observable<ResentEmailResponseModel> {
     return this.http.put<ResentEmailResponseModel>(`${this.url}/accounts/verify-email/resend`, {});

@@ -79,6 +79,10 @@
     "CanOnlyUploadPhotos": "",
     "WrongAspectRatio": "",
     "MissingAspectRatio": "",
-    "EmailNotSent": "Dogodila se greška, email nije poslat, pokusajte kasnije."
+    "EmailNotSent": "Dogodila se greška, email nije poslat, pokusajte kasnije.",
+    "AlreadyConfirmedEmail": "",
+    "InvalidConfirmationCode": "",
+    "InvalidGoogleAccount": "",
+    "ConfirmationCodeExpired": ""
   }
 }

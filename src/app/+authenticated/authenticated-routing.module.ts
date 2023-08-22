@@ -6,6 +6,11 @@ import { EmailConfirmedResolver } from '../shared/guards/email-confirmed.resolve
 
 const routes: Routes = [
   {
+    path: '',
+    redirectTo: 'meals',
+    pathMatch: 'full',
+  },
+  {
     path: 'profile',
     resolve: { hasEmailConfirmed: EmailConfirmedResolver },
     loadChildren: () => import('../profile/profile.module').then(m => m.ProfileModule),

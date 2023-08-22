@@ -37,7 +37,6 @@ export class UtilityService {
         name: `errors.${exception.errorCode}`,
         param: exception.params,
       });
-      console.log(exception.params);
     }
     return errorMessages;
   }
