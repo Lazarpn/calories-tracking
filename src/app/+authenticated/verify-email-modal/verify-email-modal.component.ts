@@ -38,7 +38,7 @@ export class VerifyEmailModalComponent implements OnInit {
   ngOnInit(): void {
     this.userEmail = this.profileService.user.email;
     const codeExpiryDate = this.profileService.user.dateVerificationCodeExpires;
-    if (codeExpiryDate && !this.timerTimeLeft) {
+    if (new Date() < codeExpiryDate && codeExpiryDate && !this.timerTimeLeft) {
       this.startResendEmailTimer(this.profileService.user.dateVerificationCodeExpires);
     }
   }
