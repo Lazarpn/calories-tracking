@@ -65,6 +65,7 @@ export class AuthService {
     const parsedToken = this.parseJwt(token);
     const expirationTime = new Date(parsedToken.exp * 1000);
     if (new Date() > expirationTime) {
+      localStorage.clear();
       return;
     }
     const expirationDuration = expirationTime.getTime() - new Date().getTime();
