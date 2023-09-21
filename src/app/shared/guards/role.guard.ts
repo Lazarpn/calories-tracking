@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
 import { Observable, map } from 'rxjs';
 import { AuthService } from '../services/auth.service';
+import { Role } from '../role';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,7 @@ export class RoleGuard implements CanActivate {
   canActivate(): Observable<boolean | UrlTree> {
     return this.authService.userRole.pipe(
       map(userRole => {
-        const canAccess = userRole === 'Administrator';
+        const canAccess = userRole === Role.MANAGER;
         if (canAccess) {
           return true;
         }

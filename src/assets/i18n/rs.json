@@ -82,7 +82,7 @@
     "EmailNotSent": "Dogodila se greška, email nije poslat, pokusajte kasnije.",
     "AlreadyConfirmedEmail": "",
     "InvalidConfirmationCode": "",
-    "InvalidGoogleAccount": "",
+    "InvalidGoogleAccount": "Ovaj Google nalog nije validan, prvo se registrujte.",
     "ConfirmationCodeExpired": ""
   }
 }

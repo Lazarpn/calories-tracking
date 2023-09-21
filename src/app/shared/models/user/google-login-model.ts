@@ -1,1 +1,3 @@
-export interface GoogleLoginModel {}
+export interface GoogleLoginModel {
+  idToken: string;
+}

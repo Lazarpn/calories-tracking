@@ -21,8 +21,8 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  googleLogin(model: GoogleLoginModel) {
-    // FIXME:
+  googleLogin(model: GoogleLoginModel): Observable<AuthResponseModel> {
+    return this.http.post<AuthResponseModel>(`${this.url}/accounts/login/google`, model);
   }
 
   resendVerificationEmail(): Observable<ResentEmailResponseModel> {
@@ -95,7 +95,7 @@ export class AuthService {
     return localStorage.getItem(LS_USER_TOKEN) != null;
   }
 
-  private handleAuthentication(authResponse: AuthResponseModel) {
+  handleAuthentication(authResponse: AuthResponseModel) {
     const parsedToken = this.parseJwt(authResponse.token);
     const expirationTime = new Date(parsedToken.exp * 1000);
     const expirationDuration = expirationTime.getTime() - new Date().getTime();

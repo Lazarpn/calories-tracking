@@ -82,7 +82,7 @@
     "EmailNotSent": "Unexpected error, we couldn't send the email, try again later.",
     "AlreadyConfirmedEmail": "",
     "InvalidConfirmationCode": "",
-    "InvalidGoogleAccount": "",
+    "InvalidGoogleAccount": "This Google account isn't valid, register first.",
     "ConfirmationCodeExpired": ""
   }
 }

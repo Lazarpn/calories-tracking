@@ -9,9 +9,15 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpLoaderFactory } from './loaders/http-loader-factory';
 import { HttpClient } from '@angular/common/http';
+import { GoogleSignInComponent } from './components/google-sign-in/google-sign-in.component';
 
 @NgModule({
-  declarations: [LoadingSpinnerComponent, NullToEmptyDirective, ImageCropperModalComponent],
+  declarations: [
+    LoadingSpinnerComponent,
+    NullToEmptyDirective,
+    ImageCropperModalComponent,
+    GoogleSignInComponent,
+  ],
   imports: [
     CommonModule,
     ImageCropperModule,
@@ -25,6 +31,6 @@ import { HttpClient } from '@angular/common/http';
       },
     }),
   ],
-  exports: [LoadingSpinnerComponent, NullToEmptyDirective],
+  exports: [LoadingSpinnerComponent, NullToEmptyDirective, GoogleSignInComponent],
 })
 export class SharedModule {}
